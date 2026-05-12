@@ -111,7 +111,7 @@ namespace ArkanoidGame
                     PauseMenuKeyboardHandler(event, _game);
                     break;
                 case GameState::MainMenu:
-                    MainMenuKeyboardHandler(_window, event, _game);
+                    _game.GUI.mainMenu.KeyboardHandler(_window, event, _game);
                     break;
                 case GameState::DifficultyLevel:
                     DifficultyLevelMenuKeyboardHandler(event, _game);

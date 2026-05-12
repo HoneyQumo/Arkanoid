@@ -1,84 +1,87 @@
-﻿#include "../Game.h"
+﻿#include "../Application.h"
+#include "../Game.h"
 #include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
-    void ResetMainMenu(MainMenu& mainMenu)
+    void MainMenu::ResetMainMenu()
     {
-        SetOptionKey(mainMenu.options, mainMenu.selectedOptionKey, MainMenuOptionKey::StartGame);
+        SetOptionKey(_options, _selectedOptionKey, MainMenuOptionKey::StartGame);
     }
 
-    void InitMainMenu(Game& game)
-    {
-        MainMenu& mainMenu = game.GUI.mainMenu;
-        ResetMainMenu(mainMenu);
 
-        InitText(mainMenu.heading, "..::MAIN MENU::..", game.assets.font);
-        mainMenu.heading.setStyle(sf::Text::Underlined);
-        mainMenu.heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
+    void MainMenu::InitMainMenu(const Game& game)
+    {
+        ResetMainMenu();
+
+        InitText(_heading, "..::MAIN MENU::..", game.assets.font);
+        _heading.setStyle(sf::Text::Underlined);
+        _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
 
         int index = 0;
-        for (auto& option : mainMenu.options)
+        for (auto& option : _options)
         {
-            const auto color = mainMenu.selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
+            const auto color = _selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
             InitText(option.second.textNode, option.second.title, game.assets.font, TEXT_MENU_ITEM, color);
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT + (index * 30.f));
             index++;
         }
     }
 
-    void DrawMainMenu(sf::RenderWindow& window, const MainMenu& mainMenu)
+    void MainMenu::DrawMainMenu(sf::RenderWindow& window) const
     {
-        window.draw(mainMenu.heading);
+        window.draw(_heading);
 
-        for (const auto& option : mainMenu.options)
+        for (const auto& option : _options)
         {
             window.draw(option.second.textNode);
         }
     }
 
-    void MainMenuOptionSelectHandler(sf::RenderWindow& window, Game& game)
-    {
-        switch (game.GUI.mainMenu.selectedOptionKey)
-        {
-        case MainMenuOptionKey::StartGame:
-            SwitchGameState(game, GameState::Playing);
-            break;
-        case MainMenuOptionKey::DifficultyLevel:
-            PushGameState(game, GameState::DifficultyLevel);
-            break;
-        case MainMenuOptionKey::Leaderboard:
-            UpdateLeaderboardInLeaderboardMenu(game);
-            PushGameState(game, GameState::Leaderboard);
-            break;
-        case MainMenuOptionKey::Settings:
-            PushGameState(game, GameState::Settings);
-            break;
-        case MainMenuOptionKey::Exit:
-            window.close();
-            break;
-        }
-    }
-
-    void MainMenuKeyboardHandler(sf::RenderWindow& window, const sf::Event& event, Game& game)
+    void MainMenu::KeyboardHandler(sf::RenderWindow& window, const sf::Event& event, Game& game)
     {
         if (event.type == sf::Event::KeyPressed)
         {
+            // Game& game = Application::Instance().GetGame();
+
             if (event.key.code == sf::Keyboard::Enter)
             {
-                MainMenuOptionSelectHandler(window, game);
+                OptionSelectHandler(window);
                 game.assets.menuSelect.play();
             }
             else if (event.key.code == sf::Keyboard::Up)
             {
-                MenuToggleOption(game.GUI.mainMenu.options, game.GUI.mainMenu.selectedOptionKey, DirectionVertical::Up);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
                 game.assets.menuToggle.play();
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
-                MenuToggleOption(game.GUI.mainMenu.options, game.GUI.mainMenu.selectedOptionKey, DirectionVertical::Down);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
                 game.assets.menuToggle.play();
             }
+        }
+    }
+
+    void MainMenu::OptionSelectHandler(sf::RenderWindow& window) const
+    {
+        switch (_selectedOptionKey)
+        {
+        case MainMenuOptionKey::StartGame:
+            SwitchGameState(Application::Instance().GetGame(), GameState::Playing);
+            break;
+        case MainMenuOptionKey::DifficultyLevel:
+            PushGameState(Application::Instance().GetGame(), GameState::DifficultyLevel);
+            break;
+        case MainMenuOptionKey::Leaderboard:
+            UpdateLeaderboardInLeaderboardMenu(Application::Instance().GetGame());
+            PushGameState(Application::Instance().GetGame(), GameState::Leaderboard);
+            break;
+        case MainMenuOptionKey::Settings:
+            PushGameState(Application::Instance().GetGame(), GameState::Settings);
+            break;
+        case MainMenuOptionKey::Exit:
+            window.close();
+            break;
         }
     }
 }

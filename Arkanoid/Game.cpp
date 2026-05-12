@@ -57,7 +57,7 @@ namespace ArkanoidGame
         ResetGameState(game);
 
         /* GUI */
-        InitMainMenu(game);
+        game.GUI.mainMenu.InitMainMenu(game);
         InitPauseMenu(game);
         InitDifficultyLevelMenu(game);
         InitHUD(game);
@@ -208,7 +208,7 @@ namespace ArkanoidGame
         switch (gameState)
         {
         case GameState::MainMenu:
-            DrawMainMenu(window, game.GUI.mainMenu);
+            game.GUI.mainMenu.DrawMainMenu(window);
 
             break;
         case GameState::Playing:
