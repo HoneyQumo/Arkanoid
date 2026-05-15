@@ -47,10 +47,10 @@ namespace ArkanoidGame
         void SwitchState(const State& state);
         State GetState();
 
-        void ResetGame(Game& game);
-        void InitGame(Game& game);
-        void UpdateGame(const float& deltaTime);
-        void DrawGame(sf::RenderWindow& window, const sf::View& HUDView);
+        void Reset(Game& game);
+        void Init(Game& game);
+        void Update(const float& deltaTime);
+        void Draw(sf::RenderWindow& window, const sf::View& HUDView);
 
         // void ShutdownGame();
 

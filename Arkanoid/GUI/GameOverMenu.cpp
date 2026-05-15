@@ -85,11 +85,11 @@ namespace ArkanoidGame
         switch (game.GUI.gameOverMenu.selectedOptionKey)
         {
         case GameOverMenuOptionKey::StartGame:
-            game.ResetGame(game);
+            game.Reset(game);
             game.SwitchState(Game::State::Playing);
             break;
         case GameOverMenuOptionKey::ExitToMainMenu:
-            game.ResetGame(game);
+            game.Reset(game);
             break;
         }
     }

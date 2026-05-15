@@ -47,7 +47,7 @@ namespace ArkanoidGame
             game.snake.awaitingMoveInput = true;
             break;
         case PauseMenuOptionKey::Exit:
-            game.ResetGame(game);
+            game.Reset(game);
             game.SwitchState(Game::State::MainMenu);
             break;
         }

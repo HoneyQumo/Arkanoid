@@ -43,7 +43,7 @@ namespace ArkanoidGame
         return State::MainMenu;
     }
 
-    void Game::ResetGame(Game& game)
+    void Game::Reset(Game& game)
     {
         ResetState();
 
@@ -76,7 +76,7 @@ namespace ArkanoidGame
         SpawnApple(game);
     }
 
-    void Game::InitGame(Game& game)
+    void Game::Init(Game& game)
     {
         /* Fonts */
         assert(assets.font.loadFromFile(RESOURCES_FONTS + "\\pixel_font-7.ttf"));
@@ -113,11 +113,11 @@ namespace ArkanoidGame
 
         DeserializeAndLoadLeaderboard(leaderboard);
 
-        ResetGame(game);
+        Reset(game);
     }
 
 
-    void Game::UpdateGame(const float& deltaTime)
+    void Game::Update(const float& deltaTime)
     {
         const State& gameState = GetState();
         const float computedDistance = difficulty.value.snakeSpeed * deltaTime;
@@ -187,7 +187,7 @@ namespace ArkanoidGame
         }
     }
 
-    void Game::DrawGame(sf::RenderWindow& window, const sf::View& HUDView)
+    void Game::Draw(sf::RenderWindow& window, const sf::View& HUDView)
     {
         const State& gameState = GetState();
 

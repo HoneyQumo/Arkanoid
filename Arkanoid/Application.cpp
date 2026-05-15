@@ -17,7 +17,7 @@ namespace ArkanoidGame
         defaultView.setViewport(sf::FloatRect(0.f, HUD_VIEW_PERCENT, 1.f, DEFAULT_VIEW_PERCENT));
         HUDView.setViewport(sf::FloatRect(0.f, 0.0f, 1.f, HUD_VIEW_PERCENT));
 
-        _game.InitGame(_game);
+        _game.Init(_game);
     }
 
     Application::~Application()
@@ -123,12 +123,12 @@ namespace ArkanoidGame
                 }
             }
 
-            _game.UpdateGame(deltaTime);
+            _game.Update(deltaTime);
 
             _window.clear();
 
             _window.setView(_defaultView);
-            _game.DrawGame(_window, _HUDView);
+            _game.Draw(_window, _HUDView);
 
             _window.display();
         }
