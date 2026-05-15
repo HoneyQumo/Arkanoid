@@ -12,7 +12,7 @@ namespace ArkanoidGame
     };
 
 
-    struct Game;
+    class Game;
     void InitHUD(Game& game);
     void UpdateHUD(Game& game);
     void DrawHUD(sf::RenderWindow& window, const HUD& HUD);

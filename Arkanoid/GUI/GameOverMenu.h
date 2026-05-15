@@ -27,7 +27,7 @@ namespace ArkanoidGame
     };
 
     void ResetGameOverMenu(GameOverMenu& gameOverMenu);
-    struct Game;
+    class Game;
     void UpdateGameOverLeaderboard(Game& game);
     void InitGameOverMenu(Game& game);
     void UpdateGameOverMenu(Game& game);

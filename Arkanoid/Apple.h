@@ -13,6 +13,6 @@ namespace ArkanoidGame
     Apple CreateApple(const sf::Texture& texture, const sf::Vector2f& position);
     void DrawApples(sf::RenderWindow& window, const std::vector<Apple>& apples);
 
-    struct Game;
+    class Game;
     void SpawnApple(Game& game);
 }

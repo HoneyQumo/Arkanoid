@@ -28,7 +28,7 @@ namespace ArkanoidGame
     };
 
     void ResetAskNicknameMenu(AskNicknameMenu& askNicknameMenu);
-    struct Game;
+    class Game;
     void InitAskNicknameMenu(Game& game);
     void DrawAskNicknameMenu(sf::RenderWindow& window, const AskNicknameMenu& askNicknameMenu);
 

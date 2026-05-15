@@ -15,6 +15,6 @@ namespace ArkanoidGame
 
     void DrawField(sf::RenderWindow& window, const Field& field);
 
-    struct Game;
+    class Game;
     std::vector<sf::Vector2u> GetAvailableCoords(const Game& game);
 }

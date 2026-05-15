@@ -19,7 +19,7 @@ namespace ArkanoidGame
         SettingsType selectedOptionKey = SettingsType::Sound;
     };
 
-    struct Game;
+    class Game;
     void ResetSettingsMenu(SettingsMenu& settingsMenu);
     void InitSettingsMenu(Game& game);
     void DrawSettingsMenu(sf::RenderWindow& window, const SettingsMenu& settingsMenu);

@@ -21,7 +21,7 @@ namespace ArkanoidGame
     };
 
     void ResetDifficultyLevelMenu(DifficultyLevelMenu& difficultyLevelMenu);
-    struct Game;
+    class Game;
     void InitDifficultyLevelMenu(Game& game);
     void DrawDifficultyLevelMenu(sf::RenderWindow& window, const DifficultyLevelMenu& difficultyLevelMenu);
 

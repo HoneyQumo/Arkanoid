@@ -9,7 +9,7 @@ namespace ArkanoidGame
         std::vector<sf::Text> leaderboard;
     };
 
-    struct Game;
+    class Game;
     void UpdateLeaderboardInLeaderboardMenu(Game& game);
     void InitLeaderboardMenu(Game& game);
     void DrawLeaderboardMenu(sf::RenderWindow& window, const LeaderboardMenu& leaderboardMenu);

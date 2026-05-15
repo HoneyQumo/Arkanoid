@@ -15,7 +15,7 @@ namespace ArkanoidGame
         std::vector<LeaderboardItem> array;
     };
 
-    struct Game;
+    class Game;
     void AddItemToLeaderboard(Game& game);
     std::vector<LeaderboardItem> GetSortedLeaderboard(std::vector<LeaderboardItem> leaderboard);
 

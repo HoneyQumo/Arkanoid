@@ -23,7 +23,7 @@ namespace ArkanoidGame
         PauseMenuOptionKey selectedOptionKey = PauseMenuOptionKey::Continue;
     };
 
-    struct Game;
+    class Game;
     void ResetPauseMenu(PauseMenu& pauseMenu);
     void InitPauseMenu(Game& game);
     void DrawPauseMenu(sf::RenderWindow& window, const PauseMenu& pauseMenu);
