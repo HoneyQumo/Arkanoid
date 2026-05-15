@@ -42,8 +42,6 @@ namespace ArkanoidGame
     {
         if (event.type == sf::Event::KeyPressed)
         {
-            // Game& game = Application::Instance().GetGame();
-
             if (event.key.code == sf::Keyboard::Enter)
             {
                 OptionSelectHandler(window);
@@ -64,20 +62,22 @@ namespace ArkanoidGame
 
     void MainMenu::OptionSelectHandler(sf::RenderWindow& window) const
     {
+        Game& game = Application::Instance().GetGame();
+
         switch (_selectedOptionKey)
         {
         case MainMenuOptionKey::StartGame:
-            SwitchGameState(Application::Instance().GetGame(), GameState::Playing);
+            game.SwitchState(Game::State::Playing);
             break;
         case MainMenuOptionKey::DifficultyLevel:
-            PushGameState(Application::Instance().GetGame(), GameState::DifficultyLevel);
+            game.PushState(Game::State::DifficultyLevel);
             break;
         case MainMenuOptionKey::Leaderboard:
             UpdateLeaderboardInLeaderboardMenu(Application::Instance().GetGame());
-            PushGameState(Application::Instance().GetGame(), GameState::Leaderboard);
+            game.PushState(Game::State::Leaderboard);
             break;
         case MainMenuOptionKey::Settings:
-            PushGameState(Application::Instance().GetGame(), GameState::Settings);
+            game.PushState(Game::State::Settings);
             break;
         case MainMenuOptionKey::Exit:
             window.close();

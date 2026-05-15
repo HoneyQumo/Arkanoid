@@ -43,12 +43,12 @@ namespace ArkanoidGame
         switch (game.GUI.pauseMenu.selectedOptionKey)
         {
         case PauseMenuOptionKey::Continue:
-            PopGameState(game);
+            game.PopState();
             game.snake.awaitingMoveInput = true;
             break;
         case PauseMenuOptionKey::Exit:
-            ResetGame(game);
-            SwitchGameState(game, GameState::MainMenu);
+            game.ResetGame(game);
+            game.SwitchState(Game::State::MainMenu);
             break;
         }
     }

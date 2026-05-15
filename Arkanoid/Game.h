@@ -11,20 +11,21 @@
 
 namespace ArkanoidGame
 {
-    enum class GameState
+    class Game
     {
-        Playing = 0,
-        GameOver,
-        Pause,
-        MainMenu,
-        DifficultyLevel,
-        Settings,
-        Leaderboard,
-        AskNickname
-    };
+    public:
+        enum class State
+        {
+            Playing = 0,
+            GameOver,
+            Pause,
+            MainMenu,
+            DifficultyLevel,
+            Settings,
+            Leaderboard,
+            AskNickname
+        };
 
-    struct Game
-    {
         Assets assets;
 
         GUI GUI;
@@ -37,23 +38,23 @@ namespace ArkanoidGame
         bool isWin = false;
 
         DifficultyLevel difficulty;
-
         Settings settings;
-
-        std::stack<GameState> gameStateStack;
         Leaderboard leaderboard;
+
+        void ResetState();
+        void PushState(const State& state);
+        void PopState();
+        void SwitchState(const State& state);
+        State GetState();
+
+        void ResetGame(Game& game);
+        void InitGame(Game& game);
+        void UpdateGame(const float& deltaTime);
+        void DrawGame(sf::RenderWindow& window, const sf::View& HUDView);
+
+        // void ShutdownGame();
+
+    private:
+        std::stack<State> _gameStateStack;
     };
-
-    void ResetGameState(Game& game);
-    void PushGameState(Game& game, const GameState& state);
-    void PopGameState(Game& game);
-    void SwitchGameState(Game& game, const GameState& state);
-    GameState GetCurrentGameState(const Game& game);
-
-    void ResetGame(Game& game);
-    void InitGame(Game& game);
-    void UpdateGame(Game& game, const float& deltaTime);
-    void DrawGame(const Game& game, sf::RenderWindow& window, const sf::View& HUDView);
-
-    // void ShutdownGame();
 }

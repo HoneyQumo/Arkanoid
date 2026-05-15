@@ -5,59 +5,50 @@
 
 namespace ArkanoidGame
 {
-    void ResetGameState(Game& game)
+    void Game::ResetState()
     {
-        SwitchGameState(game, GameState::MainMenu);
+        SwitchState(State::MainMenu);
     }
 
-    void PushGameState(Game& game, const GameState& state)
+    void Game::PushState(const State& state)
     {
-        // auto& game = Application::Instance().GetGame();
-        game.gameStateStack.push(state);
+        _gameStateStack.push(state);
     }
 
-    void PopGameState(Game& game)
+    void Game::PopState()
     {
-        // auto& game = Application::Instance().GetGame();
-
-        if (game.gameStateStack.size() != 1)
+        if (_gameStateStack.size() != 1)
         {
-            game.gameStateStack.pop();
+            _gameStateStack.pop();
         }
     }
 
-    void SwitchGameState(Game& game, const GameState& state)
+    void Game::SwitchState(const State& state)
     {
-        // auto& game = Application::Instance().GetGame();
-
-        while (!game.gameStateStack.empty())
+        while (!_gameStateStack.empty())
         {
-            game.gameStateStack.pop();
+            _gameStateStack.pop();
         }
 
-        PushGameState(game, state);
+        PushState(state);
     }
 
-    GameState GetCurrentGameState(const Game& game)
+    Game::State Game::GetState()
     {
-        // auto& game = Application::Instance().GetGame();
-
-        if (!game.gameStateStack.empty())
+        if (!_gameStateStack.empty())
         {
-            return game.gameStateStack.top();
+            return _gameStateStack.top();
         }
 
-        return GameState::MainMenu;
+        return State::MainMenu;
     }
 
-    void ResetGame(Game& game)
+    void Game::ResetGame(Game& game)
     {
-        // auto& game = Application::Instance().GetGame();
-
-        ResetGameState(game);
+        ResetState();
 
         /* GUI */
-        game.GUI.mainMenu.InitMainMenu(game);
+        GUI.mainMenu.InitMainMenu(game);
         InitPauseMenu(game);
         InitDifficultyLevelMenu(game);
         InitHUD(game);
@@ -67,186 +58,181 @@ namespace ArkanoidGame
         InitSettingsMenu(game);
 
         /*Sounds*/
-        game.assets.music.setPlayingOffset(sf::seconds(0.f));
-        game.assets.music.setLoop(true);
+        assets.music.setPlayingOffset(sf::seconds(0.f));
+        assets.music.setLoop(true);
 
-        if (game.settings.states[SettingsType::Music])
+        if (settings.states[SettingsType::Music])
         {
-            game.assets.music.play();
+            assets.music.play();
         }
 
         /* Game Instances */
-        InitField(game.field);
-        InitSnake(game.snake, game.assets);
+        InitField(field);
+        InitSnake(snake, assets);
 
-        game.score = 0;
-        game.isWin = false;
-        game.apples.clear();
+        score = 0;
+        isWin = false;
+        apples.clear();
         SpawnApple(game);
     }
 
-    void InitGame(Game& game)
+    void Game::InitGame(Game& game)
     {
-        // auto& game = Application::Instance().GetGame();
-
         /* Fonts */
-        assert(game.assets.font.loadFromFile(RESOURCES_FONTS + "\\pixel_font-7.ttf"));
+        assert(assets.font.loadFromFile(RESOURCES_FONTS + "\\pixel_font-7.ttf"));
 
         /* Graphics */
-        assert(game.assets.snakeHead.loadFromFile(RESOURCES_GRAPHICS + "\\head_right.png"));
-        assert(game.assets.snakeBody.loadFromFile(RESOURCES_GRAPHICS + "\\body_horizontal.png"));
-        assert(game.assets.snakeTail.loadFromFile(RESOURCES_GRAPHICS + "\\tail_left.png"));
-        assert(game.assets.apple.loadFromFile(RESOURCES_GRAPHICS + "\\apple.png"));
+        assert(assets.snakeHead.loadFromFile(RESOURCES_GRAPHICS + "\\head_right.png"));
+        assert(assets.snakeBody.loadFromFile(RESOURCES_GRAPHICS + "\\body_horizontal.png"));
+        assert(assets.snakeTail.loadFromFile(RESOURCES_GRAPHICS + "\\tail_left.png"));
+        assert(assets.apple.loadFromFile(RESOURCES_GRAPHICS + "\\apple.png"));
 
         /* Sounds */
-        assert(game.assets.musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
-        game.assets.music.setBuffer(game.assets.musicBuffer);
-        game.assets.music.setVolume(MUSIC_INITIAL_VOLUME);
+        assert(assets.musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
+        assets.music.setBuffer(assets.musicBuffer);
+        assets.music.setVolume(MUSIC_INITIAL_VOLUME);
 
-        assert(game.assets.deathBuffer.loadFromFile(RESOURCES_AUDIO + "\\death.wav"));
-        game.assets.death.setBuffer(game.assets.deathBuffer);
-        game.assets.death.setVolume(SOUNDS_INITIAL_VOLUME);
+        assert(assets.deathBuffer.loadFromFile(RESOURCES_AUDIO + "\\death.wav"));
+        assets.death.setBuffer(assets.deathBuffer);
+        assets.death.setVolume(SOUNDS_INITIAL_VOLUME);
 
-        assert(game.assets.eatBuffer.loadFromFile(RESOURCES_AUDIO + "\\eat.wav"));
-        game.assets.eat.setBuffer(game.assets.eatBuffer);
-        game.assets.eat.setVolume(SOUNDS_INITIAL_VOLUME);
+        assert(assets.eatBuffer.loadFromFile(RESOURCES_AUDIO + "\\eat.wav"));
+        assets.eat.setBuffer(assets.eatBuffer);
+        assets.eat.setVolume(SOUNDS_INITIAL_VOLUME);
 
-        assert(game.assets.menuToggleBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-toggle.wav"));
-        game.assets.menuToggle.setBuffer(game.assets.menuToggleBuffer);
-        game.assets.menuToggle.setVolume(SOUNDS_INITIAL_VOLUME);
+        assert(assets.menuToggleBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-toggle.wav"));
+        assets.menuToggle.setBuffer(assets.menuToggleBuffer);
+        assets.menuToggle.setVolume(SOUNDS_INITIAL_VOLUME);
 
-        assert(game.assets.menuSelectBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-select.wav"));
-        game.assets.menuSelect.setBuffer(game.assets.menuSelectBuffer);
-        game.assets.menuSelect.setVolume(SOUNDS_INITIAL_VOLUME);
+        assert(assets.menuSelectBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-select.wav"));
+        assets.menuSelect.setBuffer(assets.menuSelectBuffer);
+        assets.menuSelect.setVolume(SOUNDS_INITIAL_VOLUME);
 
 
-        game.difficulty = {DifficultyLevelType::Medium, LEVEL_CONFIG.at(DifficultyLevelType::Medium)};
+        difficulty = {DifficultyLevelType::Medium, LEVEL_CONFIG.at(DifficultyLevelType::Medium)};
 
-        DeserializeAndLoadLeaderboard(game.leaderboard);
+        DeserializeAndLoadLeaderboard(leaderboard);
 
         ResetGame(game);
     }
 
 
-    void UpdateGame(Game& game, const float& deltaTime)
+    void Game::UpdateGame(const float& deltaTime)
     {
-        // auto& game = Application::Instance().GetGame();
-
-        const auto& gameState = GetCurrentGameState(game);
-        const float computedDistance = game.difficulty.value.snakeSpeed * deltaTime;
+        const State& gameState = GetState();
+        const float computedDistance = difficulty.value.snakeSpeed * deltaTime;
 
         switch (gameState)
         {
-        case GameState::MainMenu:
+        case State::MainMenu:
             break;
-        case GameState::Playing:
+        case State::Playing:
 
-            if (game.snake.segments.size() == NUMBER_CELLS * NUMBER_CELLS)
+            if (snake.segments.size() == NUMBER_CELLS * NUMBER_CELLS)
             {
-                game.isWin = true;
-                PushGameState(game, GameState::GameOver);
+                isWin = true;
+                PushState(State::GameOver);
                 break;
             }
 
-            SnakeControl(game.snake);
+            SnakeControl(snake);
 
-            if (!game.snake.awaitingMoveInput)
+            if (!snake.awaitingMoveInput)
             {
-                UpdateSnake(game.snake, computedDistance);
+                UpdateSnake(snake, computedDistance);
 
-                if (HasSnakeCollisionWithWall(game.snake.segments[0], game.field) || HasSnakeCollisionWithSelf(game.snake))
+                if (HasSnakeCollisionWithWall(snake.segments[0], field) || HasSnakeCollisionWithSelf(snake))
                 {
-                    game.assets.music.stop();
-                    game.assets.death.play();
-                    PushGameState(game, GameState::GameOver);
+                    assets.music.stop();
+                    assets.death.play();
+                    PushState(State::GameOver);
 
-                    if (game.score > 0 && (game.leaderboard.array.empty() || game.score > std::prev(game.leaderboard.array.end())->score))
+                    if (score > 0 && (leaderboard.array.empty() || score > std::prev(leaderboard.array.end())->score))
                     {
-                        PushGameState(game, GameState::AskNickname);
+                        PushState(State::AskNickname);
                     }
 
                     break;
                 }
 
-                for (unsigned int i = 0; i < game.apples.size(); ++i)
+                for (unsigned int i = 0; i < apples.size(); ++i)
                 {
                     if (
-                        GetCoordFromPosition(game.snake.segments[0].sprite.getPosition()) ==
-                        GetCoordFromPosition(game.apples[i].sprite.getPosition())
+                        GetCoordFromPosition(snake.segments[0].sprite.getPosition()) ==
+                        GetCoordFromPosition(apples[i].sprite.getPosition())
                     )
                     {
-                        game.assets.eat.play();
-                        game.score += game.difficulty.value.pointsPerApple;
-                        GrowSnake(game.snake, game.assets);
-                        game.apples.clear();
-                        SpawnApple(game);
+                        assets.eat.play();
+                        score += difficulty.value.pointsPerApple;
+                        GrowSnake(snake, assets);
+                        apples.clear();
+                        SpawnApple(Application::Instance().GetGame());
                     }
                 }
             }
 
-            UpdateHUD(game);
+            UpdateHUD(Application::Instance().GetGame());
 
             break;
 
-        case GameState::GameOver:
-            UpdateGameOverMenu(game);
+        case State::GameOver:
+            UpdateGameOverMenu(Application::Instance().GetGame());
 
             break;
-        case GameState::Pause:
-        case GameState::DifficultyLevel:
-        case GameState::Settings:
-        case GameState::Leaderboard:
+        case State::Pause:
+        case State::DifficultyLevel:
+        case State::Settings:
+        case State::Leaderboard:
             break;
         }
     }
 
-    void DrawGame(const Game& game, sf::RenderWindow& window, const sf::View& HUDView)
+    void Game::DrawGame(sf::RenderWindow& window, const sf::View& HUDView)
     {
-        // const auto& game = Application::Instance().GetGame();
-        const auto& gameState = GetCurrentGameState(game);
+        const State& gameState = GetState();
 
         switch (gameState)
         {
-        case GameState::MainMenu:
-            game.GUI.mainMenu.DrawMainMenu(window);
+        case State::MainMenu:
+            GUI.mainMenu.DrawMainMenu(window);
 
             break;
-        case GameState::Playing:
-            DrawField(window, game.field);
-            DrawApples(window, game.apples);
-            DrawSnake(window, game.snake);
+        case State::Playing:
+            DrawField(window, field);
+            DrawApples(window, apples);
+            DrawSnake(window, snake);
 
             window.setView(HUDView);
-            DrawHUD(window, game.GUI.HUD);
+            DrawHUD(window, GUI.HUD);
 
             break;
 
-        case GameState::AskNickname:
-            DrawAskNicknameMenu(window, game.GUI.askNicknameMenu);
+        case State::AskNickname:
+            DrawAskNicknameMenu(window, GUI.askNicknameMenu);
 
             break;
-        case GameState::GameOver:
-            DrawGameOverMenu(window, game.GUI.gameOverMenu);
+        case State::GameOver:
+            DrawGameOverMenu(window, GUI.gameOverMenu);
 
             break;
-        case GameState::Pause:
-            DrawPauseMenu(window, game.GUI.pauseMenu);
+        case State::Pause:
+            DrawPauseMenu(window, GUI.pauseMenu);
 
             break;
-        case GameState::DifficultyLevel:
-            DrawDifficultyLevelMenu(window, game.GUI.difficultyLevelMenu);
+        case State::DifficultyLevel:
+            DrawDifficultyLevelMenu(window, GUI.difficultyLevelMenu);
 
             break;
-        case GameState::Settings:
-            DrawSettingsMenu(window, game.GUI.settingsMenu);
+        case State::Settings:
+            DrawSettingsMenu(window, GUI.settingsMenu);
             break;
-        case GameState::Leaderboard:
-            DrawLeaderboardMenu(window, game.GUI.leaderboardMenu);
+        case State::Leaderboard:
+            DrawLeaderboardMenu(window, GUI.leaderboardMenu);
             break;
         }
     }
 
-    // void ShutdownGame()
+    // void Game::ShutdownGame()
     // {
     // }
 }

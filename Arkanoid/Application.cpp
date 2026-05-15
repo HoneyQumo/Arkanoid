@@ -17,7 +17,7 @@ namespace ArkanoidGame
         defaultView.setViewport(sf::FloatRect(0.f, HUD_VIEW_PERCENT, 1.f, DEFAULT_VIEW_PERCENT));
         HUDView.setViewport(sf::FloatRect(0.f, 0.0f, 1.f, HUD_VIEW_PERCENT));
 
-        InitGame(_game);
+        _game.InitGame(_game);
     }
 
     Application::~Application()
@@ -47,34 +47,34 @@ namespace ArkanoidGame
 
                 if (event.type == sf::Event::KeyPressed)
                 {
-                    const auto& gameState = GetCurrentGameState(_game);
+                    const auto& gameState = _game.GetState();
 
                     switch (event.key.code)
                     {
                     case sf::Keyboard::Escape:
                         switch (gameState)
                         {
-                        case GameState::MainMenu:
+                        case Game::State::MainMenu:
                             _window.close();
                             break;
-                        case GameState::Playing:
+                        case Game::State::Playing:
                             ResetPauseMenu(_game.GUI.pauseMenu);
-                            PushGameState(_game, GameState::Pause);
+                            _game.PushState(Game::State::Pause);
                             break;
-                        case GameState::Pause:
-                            PopGameState(_game);
+                        case Game::State::Pause:
+                            _game.PopState();
                             _game.snake.awaitingMoveInput = true;
                             break;
                         default:
-                            PopGameState(_game);
+                            _game.PopState();
                             break;
                         }
                         break;
 
                     case sf::Keyboard::Backspace:
-                        if (gameState != GameState::AskNickname)
+                        if (gameState != Game::State::AskNickname)
                         {
-                            PopGameState(_game);
+                            _game.PopState();
                         }
 
                         break;
@@ -82,12 +82,12 @@ namespace ArkanoidGame
                     case sf::Keyboard::P:
                         switch (gameState)
                         {
-                        case GameState::Playing:
+                        case Game::State::Playing:
                             ResetPauseMenu(_game.GUI.pauseMenu);
-                            PushGameState(_game, GameState::Pause);
+                            _game.PushState(Game::State::Pause);
                             break;
-                        case GameState::Pause:
-                            PopGameState(_game);
+                        case Game::State::Pause:
+                            _game.PopState();
                             _game.snake.awaitingMoveInput = true;
                             break;
                         }
@@ -96,39 +96,39 @@ namespace ArkanoidGame
                 }
 
 
-                const auto& gameState = GetCurrentGameState(_game);
+                const auto& gameState = _game.GetState();
                 switch (gameState)
                 {
-                case GameState::Playing:
+                case Game::State::Playing:
                     break;
-                case GameState::GameOver:
+                case Game::State::GameOver:
                     GameOverMenuKeyboardHandler(event, _game);
                     break;
-                case GameState::AskNickname:
+                case Game::State::AskNickname:
                     AskNicknameMenuKeyboardHandler(event, _game);
                     break;
-                case GameState::Pause:
+                case Game::State::Pause:
                     PauseMenuKeyboardHandler(event, _game);
                     break;
-                case GameState::MainMenu:
+                case Game::State::MainMenu:
                     _game.GUI.mainMenu.KeyboardHandler(_window, event, _game);
                     break;
-                case GameState::DifficultyLevel:
+                case Game::State::DifficultyLevel:
                     DifficultyLevelMenuKeyboardHandler(event, _game);
                     break;
-                case GameState::Settings:
+                case Game::State::Settings:
                     SettingsMenuKeyboardHandler(event, _game);
-                case GameState::Leaderboard:
+                case Game::State::Leaderboard:
                     break;
                 }
             }
 
-            UpdateGame(_game, deltaTime);
+            _game.UpdateGame(deltaTime);
 
             _window.clear();
 
             _window.setView(_defaultView);
-            DrawGame(_game, _window, _HUDView);
+            _game.DrawGame(_window, _HUDView);
 
             _window.display();
         }

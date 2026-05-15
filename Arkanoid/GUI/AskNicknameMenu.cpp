@@ -63,7 +63,7 @@ namespace ArkanoidGame
                 AddItemToLeaderboard(game);
                 UpdateGameOverLeaderboard(game);
                 SerializeAndSaveGame(game.leaderboard);
-                PopGameState(game);
+                game.PopState();
             }
             else if (event.key.code == sf::Keyboard::Up)
             {
