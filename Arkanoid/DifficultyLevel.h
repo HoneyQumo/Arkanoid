@@ -4,26 +4,40 @@
 
 namespace ArkanoidGame
 {
-    enum class DifficultyLevelType
+    class DifficultyLevel
     {
-        Easy = 0,
-        EasyMedium,
-        Medium,
-        MediumHard,
-        Hard
-    };
+    public:
+        enum class Type
+        {
+            Easy = 0,
+            EasyMedium,
+            Medium,
+            MediumHard,
+            Hard
+        };
 
-    struct DifficultLevelConfig
-    {
-        float snakeSpeed;
-        unsigned pointsPerApple;
-    };
+        struct Values
+        {
+            float speed;
+            unsigned pointsRate;
+        };
 
-    extern const std::map<DifficultyLevelType, DifficultLevelConfig> LEVEL_CONFIG;
+        using ConfigMap = std::map<Type, Values>;
 
-    struct DifficultyLevel
-    {
-        DifficultyLevelType type;
-        DifficultLevelConfig value;
+        void SetDifficultyLevel(const Type& type);
+
+        Type GetType() const;
+        Values GetValues() const;
+
+    private:
+        ConfigMap _config = {
+            {Type::Easy, {SCREEN_WIDTH * .2f, 2}},
+            {Type::EasyMedium, {SCREEN_WIDTH * .3f, 4}},
+            {Type::Medium, {SCREEN_WIDTH * .4f, 6}},
+            {Type::MediumHard, {SCREEN_WIDTH * .5f, 8}},
+            {Type::Hard, {SCREEN_WIDTH * .6f, 10}},
+        };
+        Type _type = Type::Medium;
+        Values _value = _config.at(_type);
     };
 }

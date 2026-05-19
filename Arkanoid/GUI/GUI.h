@@ -4,7 +4,6 @@
 #include "PauseMenu.h"
 #include "DifficultyLevelMenu.h"
 #include "GameOverMenu.h"
-#include "HUD.h"
 #include "LeaderboardMenu.h"
 #include "SettingsMenu.h"
 
@@ -15,7 +14,6 @@ namespace ArkanoidGame
         MainMenu mainMenu;
         PauseMenu pauseMenu;
         DifficultyLevelMenu difficultyLevelMenu;
-        HUD HUD;
         GameOverMenu gameOverMenu;
         LeaderboardMenu leaderboardMenu;
         AskNicknameMenu askNicknameMenu;

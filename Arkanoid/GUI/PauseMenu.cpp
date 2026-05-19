@@ -44,7 +44,6 @@ namespace ArkanoidGame
         {
         case PauseMenuOptionKey::Continue:
             game.PopState();
-            game.snake.awaitingMoveInput = true;
             break;
         case PauseMenuOptionKey::Exit:
             game.Reset(game);

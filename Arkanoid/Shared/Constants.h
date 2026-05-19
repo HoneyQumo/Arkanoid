@@ -18,31 +18,16 @@ namespace ArkanoidGame
     constexpr float OFFSET_TOP_WINDOW_10_PERCENT = (SCREEN_HEIGHT / 100.f) * 10.f;
     constexpr float OFFSET_TOP_WINDOW_20_PERCENT = (SCREEN_HEIGHT / 100.f) * 20.f;
 
-    constexpr float HUD_BACKGROUND_HEIGHT = 50.f;
-    constexpr float HUD_VIEW_PERCENT = HUD_BACKGROUND_HEIGHT / SCREEN_HEIGHT;
-    constexpr float DEFAULT_VIEW_PERCENT = 1.f - HUD_VIEW_PERCENT;
-
     /* Audio */
     constexpr float MUSIC_INITIAL_VOLUME = 15.f;
     constexpr float SOUNDS_INITIAL_VOLUME = 50.f;
 
     /* General */
-    constexpr float EPSILON = 0.01f;
     const std::string GAME_NAME = "Arkanoid";
 
-    /* Field */
-    constexpr unsigned NUMBER_CELLS = 20;
-    constexpr unsigned CELL_WIDTH = SCREEN_WIDTH / NUMBER_CELLS;
-    constexpr unsigned CELL_HEIGHT = SCREEN_HEIGHT / NUMBER_CELLS;
-    constexpr float AVERAGE_CELL_SIZE = (CELL_WIDTH + CELL_HEIGHT) / 2.f;
-    constexpr float APPLE_SIZE = ((CELL_WIDTH + CELL_HEIGHT) / (2.f * 100.f)) * 80.f;
-
-    const auto LIGHT_GREEN_COLOR = sf::Color(170, 215, 81, 255);
-    const auto DARK_GREEN_COLOR = sf::Color(162, 209, 73, 255);
-    const auto GRAY_COLOR = sf::Color(100, 100, 100, 255);
-
-    /* HUD */
-    const auto HUD_BACKGROUND_COLOR = sf::Color(87, 138, 28, 255);
+    /* Player */
+    constexpr float PLATFORM_WIDTH = SCREEN_WIDTH * 0.1f;
+    constexpr float PLATFORM_HEIGHT = SCREEN_HEIGHT * 0.02f;
 
     /* Text */
     constexpr unsigned TEXT_HEADING_1 = 60;

@@ -54,7 +54,6 @@ namespace ArkanoidGame
             isSoundState = !isSoundState;
 
             game.assets.death.setVolume(isSoundState ? SOUNDS_INITIAL_VOLUME : 0.f);
-            game.assets.eat.setVolume(isSoundState ? SOUNDS_INITIAL_VOLUME : 0.f);
             game.assets.menuToggle.setVolume(isSoundState ? SOUNDS_INITIAL_VOLUME : 0.f);
             game.assets.menuSelect.setVolume(isSoundState ? SOUNDS_INITIAL_VOLUME : 0.f);
 

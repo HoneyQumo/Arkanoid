@@ -11,19 +11,13 @@ namespace ArkanoidGame
     Application::Application()
         : _window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), GAME_NAME)
     {
-        sf::View defaultView(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-        sf::View HUDView(sf::FloatRect(0, 0, SCREEN_WIDTH, HUD_BACKGROUND_HEIGHT));
-
-        defaultView.setViewport(sf::FloatRect(0.f, HUD_VIEW_PERCENT, 1.f, DEFAULT_VIEW_PERCENT));
-        HUDView.setViewport(sf::FloatRect(0.f, 0.0f, 1.f, HUD_VIEW_PERCENT));
-
         _game.Init(_game);
     }
 
-    Application::~Application()
-    {
+    // Application::~Application()
+    // {
         // ShutdownGame();
-    }
+    // }
 
     void Application::Run()
     {
@@ -63,7 +57,6 @@ namespace ArkanoidGame
                             break;
                         case Game::State::Pause:
                             _game.PopState();
-                            _game.snake.awaitingMoveInput = true;
                             break;
                         default:
                             _game.PopState();
@@ -88,7 +81,6 @@ namespace ArkanoidGame
                             break;
                         case Game::State::Pause:
                             _game.PopState();
-                            _game.snake.awaitingMoveInput = true;
                             break;
                         }
                         break;
@@ -126,10 +118,7 @@ namespace ArkanoidGame
             _game.Update(deltaTime);
 
             _window.clear();
-
-            _window.setView(_defaultView);
-            _game.Draw(_window, _HUDView);
-
+            _game.Draw(_window);
             _window.display();
         }
     }

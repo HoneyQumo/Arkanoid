@@ -158,58 +158,46 @@
         </Link>
     </ItemDefinitionGroup>
     <ItemGroup>
-        <ClCompile Include="Apple.cpp"/>
         <ClCompile Include="Application.cpp"/>
-        <ClCompile Include="Cell.cpp"/>
         <ClCompile Include="DifficultyLevel.cpp"/>
-        <ClCompile Include="Field.cpp"/>
         <ClCompile Include="Game.cpp"/>
         <ClCompile Include="GameMain.cpp"/>
         <ClCompile Include="GUI\AskNicknameMenu.cpp"/>
         <ClCompile Include="GUI\DifficultyLevelMenu.cpp"/>
         <ClCompile Include="GUI\GameOverMenu.cpp"/>
         <ClCompile Include="GUI\GUI.cpp"/>
-        <ClCompile Include="GUI\HUD.cpp"/>
         <ClCompile Include="GUI\LeaderboardMenu.cpp"/>
         <ClCompile Include="GUI\MainMenu.cpp"/>
         <ClCompile Include="GUI\PauseMenu.cpp"/>
         <ClCompile Include="GUI\SettingsMenu.cpp"/>
         <ClCompile Include="Leaderboard.cpp"/>
+        <ClCompile Include="Platform.cpp"/>
         <ClCompile Include="Settings.cpp"/>
         <ClCompile Include="Shared\Assets.cpp"/>
         <ClCompile Include="Shared\Constants.cpp"/>
         <ClCompile Include="Shared\Math.cpp"/>
         <ClCompile Include="Shared\Shared.cpp"/>
-        <ClCompile Include="Snake\Segment.cpp"/>
-        <ClCompile Include="Snake\Snake.cpp"/>
-        <ClCompile Include="Snake\TurnPoint.cpp"/>
     </ItemGroup>
     <ItemGroup>
-        <ClInclude Include="Apple.h"/>
         <ClInclude Include="Application.h"/>
-        <ClInclude Include="Cell.h"/>
         <ClInclude Include="DifficultyLevel.h"/>
-        <ClInclude Include="Field.h"/>
         <ClInclude Include="Game.h"/>
         <ClInclude Include="GUI\AskNicknameMenu.h"/>
         <ClInclude Include="GUI\DifficultyLevelMenu.h"/>
         <ClInclude Include="GUI\GameOverMenu.h"/>
         <ClInclude Include="GUI\GUI.h"/>
-        <ClInclude Include="GUI\HUD.h"/>
         <ClInclude Include="GUI\LeaderboardMenu.h"/>
         <ClInclude Include="GUI\MainMenu.h"/>
         <ClInclude Include="GUI\PauseMenu.h"/>
         <ClInclude Include="GUI\SettingsMenu.h"/>
         <ClInclude Include="Leaderboard.h"/>
+        <ClInclude Include="Platform.h"/>
         <ClInclude Include="Settings.h"/>
         <ClInclude Include="Shared\Assets.h"/>
         <ClInclude Include="Shared\Constants.h"/>
         <ClInclude Include="Shared\Direction.h"/>
         <ClInclude Include="Shared\Math.h"/>
         <ClInclude Include="Shared\Shared.h"/>
-        <ClInclude Include="Snake\Segment.h"/>
-        <ClInclude Include="Snake\Snake.h"/>
-        <ClInclude Include="Snake\TurnPoint.h"/>
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">

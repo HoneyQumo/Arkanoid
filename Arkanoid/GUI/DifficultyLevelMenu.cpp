@@ -5,7 +5,7 @@ namespace ArkanoidGame
 {
     void ResetDifficultyLevelMenu(DifficultyLevelMenu& difficultyLevelMenu)
     {
-        SetOptionKey(difficultyLevelMenu.options, difficultyLevelMenu.selectedOptionKey, DifficultyLevelType::Easy);
+        SetOptionKey(difficultyLevelMenu.options, difficultyLevelMenu.selectedOptionKey, DifficultyLevel::Type::Easy);
     }
 
     void InitDifficultyLevelMenu(Game& game)
@@ -24,7 +24,7 @@ namespace ArkanoidGame
             InitText(option.second.textNode, option.second.title, game.assets.font, TEXT_MENU_ITEM, color);
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT + (index * 30.f));
 
-            if (game.difficulty.type == option.first)
+            if (game.difficulty.GetType() == option.first)
             {
                 option.second.textNode.setStyle(sf::Text::Underlined);
             }
@@ -50,12 +50,11 @@ namespace ArkanoidGame
             if (event.key.code == sf::Keyboard::Enter)
             {
                 game.assets.menuSelect.play();
-                game.difficulty.type = game.GUI.difficultyLevelMenu.selectedOptionKey;
-                game.difficulty.value = LEVEL_CONFIG.at(game.difficulty.type);
+                game.difficulty.SetDifficultyLevel(game.GUI.difficultyLevelMenu.selectedOptionKey);
 
                 for (auto& option : game.GUI.difficultyLevelMenu.options)
                 {
-                    if (option.first == game.difficulty.type)
+                    if (option.first == game.difficulty.GetType())
                     {
                         option.second.textNode.setStyle(sf::Text::Underlined);
                     }

@@ -1,13 +1,11 @@
 ﻿#pragma once
 #include <stack>
-#include "Apple.h"
-#include "Field.h"
 #include "DifficultyLevel.h"
 #include "Leaderboard.h"
+#include "Platform.h"
 #include "GUI/GUI.h"
 #include "Shared/Assets.h"
 #include "Shared/Constants.h"
-#include "Snake/Snake.h"
 
 namespace ArkanoidGame
 {
@@ -29,13 +27,10 @@ namespace ArkanoidGame
         Assets assets;
 
         GUI GUI;
-
-        Field field;
-        Snake snake;
-        std::vector<Apple> apples;
-
         unsigned score = 0;
         bool isWin = false;
+
+        Platform platform;
 
         DifficultyLevel difficulty;
         Settings settings;
@@ -50,7 +45,7 @@ namespace ArkanoidGame
         void Reset(Game& game);
         void Init(Game& game);
         void Update(const float& deltaTime);
-        void Draw(sf::RenderWindow& window, const sf::View& HUDView);
+        void Draw(sf::RenderWindow& window);
 
         // void ShutdownGame();
 

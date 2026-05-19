@@ -9,15 +9,15 @@ namespace ArkanoidGame
     {
         sf::Text heading;
 
-        std::map<DifficultyLevelType, MenuOption> options = {
-            {DifficultyLevelType::Easy, {L"Простой", {}}},
-            {DifficultyLevelType::EasyMedium, {L"Тяжелее простого", {}}},
-            {DifficultyLevelType::Medium, {L"Средний", {}}},
-            {DifficultyLevelType::MediumHard, {L"Легче тяжелого", {}}},
-            {DifficultyLevelType::Hard, {L"Тяжелый", {}}},
+        std::map<DifficultyLevel::Type, MenuOption> options = {
+            {DifficultyLevel::Type::Easy, {L"Простой", {}}},
+            {DifficultyLevel::Type::EasyMedium, {L"Тяжелее простого", {}}},
+            {DifficultyLevel::Type::Medium, {L"Средний", {}}},
+            {DifficultyLevel::Type::MediumHard, {L"Легче тяжелого", {}}},
+            {DifficultyLevel::Type::Hard, {L"Тяжелый", {}}},
         };
 
-        DifficultyLevelType selectedOptionKey = DifficultyLevelType::Easy;
+        DifficultyLevel::Type selectedOptionKey = DifficultyLevel::Type::Easy;
     };
 
     void ResetDifficultyLevelMenu(DifficultyLevelMenu& difficultyLevelMenu);

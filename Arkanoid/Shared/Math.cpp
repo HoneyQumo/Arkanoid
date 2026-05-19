@@ -10,69 +10,16 @@ namespace ArkanoidGame
         sprite.setScale(scale);
     }
 
-    void SetSpriteOrigin(sf::Sprite& sprite, const float originX, const float originY)
+    void SetOrigin(sf::Sprite& sprite, const sf::Vector2f& origin)
     {
         const sf::FloatRect spriteRect = sprite.getLocalBounds();
-        sprite.setOrigin(originX * spriteRect.width, originY * spriteRect.height);
+        sprite.setOrigin(origin.x * spriteRect.width, origin.y * spriteRect.height);
     }
 
-    sf::Vector2f GetNearestCenter(const sf::Vector2f& position)
+    void SetOrigin(sf::RectangleShape& shape, const sf::Vector2f& origin)
     {
-        const float fx = (position.x - CELL_WIDTH / 2.f) / CELL_WIDTH;
-        const float fy = (position.y - CELL_HEIGHT / 2.f) / CELL_HEIGHT;
-        const float ix = std::round(fx);
-        const float iy = std::round(fy);
-        return {
-            ix * CELL_WIDTH + CELL_WIDTH / 2.f,
-            iy * CELL_HEIGHT + CELL_HEIGHT / 2.f
-        };
-    }
-
-    sf::Vector2i GetCoordFromPosition(const sf::Vector2f& position)
-    {
-        return sf::Vector2i{
-            static_cast<int>(position.x / CELL_WIDTH),
-            static_cast<int>(position.y / CELL_HEIGHT)
-        };
-    }
-
-    float GetDistanceAlongDirection(const sf::Vector2f& from, const sf::Vector2f& to, const Direction direction)
-    {
-        switch (direction)
-        {
-        case Direction::Up:
-        case Direction::Down:
-            return std::abs(to.y - from.y);
-        case Direction::Left:
-        case Direction::Right:
-            return std::abs(to.x - from.x);
-        }
-        return 0.f;
-    }
-
-    bool WillCrossPoint(const sf::Vector2f& from, const sf::Vector2f& to, const sf::Vector2f& point, const Direction direction)
-    {
-        if (direction == Direction::Up || direction == Direction::Down)
-        {
-            if (std::abs(from.x - point.x) > CELL_WIDTH / 2.f) return false;
-            if (std::abs(to.x - point.x) > CELL_WIDTH / 2.f) return false;
-
-            const float minY = std::min(from.y, to.y) - EPSILON;
-            const float maxY = std::max(from.y, to.y) + EPSILON;
-
-            return (point.y >= minY) && (point.y <= maxY);
-        }
-
-        if (direction == Direction::Left || direction == Direction::Right)
-        {
-            if (std::abs(from.y - point.y) > CELL_HEIGHT / 2.f) return false;
-            if (std::abs(to.y - point.y) > CELL_HEIGHT / 2.f) return false;
-
-            const float minX = std::min(from.x, to.x) - EPSILON;
-            const float maxX = std::max(from.x, to.x) + EPSILON;
-
-            return (point.x >= minX) && (point.x <= maxX);
-        }
+        const sf::FloatRect shapeRect = shape.getLocalBounds();
+        shape.setOrigin(origin.x * shapeRect.width, origin.y * shapeRect.height);
     }
 
     sf::Vector2f GetTextOrigin(const sf::Text& text, const sf::Vector2f& relativePosition)

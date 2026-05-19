@@ -51,13 +51,15 @@ namespace ArkanoidGame
         GUI.mainMenu.InitMainMenu(game);
         InitPauseMenu(game);
         InitDifficultyLevelMenu(game);
-        InitHUD(game);
         InitGameOverMenu(game);
         InitLeaderboardMenu(game);
         InitAskNicknameMenu(game);
         InitSettingsMenu(game);
 
-        /*Sounds*/
+        /* Player */
+        // platform = *new Platform();
+
+        /* Sounds */
         assets.music.setPlayingOffset(sf::seconds(0.f));
         assets.music.setLoop(true);
 
@@ -65,15 +67,8 @@ namespace ArkanoidGame
         {
             assets.music.play();
         }
-
-        /* Game Instances */
-        InitField(field);
-        InitSnake(snake, assets);
-
         score = 0;
         isWin = false;
-        apples.clear();
-        SpawnApple(game);
     }
 
     void Game::Init(Game& game)
@@ -82,23 +77,21 @@ namespace ArkanoidGame
         assert(assets.font.loadFromFile(RESOURCES_FONTS + "\\pixel_font-7.ttf"));
 
         /* Graphics */
-        assert(assets.snakeHead.loadFromFile(RESOURCES_GRAPHICS + "\\head_right.png"));
-        assert(assets.snakeBody.loadFromFile(RESOURCES_GRAPHICS + "\\body_horizontal.png"));
-        assert(assets.snakeTail.loadFromFile(RESOURCES_GRAPHICS + "\\tail_left.png"));
-        assert(assets.apple.loadFromFile(RESOURCES_GRAPHICS + "\\apple.png"));
+        // assert(assets.apple.loadFromFile(RESOURCES_GRAPHICS + "\\apple.png"));
 
         /* Sounds */
         assert(assets.musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
         assets.music.setBuffer(assets.musicBuffer);
-        assets.music.setVolume(MUSIC_INITIAL_VOLUME);
+        // assets.music.setVolume(MUSIC_INITIAL_VOLUME);
+        assets.music.setVolume(0);
 
         assert(assets.deathBuffer.loadFromFile(RESOURCES_AUDIO + "\\death.wav"));
         assets.death.setBuffer(assets.deathBuffer);
         assets.death.setVolume(SOUNDS_INITIAL_VOLUME);
 
-        assert(assets.eatBuffer.loadFromFile(RESOURCES_AUDIO + "\\eat.wav"));
-        assets.eat.setBuffer(assets.eatBuffer);
-        assets.eat.setVolume(SOUNDS_INITIAL_VOLUME);
+        // assert(assets.eatBuffer.loadFromFile(RESOURCES_AUDIO + "\\eat.wav"));
+        // assets.eat.setBuffer(assets.eatBuffer);
+        // assets.eat.setVolume(SOUNDS_INITIAL_VOLUME);
 
         assert(assets.menuToggleBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-toggle.wav"));
         assets.menuToggle.setBuffer(assets.menuToggleBuffer);
@@ -108,8 +101,7 @@ namespace ArkanoidGame
         assets.menuSelect.setBuffer(assets.menuSelectBuffer);
         assets.menuSelect.setVolume(SOUNDS_INITIAL_VOLUME);
 
-
-        difficulty = {DifficultyLevelType::Medium, LEVEL_CONFIG.at(DifficultyLevelType::Medium)};
+        difficulty.SetDifficultyLevel(DifficultyLevel::Type::Medium);
 
         DeserializeAndLoadLeaderboard(leaderboard);
 
@@ -119,60 +111,15 @@ namespace ArkanoidGame
 
     void Game::Update(const float& deltaTime)
     {
+        Game& game = Application::Instance().GetGame();
         const State& gameState = GetState();
-        const float computedDistance = difficulty.value.snakeSpeed * deltaTime;
 
         switch (gameState)
         {
         case State::MainMenu:
             break;
         case State::Playing:
-
-            if (snake.segments.size() == NUMBER_CELLS * NUMBER_CELLS)
-            {
-                isWin = true;
-                PushState(State::GameOver);
-                break;
-            }
-
-            SnakeControl(snake);
-
-            if (!snake.awaitingMoveInput)
-            {
-                UpdateSnake(snake, computedDistance);
-
-                if (HasSnakeCollisionWithWall(snake.segments[0], field) || HasSnakeCollisionWithSelf(snake))
-                {
-                    assets.music.stop();
-                    assets.death.play();
-                    PushState(State::GameOver);
-
-                    if (score > 0 && (leaderboard.array.empty() || score > std::prev(leaderboard.array.end())->score))
-                    {
-                        PushState(State::AskNickname);
-                    }
-
-                    break;
-                }
-
-                for (unsigned int i = 0; i < apples.size(); ++i)
-                {
-                    if (
-                        GetCoordFromPosition(snake.segments[0].sprite.getPosition()) ==
-                        GetCoordFromPosition(apples[i].sprite.getPosition())
-                    )
-                    {
-                        assets.eat.play();
-                        score += difficulty.value.pointsPerApple;
-                        GrowSnake(snake, assets);
-                        apples.clear();
-                        SpawnApple(Application::Instance().GetGame());
-                    }
-                }
-            }
-
-            UpdateHUD(Application::Instance().GetGame());
-
+            game.platform.Update(deltaTime * difficulty.GetValues().speed);
             break;
 
         case State::GameOver:
@@ -187,8 +134,9 @@ namespace ArkanoidGame
         }
     }
 
-    void Game::Draw(sf::RenderWindow& window, const sf::View& HUDView)
+    void Game::Draw(sf::RenderWindow& window)
     {
+        Game& game = Application::Instance().GetGame();
         const State& gameState = GetState();
 
         switch (gameState)
@@ -198,13 +146,7 @@ namespace ArkanoidGame
 
             break;
         case State::Playing:
-            DrawField(window, field);
-            DrawApples(window, apples);
-            DrawSnake(window, snake);
-
-            window.setView(HUDView);
-            DrawHUD(window, GUI.HUD);
-
+            game.platform.Draw(window);
             break;
 
         case State::AskNickname:

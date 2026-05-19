@@ -19,11 +19,9 @@ namespace ArkanoidGame
 
     private:
         Application();
-        ~Application();
+        // ~Application();
 
         Game _game;
         sf::RenderWindow _window;
-        sf::View _defaultView;
-        sf::View _HUDView;
     };
 }

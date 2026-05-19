@@ -15,4 +15,10 @@ namespace ArkanoidGame
         Up = static_cast<int>(Direction::Up),
         Down = static_cast<int>(Direction::Down)
     };
+
+    enum class DirectionHorizontal
+    {
+        Left = static_cast<int>(Direction::Left),
+        Right = static_cast<int>(Direction::Right)
+    };
 }

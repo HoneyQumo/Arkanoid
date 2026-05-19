@@ -2,11 +2,19 @@
 
 namespace ArkanoidGame
 {
-    const std::map<DifficultyLevelType, DifficultLevelConfig> LEVEL_CONFIG = {
-        {DifficultyLevelType::Easy, {3 * AVERAGE_CELL_SIZE, 2}},
-        {DifficultyLevelType::EasyMedium, {5 * AVERAGE_CELL_SIZE, 4}},
-        {DifficultyLevelType::Medium, {8 * AVERAGE_CELL_SIZE, 6}},
-        {DifficultyLevelType::MediumHard, {11 * AVERAGE_CELL_SIZE, 8}},
-        {DifficultyLevelType::Hard, {14 * AVERAGE_CELL_SIZE, 10}},
-    };
+    void DifficultyLevel::SetDifficultyLevel(const Type& type)
+    {
+        _type = type;
+        _value = _config.at(type);
+    }
+
+    DifficultyLevel::Type DifficultyLevel::GetType() const
+    {
+        return _type;
+    }
+
+    DifficultyLevel::Values DifficultyLevel::GetValues() const
+    {
+        return _config.at(_type);
+    }
 }
