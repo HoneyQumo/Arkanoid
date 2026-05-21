@@ -1,5 +1,6 @@
 ﻿#include "Platform.h"
 
+#include "Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 
@@ -12,15 +13,16 @@ namespace ArkanoidGame
 
     void Platform::Update(Ball& ball, const float computedDistance)
     {
-        Control(computedDistance);
+        Control(ball, computedDistance);
 
+        // Todo: Шарик должен прилепляться в Ball через ball._attached
         if (_sticky)
         {
             const auto& platformShape = GetShape();
             const auto& platformPosition = platformShape.getPosition();
             const auto& platformBounds = platformShape.getLocalBounds();
 
-            ball.SetPosition({
+            ball.GetShape().setPosition({
                 platformPosition.x,
                 platformPosition.y - platformBounds.height,
             });
@@ -32,7 +34,7 @@ namespace ArkanoidGame
         window.draw(_shape);
     }
 
-    void Platform::Control(const float computedDistance)
+    void Platform::Control(Ball& ball, const float computedDistance)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
@@ -43,6 +45,12 @@ namespace ArkanoidGame
         {
             const auto position = _shape.getPosition();
             _shape.setPosition(position.x - computedDistance, position.y);
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            _sticky = false;
+            ball.Launch();
         }
     }
 

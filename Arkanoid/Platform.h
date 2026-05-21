@@ -14,7 +14,7 @@ namespace ArkanoidGame
         void Update(Ball& ball, float computedDistance);
         void Draw(sf::RenderWindow& window) const;
 
-        void Control(float computedDistance);
+        void Control(Ball& ball, float computedDistance);
 
         void InitShape();
         sf::RectangleShape GetShape() const;

@@ -8,16 +8,18 @@ namespace ArkanoidGame
     public:
         Ball();
 
-        // void Update();
+        void Launch();
+        void Update(float dt);
         void Draw(sf::RenderWindow& window) const;
 
         void InitShape();
-        sf::CircleShape GetShape() const;
+        sf::CircleShape& GetShape();
 
-        sf::Vector2f GetPosition() const;
-        void SetPosition(const sf::Vector2f& position);
+        bool GetAttached() const;
 
     private:
         sf::CircleShape _shape;
+        sf::Vector2f _velocity{0.f, 0.f};
+        bool _attached = true;
     };
 }
