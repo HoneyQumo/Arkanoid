@@ -22,6 +22,12 @@ namespace ArkanoidGame
         shape.setOrigin(origin.x * shapeRect.width, origin.y * shapeRect.height);
     }
 
+    void SetOrigin(sf::CircleShape& shape, const sf::Vector2f& origin)
+    {
+        const sf::FloatRect shapeRect = shape.getLocalBounds();
+        shape.setOrigin(origin.x * shapeRect.width, origin.y * shapeRect.height);
+    }
+
     sf::Vector2f GetTextOrigin(const sf::Text& text, const sf::Vector2f& relativePosition)
     {
         sf::FloatRect textSize = text.getLocalBounds();

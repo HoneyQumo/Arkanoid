@@ -119,7 +119,7 @@ namespace ArkanoidGame
         case State::MainMenu:
             break;
         case State::Playing:
-            game.platform.Update(deltaTime * difficulty.GetValues().speed);
+            game.platform.Update(game.ball, deltaTime * difficulty.GetValues().speed);
             break;
 
         case State::GameOver:
@@ -147,6 +147,7 @@ namespace ArkanoidGame
             break;
         case State::Playing:
             game.platform.Draw(window);
+            game.ball.Draw(window);
             break;
 
         case State::AskNickname:

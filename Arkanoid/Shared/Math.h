@@ -9,6 +9,7 @@ namespace ArkanoidGame
 
     void SetOrigin(sf::Sprite& sprite, const sf::Vector2f& origin);
     void SetOrigin(sf::RectangleShape& shape, const sf::Vector2f& origin);
+    void SetOrigin(sf::CircleShape& shape, const sf::Vector2f& origin);
 
     sf::Vector2f GetTextOrigin(const sf::Text& text, const sf::Vector2f& relativePosition);
 

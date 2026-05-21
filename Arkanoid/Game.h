@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <stack>
+
+#include "Ball.h"
 #include "DifficultyLevel.h"
 #include "Leaderboard.h"
 #include "Platform.h"
@@ -31,6 +33,7 @@ namespace ArkanoidGame
         bool isWin = false;
 
         Platform platform;
+        Ball ball;
 
         DifficultyLevel difficulty;
         Settings settings;
