@@ -44,4 +44,24 @@ namespace ArkanoidGame
         std::uniform_int_distribution<> dis(a, b);
         return dis(gen);
     }
+
+    bool HasRectCircleCollision(const sf::RectangleShape& rectangle, const sf::CircleShape& circle)
+    {
+        const auto rBounds = rectangle.getGlobalBounds();
+        const auto cPosition = circle.getPosition();
+        const auto cRadius = circle.getRadius();
+
+        const auto& plLeft = rBounds.left;
+        const auto& plTop = rBounds.top;
+        const auto& plRight = rBounds.left + rBounds.width;
+        const auto& plBottom = rBounds.top + rBounds.height;
+
+        const float closestX = std::max(plLeft, std::min(cPosition.x, plRight));
+        const float closestY = std::max(plTop, std::min(cPosition.y, plBottom));
+
+        const float dx = cPosition.x - closestX;
+        const float dy = cPosition.y - closestY;
+
+        return (dx * dx + dy * dy) <= (cRadius * cRadius);
+    }
 }

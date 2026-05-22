@@ -111,7 +111,6 @@ namespace ArkanoidGame
 
     void Game::Update(const float& deltaTime)
     {
-        Game& game = Application::Instance().GetGame();
         const State& gameState = GetState();
 
         switch (gameState)
@@ -119,9 +118,27 @@ namespace ArkanoidGame
         case State::MainMenu:
             break;
         case State::Playing:
-            game.platform.Update(game.ball, deltaTime);
-            game.ball.Update(game.platform, deltaTime);
-            break;
+            {
+                platform.Update(ball, deltaTime);
+                ball.Update(platform, deltaTime);
+
+                const auto speed = difficulty.GetValues().speed;
+
+                ball.BounceOffWall(speed);
+
+                if (HasRectCircleCollision(platform.GetShape(), ball.GetShape()) && (ball.GetVelocity().y > 0.f))
+                {
+                    if (platform.GetSticky())
+                    {
+                        ball.SetAttached(true);
+
+                        return;
+                    }
+
+                    ball.BounceOffPlatform(platform, difficulty.GetValues().speed);
+                }
+                break;
+            }
 
         case State::GameOver:
             UpdateGameOverMenu(Application::Instance().GetGame());

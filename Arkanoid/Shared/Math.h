@@ -14,4 +14,6 @@ namespace ArkanoidGame
     sf::Vector2f GetTextOrigin(const sf::Text& text, const sf::Vector2f& relativePosition);
 
     int GetIntegerInRange(int a, int b);
+
+    bool HasRectCircleCollision(const sf::RectangleShape& rectangle, const sf::CircleShape& circle);
 }
