@@ -1,5 +1,4 @@
 ﻿#include "Platform.h"
-
 #include "Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
@@ -11,21 +10,14 @@ namespace ArkanoidGame
         InitShape();
     }
 
-    void Platform::Update(Ball& ball, const float computedDistance)
+    void Platform::Update(Ball& ball, const float dt)
     {
-        Control(ball, computedDistance);
+        Control(ball, dt);
 
-        // Todo: Шарик должен прилепляться в Ball через ball._attached
         if (_sticky)
         {
-            const auto& platformShape = GetShape();
-            const auto& platformPosition = platformShape.getPosition();
-            const auto& platformBounds = platformShape.getLocalBounds();
-
-            ball.GetShape().setPosition({
-                platformPosition.x,
-                platformPosition.y - platformBounds.height,
-            });
+            // Todo: Когда ball касается platform нужно включать ball._attached
+            // ball.SetAttached(true);
         }
     }
 
@@ -34,17 +26,17 @@ namespace ArkanoidGame
         window.draw(_shape);
     }
 
-    void Platform::Control(Ball& ball, const float computedDistance)
+    void Platform::Control(Ball& ball, const float dt)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
             const auto position = _shape.getPosition();
-            _shape.setPosition(position.x + computedDistance, position.y);
+            _shape.setPosition(position.x + (dt * PLATFORM_SPEED), position.y);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
             const auto position = _shape.getPosition();
-            _shape.setPosition(position.x - computedDistance, position.y);
+            _shape.setPosition(position.x - (dt * PLATFORM_SPEED), position.y);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

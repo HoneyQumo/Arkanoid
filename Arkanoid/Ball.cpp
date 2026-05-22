@@ -20,9 +20,21 @@ namespace ArkanoidGame
         _velocity = {0.f * difficultyValues.speed, -1.f * difficultyValues.speed};
     }
 
-    void Ball::Update(const float dt)
+    void Ball::Update(const Platform& platform, const float dt)
     {
-        if (_attached) return;
+        if (_attached)
+        {
+            const auto platformShape = platform.GetShape();
+            const auto platformPosition = platformShape.getPosition();
+            const auto platformBounds = platformShape.getLocalBounds();
+
+            _shape.setPosition({
+                platformPosition.x,
+                platformPosition.y - platformBounds.height,
+            });
+
+            return;
+        }
 
         sf::Vector2f newPosition = _shape.getPosition();
         newPosition += _velocity * dt;
@@ -45,6 +57,11 @@ namespace ArkanoidGame
     sf::CircleShape& Ball::GetShape()
     {
         return _shape;
+    }
+
+    void Ball::SetAttached(const bool& value)
+    {
+        _attached = value;
     }
 
     bool Ball::GetAttached() const

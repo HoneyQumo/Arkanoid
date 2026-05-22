@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SFML/Graphics.hpp"
+#include "Platform.h"
 
 namespace ArkanoidGame
 {
@@ -9,12 +10,13 @@ namespace ArkanoidGame
         Ball();
 
         void Launch();
-        void Update(float dt);
+        void Update(const Platform& platform, float dt);
         void Draw(sf::RenderWindow& window) const;
 
         void InitShape();
         sf::CircleShape& GetShape();
 
+        void SetAttached(const bool& value);
         bool GetAttached() const;
 
     private:
