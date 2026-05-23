@@ -112,49 +112,15 @@ namespace ArkanoidGame
         if (topWallCollision)
         {
             const auto diffX = position.x - _lastBouncedPosition.x;
-        
-            if (std::abs(diffX) == 0.f)
-            {
-                _velocity = {0.f, speed};
-            }
-            else
-            {
-                const float direction = diffX > 0.f ? 1.f : -1.f;
-                _velocity = {speed * direction, speed};
-            }
-        
-        
+            _velocity = {speed * Sign(diffX), speed};
+
             _lastBouncedPosition = position;
         }
-
-        // if (topWallCollision)
-        // {
-        //     const auto diff = position - _lastBouncedPosition;
-        //
-        //     const sf::Vector2f direction = {
-        //         Sign(diff.x),
-        //         Sign(diff.y),
-        //     };
-        //
-        //     _velocity = {speed * direction.x, -1.f * speed * direction.y};
-        //
-        //     _lastBouncedPosition = position;
-        // }
-
-        // // if (topWallCollision)
-        // {
-        //     const auto diffX = position.x - _lastBouncedPosition.x;
-        //     const float direction = diffX > 0.f ? 1.f : -1.f;
-        //     _velocity = {speed * direction, speed};
-        //
-        //     _lastBouncedPosition = position;
-        // }
 
         if (rightWallCollision)
         {
             const auto diffY = position.y - _lastBouncedPosition.y;
-            const float direction = diffY > 0.f ? 1.f : -1.f;
-            _velocity = {-speed, speed * direction};
+            _velocity = {-speed, speed * Sign(diffY)};
 
             _lastBouncedPosition = position;
         }
@@ -163,14 +129,12 @@ namespace ArkanoidGame
         {
             Game& game = Application::Instance().GetGame();
             game.PushState(Game::State::GameOver);
-            // return;
         }
 
         if (leftWallCollision)
         {
             const auto diffY = position.y - _lastBouncedPosition.y;
-            const float direction = diffY > 0.f ? 1.f : -1.f;
-            _velocity = {speed, speed * direction};
+            _velocity = {speed, speed * Sign(diffY)};
 
             _lastBouncedPosition = position;
         }
