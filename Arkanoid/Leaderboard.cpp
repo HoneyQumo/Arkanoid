@@ -5,28 +5,29 @@
 
 namespace ArkanoidGame
 {
-    void AddItemToLeaderboard(Game& game)
+    void Leaderboard::Add(Game& game)
     {
         const auto& nicknameInput = game.gui.askNicknameMenu.GetNicknameInput();
         const auto playerName = nicknameInput.isEmpty() ? L"XYZ" : nicknameInput.toWideString();
 
-        auto& leaderboard = game.leaderboard.array;
-        leaderboard.push_back({playerName, game.score});
+        _array.push_back({playerName, game.score});
 
-        std::stable_sort(leaderboard.begin(), leaderboard.end(), [](const LeaderboardItem& item1, const LeaderboardItem& item2)
+        std::stable_sort(_array.begin(), _array.end(), [](const Item& item1, const Item& item2)
         {
             return item1.score > item2.score;
         });
 
-        if (leaderboard.size() > 10)
+        if (_array.size() > 10)
         {
-            leaderboard.resize(10);
+            _array.resize(10);
         }
     }
 
-    std::vector<LeaderboardItem> GetSortedLeaderboard(std::vector<LeaderboardItem> leaderboard)
+    std::vector<Leaderboard::Item> Leaderboard::GetSorted() const
     {
-        std::stable_sort(leaderboard.begin(), leaderboard.end(), [](const LeaderboardItem& item1, const LeaderboardItem& item2)
+        auto leaderboard = _array;
+
+        std::stable_sort(leaderboard.begin(), leaderboard.end(), [](const Item& item1, const Item& item2)
         {
             return item1.score > item2.score;
         });
@@ -34,13 +35,13 @@ namespace ArkanoidGame
         return leaderboard;
     }
 
-    bool SerializeAndSaveGame(const Leaderboard& leaderboard)
+    bool Leaderboard::SerializeAndSaveGame() const
     {
         std::wofstream file(LEADERBOARD_FILE_PATH);
 
         if (file.is_open())
         {
-            for (auto item : leaderboard.array)
+            for (auto item : _array)
             {
                 std::replace(item.playerName.begin(), item.playerName.end(), L' ', L'_');
 
@@ -54,19 +55,19 @@ namespace ArkanoidGame
         return false;
     }
 
-    bool DeserializeAndLoadLeaderboard(Leaderboard& leaderboard)
+    bool Leaderboard::DeserializeAndLoad()
     {
         std::wifstream file(LEADERBOARD_FILE_PATH);
 
         if (file.is_open())
         {
-            leaderboard.array.clear();
-            LeaderboardItem tmpItem;
+            _array.clear();
+            Item tmpItem;
 
             while (file >> tmpItem.playerName >> tmpItem.score)
             {
                 std::replace(tmpItem.playerName.begin(), tmpItem.playerName.end(), L'_', L' ');
-                leaderboard.array.push_back(tmpItem);
+                _array.push_back(tmpItem);
             }
 
             file.close();
@@ -76,10 +77,10 @@ namespace ArkanoidGame
         return false;
     }
 
-    bool ClearLeaderboard(Game& game)
+    bool Leaderboard::Clear(LeaderboardMenu& leaderboardMenu)
     {
-        game.leaderboard.array.clear();
-        game.gui.leaderboardMenu.GetLeaderboard().clear();
+        _array.clear();
+        leaderboardMenu.GetLeaderboard().clear();
 
         std::wofstream file(LEADERBOARD_FILE_PATH, std::ios::out | std::ios::trunc);
 

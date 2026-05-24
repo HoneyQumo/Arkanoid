@@ -53,7 +53,7 @@ namespace ArkanoidGame
         assets.music.setPlayingOffset(sf::seconds(0.f));
         assets.music.setLoop(true);
 
-        if (settings.states[SettingsType::Music])
+        if (settings.GetState(Settings::Type::Music))
         {
             assets.music.play();
         }
@@ -93,7 +93,7 @@ namespace ArkanoidGame
 
         difficulty.SetDifficultyLevel(DifficultyLevel::Type::Medium);
 
-        DeserializeAndLoadLeaderboard(leaderboard);
+        leaderboard.DeserializeAndLoad();
 
         Reset(game);
     }

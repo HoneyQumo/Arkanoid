@@ -19,13 +19,13 @@ namespace ArkanoidGame
     private:
         sf::Text _heading;
 
-        std::map<SettingsType, MenuOption> _options = {
-            {SettingsType::Sound, {L"Звук", {}}},
-            {SettingsType::Music, {L"Музыка", {}}},
-            {SettingsType::ResetLeaderboard, {L"Сбросить рекорды", {}}},
+        std::map<Settings::Type, MenuOption> _options = {
+            {Settings::Type::Sound, {L"Звук", {}}},
+            {Settings::Type::Music, {L"Музыка", {}}},
+            {Settings::Type::ResetLeaderboard, {L"Сбросить рекорды", {}}},
         };
 
-        SettingsType _selectedOptionKey = SettingsType::Sound;
+        Settings::Type _selectedOptionKey = Settings::Type::Sound;
 
         void OptionSelectHandler(Game& game) const;
     };

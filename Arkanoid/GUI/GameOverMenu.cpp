@@ -12,7 +12,7 @@ namespace ArkanoidGame
     void GameOverMenu::UpdateLeaderboard(const Game& game)
     {
         _leaderboard.clear();
-        const auto& leaderboard = GetSortedLeaderboard(game.leaderboard.array);
+        const auto& leaderboard = game.leaderboard.GetSorted();
 
         for (unsigned i = 0; i < std::min(5, static_cast<const int&>(leaderboard.size())); ++i)
         {

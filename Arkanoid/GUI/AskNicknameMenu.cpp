@@ -56,9 +56,9 @@ namespace ArkanoidGame
             if (event.key.code == sf::Keyboard::Enter)
             {
                 game.assets.menuSelect.play();
-                AddItemToLeaderboard(game);
+                game.leaderboard.Add(game);
                 game.gui.gameOverMenu.UpdateLeaderboard(game);
-                SerializeAndSaveGame(game.leaderboard);
+                game.leaderboard.SerializeAndSaveGame();
                 game.PopState();
             }
             else if (event.key.code == sf::Keyboard::Up)

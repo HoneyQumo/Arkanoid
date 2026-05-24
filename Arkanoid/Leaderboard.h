@@ -4,22 +4,27 @@
 
 namespace ArkanoidGame
 {
-    struct LeaderboardItem
-    {
-        std::wstring playerName;
-        unsigned score;
-    };
-
-    struct Leaderboard
-    {
-        std::vector<LeaderboardItem> array;
-    };
-
     class Game;
-    void AddItemToLeaderboard(Game& game);
-    std::vector<LeaderboardItem> GetSortedLeaderboard(std::vector<LeaderboardItem> leaderboard);
+    class LeaderboardMenu;
 
-    bool SerializeAndSaveGame(const Leaderboard& leaderboard);
-    bool DeserializeAndLoadLeaderboard(Leaderboard& leaderboard);
-    bool ClearLeaderboard(Game& game);
+    class Leaderboard
+    {
+    public:
+        struct Item
+        {
+            std::wstring playerName;
+            unsigned score;
+        };
+
+        void Add(Game& game);
+        std::vector<Item> GetSorted() const;
+
+        bool SerializeAndSaveGame() const;
+        bool DeserializeAndLoad();
+
+        bool Clear(LeaderboardMenu& leaderboardMenu);
+
+    private:
+        std::vector<Item> _array;
+    };
 }

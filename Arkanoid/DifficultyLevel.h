@@ -32,10 +32,10 @@ namespace ArkanoidGame
     private:
         ConfigMap _config = {
             {Type::Easy, {SCREEN_WIDTH * .2f, 2}},
-            {Type::EasyMedium, {SCREEN_WIDTH * .3f, 4}},
-            {Type::Medium, {SCREEN_WIDTH * .4f, 6}},
-            {Type::MediumHard, {SCREEN_WIDTH * .5f, 8}},
-            {Type::Hard, {SCREEN_WIDTH * .6f, 10}},
+            {Type::EasyMedium, {SCREEN_WIDTH * .4f, 4}},
+            {Type::Medium, {SCREEN_WIDTH * .6f, 6}},
+            {Type::MediumHard, {SCREEN_WIDTH * .8f, 8}},
+            {Type::Hard, {SCREEN_WIDTH * 1.f, 10}},
         };
         Type _type = Type::Medium;
         Values _value = _config.at(_type);

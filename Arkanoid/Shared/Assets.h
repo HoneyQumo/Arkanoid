@@ -4,8 +4,9 @@
 
 namespace ArkanoidGame
 {
-    struct Assets
+    class Assets
     {
+    public:
         sf::Font font;
 
         sf::SoundBuffer musicBuffer,

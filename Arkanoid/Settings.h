@@ -3,19 +3,22 @@
 
 namespace ArkanoidGame
 {
-    enum class SettingsType
+    class Settings
     {
-        Sound = 0,
-        Music,
-        ResetLeaderboard,
-    };
+    public:
+        enum class Type
+        {
+            Sound = 0,
+            Music,
+            ResetLeaderboard,
+        };
 
-
-    struct Settings
-    {
-        std::map<SettingsType, bool> states = {
-            {SettingsType::Sound, true},
-            {SettingsType::Music, true},
+        bool& GetState(const Type type);
+        
+    private:
+        std::map<Type, bool> _states = {
+            {Type::Sound, true},
+            {Type::Music, true},
         };
     };
 }

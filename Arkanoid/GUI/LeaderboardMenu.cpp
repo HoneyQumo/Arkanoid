@@ -5,7 +5,7 @@ namespace ArkanoidGame
     void LeaderboardMenu::UpdateLeaderboard(const Game& game)
     {
         _leaderboard.clear();
-        const auto& leaderboard = GetSortedLeaderboard(game.leaderboard.array);
+        const auto& leaderboard = game.leaderboard.GetSorted();
 
         for (unsigned i = 0; i < leaderboard.size(); ++i)
         {
@@ -20,7 +20,7 @@ namespace ArkanoidGame
         }
     }
 
-    void LeaderboardMenu::Init(Game& game)
+    void LeaderboardMenu::Init(const Game& game)
     {
         InitText(_heading, L"..::Таблица рекордов::..", game.assets.font, TEXT_HEADING_1);
         _heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
