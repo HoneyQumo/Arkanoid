@@ -94,6 +94,7 @@ namespace ArkanoidGame
         _velocity = {speed * hit, -speed};
     }
 
+    /* Todo: Криво рассчитываются углы отскока от стенок */
     void Ball::BounceOffWall(const float speed)
     {
         const auto& position = _shape.getPosition();
