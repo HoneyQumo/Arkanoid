@@ -52,7 +52,7 @@ namespace ArkanoidGame
                             _window.close();
                             break;
                         case Game::State::Playing:
-                            _game.GUI.pauseMenu.Reset();
+                            _game.gui.pauseMenu.Reset();
                             _game.PushState(Game::State::Pause);
                             break;
                         case Game::State::Pause:
@@ -76,7 +76,7 @@ namespace ArkanoidGame
                         switch (gameState)
                         {
                         case Game::State::Playing:
-                            _game.GUI.pauseMenu.Reset();
+                            _game.gui.pauseMenu.Reset();
                             _game.PushState(Game::State::Pause);
                             break;
                         case Game::State::Pause:
@@ -94,22 +94,22 @@ namespace ArkanoidGame
                 case Game::State::Playing:
                     break;
                 case Game::State::GameOver:
-                    _game.GUI.gameOverMenu.KeyboardHandler(event, _game);
+                    _game.gui.gameOverMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::AskNickname:
-                    _game.GUI.askNicknameMenu.KeyboardHandler(event, _game);
+                    _game.gui.askNicknameMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::Pause:
-                    _game.GUI.pauseMenu.KeyboardHandler(event, _game);
+                    _game.gui.pauseMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::MainMenu:
-                    _game.GUI.mainMenu.KeyboardHandler(_window, event, _game);
+                    _game.gui.mainMenu.KeyboardHandler(_window, event, _game);
                     break;
                 case Game::State::DifficultyLevel:
-                    _game.GUI.difficultyLevelMenu.KeyboardHandler(event, _game);
+                    _game.gui.difficultyLevelMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::Settings:
-                    _game.GUI.settingsMenu.KeyboardHandler(event, _game);
+                    _game.gui.settingsMenu.KeyboardHandler(event, _game);
                 case Game::State::Leaderboard:
                     break;
                 }

@@ -47,14 +47,14 @@ namespace ArkanoidGame
     {
         ResetState();
 
-        /* GUI */
-        GUI.mainMenu.InitMainMenu(game);
-        GUI.pauseMenu.Init(game);
-        GUI.difficultyLevelMenu.Init(game);
-        GUI.gameOverMenu.Init(game);
-        GUI.leaderboardMenu.Init(game);
-        GUI.askNicknameMenu.Init(game);
-        GUI.settingsMenu.Init(game);
+        /* gui */
+        gui.mainMenu.InitMainMenu(game);
+        gui.pauseMenu.Init(game);
+        gui.difficultyLevelMenu.Init(game);
+        gui.gameOverMenu.Init(game);
+        gui.leaderboardMenu.Init(game);
+        gui.askNicknameMenu.Init(game);
+        gui.settingsMenu.Init(game);
 
         /* Player */
         // platform = *new Platform();
@@ -141,7 +141,7 @@ namespace ArkanoidGame
             }
 
         case State::GameOver:
-            GUI.gameOverMenu.Update(Application::Instance().GetGame());
+            gui.gameOverMenu.Update(Application::Instance().GetGame());
 
             break;
         case State::Pause:
@@ -160,7 +160,7 @@ namespace ArkanoidGame
         switch (gameState)
         {
         case State::MainMenu:
-            GUI.mainMenu.DrawMainMenu(window);
+            gui.mainMenu.DrawMainMenu(window);
 
             break;
         case State::Playing:
@@ -169,26 +169,26 @@ namespace ArkanoidGame
             break;
 
         case State::AskNickname:
-            GUI.askNicknameMenu.Draw(window);
+            gui.askNicknameMenu.Draw(window);
 
             break;
         case State::GameOver:
-            GUI.gameOverMenu.Draw(window);
+            gui.gameOverMenu.Draw(window);
 
             break;
         case State::Pause:
-            GUI.pauseMenu.Draw(window);
+            gui.pauseMenu.Draw(window);
 
             break;
         case State::DifficultyLevel:
-            GUI.difficultyLevelMenu.Draw(window);
+            gui.difficultyLevelMenu.Draw(window);
 
             break;
         case State::Settings:
-            GUI.settingsMenu.Draw(window);
+            gui.settingsMenu.Draw(window);
             break;
         case State::Leaderboard:
-            GUI.leaderboardMenu.Draw(window);
+            gui.leaderboardMenu.Draw(window);
             break;
         }
     }

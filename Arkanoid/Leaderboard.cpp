@@ -7,7 +7,7 @@ namespace ArkanoidGame
 {
     void AddItemToLeaderboard(Game& game)
     {
-        const auto& nicknameInput = game.GUI.askNicknameMenu.GetNicknameInput();
+        const auto& nicknameInput = game.gui.askNicknameMenu.GetNicknameInput();
         const auto playerName = nicknameInput.isEmpty() ? L"XYZ" : nicknameInput.toWideString();
 
         auto& leaderboard = game.leaderboard.array;
@@ -79,7 +79,7 @@ namespace ArkanoidGame
     bool ClearLeaderboard(Game& game)
     {
         game.leaderboard.array.clear();
-        game.GUI.leaderboardMenu.GetLeaderboard().clear();
+        game.gui.leaderboardMenu.GetLeaderboard().clear();
 
         std::wofstream file(LEADERBOARD_FILE_PATH, std::ios::out | std::ios::trunc);
 

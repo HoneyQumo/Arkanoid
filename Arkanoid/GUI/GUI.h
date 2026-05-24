@@ -9,8 +9,9 @@
 
 namespace ArkanoidGame
 {
-    struct GUI
+    class GUI
     {
+    public:
         MainMenu mainMenu;
         PauseMenu pauseMenu;
         DifficultyLevelMenu difficultyLevelMenu;

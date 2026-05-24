@@ -28,7 +28,7 @@ namespace ArkanoidGame
 
         Assets assets;
 
-        GUI GUI;
+        GUI gui;
         unsigned score = 0;
         bool isWin = false;
 
