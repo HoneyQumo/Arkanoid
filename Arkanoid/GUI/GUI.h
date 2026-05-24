@@ -19,5 +19,7 @@ namespace ArkanoidGame
         LeaderboardMenu leaderboardMenu;
         AskNicknameMenu askNicknameMenu;
         SettingsMenu settingsMenu;
+
+        void Init(Game& game);
     };
 }

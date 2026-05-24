@@ -1,6 +1,5 @@
 ﻿#include <cassert>
 #include "Game.h"
-
 #include "Application.h"
 
 namespace ArkanoidGame
@@ -48,16 +47,7 @@ namespace ArkanoidGame
         ResetState();
 
         /* gui */
-        gui.mainMenu.InitMainMenu(game);
-        gui.pauseMenu.Init(game);
-        gui.difficultyLevelMenu.Init(game);
-        gui.gameOverMenu.Init(game);
-        gui.leaderboardMenu.Init(game);
-        gui.askNicknameMenu.Init(game);
-        gui.settingsMenu.Init(game);
-
-        /* Player */
-        // platform = *new Platform();
+        gui.Init(game);
 
         /* Sounds */
         assets.music.setPlayingOffset(sf::seconds(0.f));
