@@ -14,7 +14,6 @@ namespace ArkanoidGame
         void Init(Game& game);
         void Draw(sf::RenderWindow& window) const;
 
-        void OptionSelectHandler(Game& game) const;
         void KeyboardHandler(const sf::Event& event, Game& game);
 
     private:
@@ -27,5 +26,7 @@ namespace ArkanoidGame
         };
 
         SettingsType _selectedOptionKey = SettingsType::Sound;
+
+        void OptionSelectHandler(Game& game) const;
     };
 }

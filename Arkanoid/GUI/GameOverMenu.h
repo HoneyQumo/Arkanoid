@@ -16,7 +16,6 @@ namespace ArkanoidGame
         void Update(const Game& game);
         void Draw(sf::RenderWindow& window) const;
 
-        void OptionSelectHandler(Game& game) const;
         void KeyboardHandler(const sf::Event& event, Game& game);
 
     private:
@@ -38,5 +37,7 @@ namespace ArkanoidGame
         };
 
         OptionKey _selectedOptionKey = OptionKey::StartGame;
+
+        void OptionSelectHandler(Game& game) const;
     };
 }
