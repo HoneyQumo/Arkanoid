@@ -94,7 +94,7 @@ namespace ArkanoidGame
                 case Game::State::Playing:
                     break;
                 case Game::State::GameOver:
-                    GameOverMenuKeyboardHandler(event, _game);
+                    _game.GUI.gameOverMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::AskNickname:
                     _game.GUI.askNicknameMenu.KeyboardHandler(event, _game);

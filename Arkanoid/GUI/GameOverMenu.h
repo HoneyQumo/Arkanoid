@@ -4,35 +4,39 @@
 
 namespace ArkanoidGame
 {
-    enum class GameOverMenuOptionKey
+    class Game;
+
+    class GameOverMenu
     {
-        StartGame = 0,
-        ExitToMainMenu
-    };
+    public:
+        void Reset();
 
-    struct GameOverMenu
-    {
-        sf::Text heading;
-        sf::Text scoreTitle;
+        void UpdateLeaderboard(Game& game);
+        void Init(Game& game);
+        void Update(const Game& game);
+        void Draw(sf::RenderWindow& window) const;
 
-        sf::Text recordsTitle;
-        std::vector<sf::Text> leaderboard;
+        void OptionSelectHandler(Game& game) const;
+        void KeyboardHandler(const sf::Event& event, Game& game);
 
-        std::map<GameOverMenuOptionKey, MenuOption> options = {
-            {GameOverMenuOptionKey::StartGame, {L"Начать игру", {}}},
-            {GameOverMenuOptionKey::ExitToMainMenu, {L"В главное меню", {}}},
+    private:
+        enum class OptionKey
+        {
+            StartGame = 0,
+            ExitToMainMenu
         };
 
-        GameOverMenuOptionKey selectedOptionKey = GameOverMenuOptionKey::StartGame;
+        sf::Text _heading;
+        sf::Text _scoreTitle;
+
+        sf::Text _recordsTitle;
+        std::vector<sf::Text> _leaderboard;
+
+        std::map<OptionKey, MenuOption> _options = {
+            {OptionKey::StartGame, {L"Начать игру", {}}},
+            {OptionKey::ExitToMainMenu, {L"В главное меню", {}}},
+        };
+
+        OptionKey _selectedOptionKey = OptionKey::StartGame;
     };
-
-    void ResetGameOverMenu(GameOverMenu& gameOverMenu);
-    class Game;
-    void UpdateGameOverLeaderboard(Game& game);
-    void InitGameOverMenu(Game& game);
-    void UpdateGameOverMenu(Game& game);
-    void DrawGameOverMenu(sf::RenderWindow& window, const GameOverMenu& gameOverMenu);
-
-    void GameOverMenuOptionSelectHandler(Game& game);
-    void GameOverMenuKeyboardHandler(const sf::Event& event, Game& game);
 }
