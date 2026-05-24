@@ -13,7 +13,7 @@ namespace ArkanoidGame
             ResetLeaderboard,
         };
 
-        bool& GetState(const Type type);
+        bool& GetState(const Type& type);
         
     private:
         std::map<Type, bool> _states = {
