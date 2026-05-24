@@ -51,7 +51,7 @@ namespace ArkanoidGame
         GUI.mainMenu.InitMainMenu(game);
         GUI.pauseMenu.Init(game);
         GUI.difficultyLevelMenu.Init(game);
-        InitGameOverMenu(game);
+        GUI.gameOverMenu.Init(game);
         InitLeaderboardMenu(game);
         GUI.askNicknameMenu.Init(game);
         InitSettingsMenu(game);
@@ -141,7 +141,7 @@ namespace ArkanoidGame
             }
 
         case State::GameOver:
-            UpdateGameOverMenu(Application::Instance().GetGame());
+            GUI.gameOverMenu.Update(Application::Instance().GetGame());
 
             break;
         case State::Pause:
@@ -173,7 +173,7 @@ namespace ArkanoidGame
 
             break;
         case State::GameOver:
-            DrawGameOverMenu(window, GUI.gameOverMenu);
+            GUI.gameOverMenu.Draw(window);
 
             break;
         case State::Pause:
