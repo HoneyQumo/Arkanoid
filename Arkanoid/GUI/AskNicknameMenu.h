@@ -9,12 +9,6 @@ namespace ArkanoidGame
     class AskNicknameMenu
     {
     public:
-        enum class AskNicknameMenuOptionKey
-        {
-            Yes = 0,
-            No
-        };
-
         void Reset();
         void Init(const Game& game);
         void Draw(sf::RenderWindow& window) const;
@@ -23,17 +17,23 @@ namespace ArkanoidGame
         sf::String& GetNicknameInput();
 
     private:
+        enum class OptionKey
+        {
+            Yes = 0,
+            No
+        };
+        
         sf::Text _heading;
         sf::Text _subHeading;
 
         sf::String _nicknameInput;
         sf::Text _nicknameText;
 
-        std::map<AskNicknameMenuOptionKey, MenuOption> _options = {
-            {AskNicknameMenuOptionKey::Yes, {L"Да", {}}},
-            {AskNicknameMenuOptionKey::No, {L"Нет", {}}},
+        std::map<OptionKey, MenuOption> _options = {
+            {OptionKey::Yes, {L"Да", {}}},
+            {OptionKey::No, {L"Нет", {}}},
         };
 
-        AskNicknameMenuOptionKey _selectedOptionKey = AskNicknameMenuOptionKey::No;
+        OptionKey _selectedOptionKey = OptionKey::No;
     };
 }

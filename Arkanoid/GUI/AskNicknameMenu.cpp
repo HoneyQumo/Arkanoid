@@ -6,7 +6,7 @@ namespace ArkanoidGame
     void AskNicknameMenu::Reset()
     {
         _nicknameInput.clear();
-        SetOptionKey(_options, _selectedOptionKey, AskNicknameMenuOptionKey::Yes);
+        SetOptionKey(_options, _selectedOptionKey, OptionKey::Yes);
     }
 
     void AskNicknameMenu::Init(const Game& game)
