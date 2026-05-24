@@ -1,60 +1,56 @@
 ﻿#include "AskNicknameMenu.h"
-#include "../Game.h"
-
+#include "../Application.h"
 
 namespace ArkanoidGame
 {
-    void ResetAskNicknameMenu(AskNicknameMenu& askNicknameMenu)
+    void AskNicknameMenu::Reset()
     {
-        askNicknameMenu.nicknameInput.clear();
-        SetOptionKey(askNicknameMenu.options, askNicknameMenu.selectedOptionKey, AskNicknameMenuOptionKey::Yes);
+        _nicknameInput.clear();
+        SetOptionKey(_options, _selectedOptionKey, AskNicknameMenuOptionKey::Yes);
     }
 
-    void InitAskNicknameMenu(Game& game)
+    void AskNicknameMenu::Init(const Game& game)
     {
-        AskNicknameMenu& askNicknameMenu = game.GUI.askNicknameMenu;
-        ResetAskNicknameMenu(askNicknameMenu);
+        Reset();
 
-        InitText(askNicknameMenu.heading, std::wstring(L"..::Новый рекорд!::.."), game.assets.font);
-        askNicknameMenu.heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        askNicknameMenu.heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
+        InitText(_heading, std::wstring(L"..::Новый рекорд!::.."), game.assets.font);
+        _heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
+        _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
 
-        InitText(askNicknameMenu.subHeading, std::wstring(L"Задать имя?"), game.assets.font, TEXT_HEADING_2);
-        askNicknameMenu.subHeading.setStyle(sf::Text::Bold);
-        askNicknameMenu.subHeading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT);
+        InitText(_subHeading, std::wstring(L"Задать имя?"), game.assets.font, TEXT_HEADING_2);
+        _subHeading.setStyle(sf::Text::Bold);
+        _subHeading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT);
 
-        InitText(askNicknameMenu.nicknameText, std::wstring(INPUT_PLACEHOLDER), game.assets.font, TEXT_HEADING_1, sf::Color(50, 50, 50));
-        askNicknameMenu.nicknameText.setStyle(sf::Text::Italic);
-        askNicknameMenu.nicknameText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f);
+        InitText(_nicknameText, std::wstring(INPUT_PLACEHOLDER), game.assets.font, TEXT_HEADING_1, sf::Color(50, 50, 50));
+        _nicknameText.setStyle(sf::Text::Italic);
+        _nicknameText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f);
 
         int index = 0;
-        for (auto& option : askNicknameMenu.options)
+        for (auto& option : _options)
         {
-            const auto color = askNicknameMenu.selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
+            const auto color = _selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
             InitText(option.second.textNode, option.second.title, game.assets.font, TEXT_MENU_ITEM, color);
-            option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - OFFSET_TOP_WINDOW_10_PERCENT - (askNicknameMenu.options.size() - index) * 30.f);
+            option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - OFFSET_TOP_WINDOW_10_PERCENT - (_options.size() - index) * 30.f);
             index++;
         }
     }
 
 
-    void DrawAskNicknameMenu(sf::RenderWindow& window, const AskNicknameMenu& askNicknameMenu)
+    void AskNicknameMenu::Draw(sf::RenderWindow& window) const
     {
-        window.draw(askNicknameMenu.heading);
-        window.draw(askNicknameMenu.subHeading);
-        window.draw(askNicknameMenu.nicknameText);
+        window.draw(_heading);
+        window.draw(_subHeading);
+        window.draw(_nicknameText);
 
-        for (const auto& option : askNicknameMenu.options)
+        for (const auto& option : _options)
         {
             window.draw(option.second.textNode);
         }
     }
 
 
-    void AskNicknameMenuKeyboardHandler(const sf::Event& event, Game& game)
+    void AskNicknameMenu::KeyboardHandler(const sf::Event& event, Game& game)
     {
-        auto& askNicknameMenu = game.GUI.askNicknameMenu;
-
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Enter)
@@ -68,49 +64,54 @@ namespace ArkanoidGame
             else if (event.key.code == sf::Keyboard::Up)
             {
                 game.assets.menuToggle.play();
-                MenuToggleOption(askNicknameMenu.options, askNicknameMenu.selectedOptionKey, DirectionVertical::Up);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
                 game.assets.menuToggle.play();
-                MenuToggleOption(askNicknameMenu.options, askNicknameMenu.selectedOptionKey, DirectionVertical::Down);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
             }
         }
 
         if (event.type == sf::Event::TextEntered)
         {
-            if (askNicknameMenu.nicknameInput == INPUT_PLACEHOLDER)
+            if (_nicknameInput == INPUT_PLACEHOLDER)
             {
-                askNicknameMenu.nicknameInput.clear();
+                _nicknameInput.clear();
             }
 
             if (event.text.unicode == 8)
             {
-                if (!askNicknameMenu.nicknameInput.isEmpty())
+                if (!_nicknameInput.isEmpty())
                 {
-                    askNicknameMenu.nicknameInput.erase(askNicknameMenu.nicknameInput.getSize() - 1);
+                    _nicknameInput.erase(_nicknameInput.getSize() - 1);
                 }
             }
             else if (event.text.unicode < 128 || (event.text.unicode >= 1024 && event.text.unicode <= 1279))
             {
-                if (askNicknameMenu.nicknameInput.getSize() < 20)
+                if (_nicknameInput.getSize() < 20)
                 {
-                    askNicknameMenu.nicknameInput += event.text.unicode;
+                    _nicknameInput += event.text.unicode;
                 }
             }
 
-            if (askNicknameMenu.nicknameInput.isEmpty())
+            if (_nicknameInput.isEmpty())
             {
-                askNicknameMenu.nicknameInput = INPUT_PLACEHOLDER;
-                askNicknameMenu.nicknameText.setFillColor(sf::Color(50, 50, 50));
+                _nicknameInput = INPUT_PLACEHOLDER;
+                _nicknameText.setFillColor(sf::Color(50, 50, 50));
             }
             else
             {
-                askNicknameMenu.nicknameText.setFillColor(sf::Color::White);
+                _nicknameText.setFillColor(sf::Color::White);
             }
 
-            askNicknameMenu.nicknameText.setString(askNicknameMenu.nicknameInput.toWideString());
-            askNicknameMenu.nicknameText.setOrigin(GetTextOrigin(askNicknameMenu.nicknameText, {0.5f, 0.5f}));
+            _nicknameText.setString(_nicknameInput.toWideString());
+            _nicknameText.setOrigin(GetTextOrigin(_nicknameText, {0.5f, 0.5f}));
         }
+    }
+
+    sf::String& AskNicknameMenu::GetNicknameInput()
+    {
+        return _nicknameInput;
     }
 }

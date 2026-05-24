@@ -53,7 +53,7 @@ namespace ArkanoidGame
         InitDifficultyLevelMenu(game);
         InitGameOverMenu(game);
         InitLeaderboardMenu(game);
-        InitAskNicknameMenu(game);
+        GUI.askNicknameMenu.Init(game);
         InitSettingsMenu(game);
 
         /* Player */
@@ -169,7 +169,7 @@ namespace ArkanoidGame
             break;
 
         case State::AskNickname:
-            DrawAskNicknameMenu(window, GUI.askNicknameMenu);
+            GUI.askNicknameMenu.Draw(window);
 
             break;
         case State::GameOver:

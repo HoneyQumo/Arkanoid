@@ -16,7 +16,7 @@ namespace ArkanoidGame
 
     // Application::~Application()
     // {
-        // ShutdownGame();
+    // ShutdownGame();
     // }
 
     void Application::Run()
@@ -97,7 +97,7 @@ namespace ArkanoidGame
                     GameOverMenuKeyboardHandler(event, _game);
                     break;
                 case Game::State::AskNickname:
-                    AskNicknameMenuKeyboardHandler(event, _game);
+                    _game.GUI.askNicknameMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::Pause:
                     PauseMenuKeyboardHandler(event, _game);

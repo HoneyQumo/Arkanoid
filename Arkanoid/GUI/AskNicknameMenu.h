@@ -4,33 +4,36 @@
 
 namespace ArkanoidGame
 {
-    enum class AskNicknameMenuOptionKey
+    class Game;
+
+    class AskNicknameMenu
     {
-        Yes = 0,
-        No
-    };
+    public:
+        enum class AskNicknameMenuOptionKey
+        {
+            Yes = 0,
+            No
+        };
 
-    struct AskNicknameMenu
-    {
-        sf::Text heading;
-        sf::Text subHeading;
+        void Reset();
+        void Init(const Game& game);
+        void Draw(sf::RenderWindow& window) const;
+        void KeyboardHandler(const sf::Event& event, Game& game);
+        
+        sf::String& GetNicknameInput();
 
-        sf::String nicknameInput;
-        sf::Text nicknameText;
+    private:
+        sf::Text _heading;
+        sf::Text _subHeading;
 
+        sf::String _nicknameInput;
+        sf::Text _nicknameText;
 
-        std::map<AskNicknameMenuOptionKey, MenuOption> options = {
+        std::map<AskNicknameMenuOptionKey, MenuOption> _options = {
             {AskNicknameMenuOptionKey::Yes, {L"Да", {}}},
             {AskNicknameMenuOptionKey::No, {L"Нет", {}}},
         };
 
-        AskNicknameMenuOptionKey selectedOptionKey = AskNicknameMenuOptionKey::No;
+        AskNicknameMenuOptionKey _selectedOptionKey = AskNicknameMenuOptionKey::No;
     };
-
-    void ResetAskNicknameMenu(AskNicknameMenu& askNicknameMenu);
-    class Game;
-    void InitAskNicknameMenu(Game& game);
-    void DrawAskNicknameMenu(sf::RenderWindow& window, const AskNicknameMenu& askNicknameMenu);
-
-    void AskNicknameMenuKeyboardHandler(const sf::Event& event, Game& game);
 }

@@ -7,7 +7,8 @@ namespace ArkanoidGame
 {
     void AddItemToLeaderboard(Game& game)
     {
-        const auto playerName = game.GUI.askNicknameMenu.nicknameInput.isEmpty() ? L"XYZ" : game.GUI.askNicknameMenu.nicknameInput.toWideString();
+        const auto& nicknameInput = game.GUI.askNicknameMenu.GetNicknameInput();
+        const auto playerName = nicknameInput.isEmpty() ? L"XYZ" : nicknameInput.toWideString();
 
         auto& leaderboard = game.leaderboard.array;
         leaderboard.push_back({playerName, game.score});
