@@ -28,15 +28,30 @@ namespace ArkanoidGame
 
     void Platform::Control(Ball& ball, const float dt)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
         {
             const auto position = _shape.getPosition();
-            _shape.setPosition(position.x + (dt * PLATFORM_SPEED), position.y);
+            float mousePositionX = static_cast<float>(sf::Mouse::getPosition(Application::Instance().GetWindow()).x);
+
+            const auto platformHalfW = _shape.getSize().x / 2.f;
+
+            if (mousePositionX - platformHalfW < 0.f) mousePositionX = platformHalfW;
+            else if (mousePositionX + platformHalfW > static_cast<float>(SCREEN_WIDTH)) mousePositionX = static_cast<float>(SCREEN_WIDTH) - platformHalfW;
+
+            _shape.setPosition(mousePositionX, position.y);
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        else
         {
-            const auto position = _shape.getPosition();
-            _shape.setPosition(position.x - (dt * PLATFORM_SPEED), position.y);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+                const auto position = _shape.getPosition();
+                _shape.setPosition(position.x + (dt * PLATFORM_SPEED), position.y);
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            {
+                const auto position = _shape.getPosition();
+                _shape.setPosition(position.x - (dt * PLATFORM_SPEED), position.y);
+            }
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

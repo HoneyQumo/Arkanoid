@@ -16,6 +16,7 @@ namespace ArkanoidGame
         void Run();
 
         Game& GetGame() { return _game; }
+        sf::RenderWindow& GetWindow() { return _window; }
 
     private:
         Application();
