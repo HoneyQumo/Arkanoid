@@ -79,7 +79,7 @@ namespace ArkanoidGame
     bool ClearLeaderboard(Game& game)
     {
         game.leaderboard.array.clear();
-        game.GUI.leaderboardMenu.leaderboard.clear();
+        game.GUI.leaderboardMenu.GetLeaderboard().clear();
 
         std::wofstream file(LEADERBOARD_FILE_PATH, std::ios::out | std::ios::trunc);
 

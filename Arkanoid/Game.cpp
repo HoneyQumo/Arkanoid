@@ -52,7 +52,7 @@ namespace ArkanoidGame
         GUI.pauseMenu.Init(game);
         GUI.difficultyLevelMenu.Init(game);
         GUI.gameOverMenu.Init(game);
-        InitLeaderboardMenu(game);
+        GUI.leaderboardMenu.Init(game);
         GUI.askNicknameMenu.Init(game);
         InitSettingsMenu(game);
 
@@ -188,7 +188,7 @@ namespace ArkanoidGame
             DrawSettingsMenu(window, GUI.settingsMenu);
             break;
         case State::Leaderboard:
-            DrawLeaderboardMenu(window, GUI.leaderboardMenu);
+            GUI.leaderboardMenu.Draw(window);
             break;
         }
     }

@@ -73,7 +73,7 @@ namespace ArkanoidGame
             game.PushState(Game::State::DifficultyLevel);
             break;
         case MainMenuOptionKey::Leaderboard:
-            UpdateLeaderboardInLeaderboardMenu(Application::Instance().GetGame());
+            game.GUI.leaderboardMenu.UpdateLeaderboard(Application::Instance().GetGame());
             game.PushState(Game::State::Leaderboard);
             break;
         case MainMenuOptionKey::Settings:

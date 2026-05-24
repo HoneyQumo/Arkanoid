@@ -2,9 +2,9 @@
 
 namespace ArkanoidGame
 {
-    void UpdateLeaderboardInLeaderboardMenu(Game& game)
+    void LeaderboardMenu::UpdateLeaderboard(const Game& game)
     {
-        game.GUI.leaderboardMenu.leaderboard.clear();
+        _leaderboard.clear();
         const auto& leaderboard = GetSortedLeaderboard(game.leaderboard.array);
 
         for (unsigned i = 0; i < leaderboard.size(); ++i)
@@ -16,28 +16,31 @@ namespace ArkanoidGame
             InitText(tmpItem, text, game.assets.font, TEXT_HEADING_3, sf::Color::White, {0.f, 0.5f});
             tmpItem.setPosition(SCREEN_WIDTH / 2.f - 120.f, (OFFSET_TOP_WINDOW_20_PERCENT) + (i * 40.f));
 
-            game.GUI.leaderboardMenu.leaderboard.push_back(tmpItem);
+            _leaderboard.push_back(tmpItem);
         }
     }
 
-    void InitLeaderboardMenu(Game& game)
+    void LeaderboardMenu::Init(Game& game)
     {
-        LeaderboardMenu& leaderboardMenu = game.GUI.leaderboardMenu;
+        InitText(_heading, L"..::Таблица рекордов::..", game.assets.font, TEXT_HEADING_1);
+        _heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
+        _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
 
-        InitText(leaderboardMenu.heading, L"..::Таблица рекордов::..", game.assets.font, TEXT_HEADING_1);
-        leaderboardMenu.heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        leaderboardMenu.heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
-
-        UpdateLeaderboardInLeaderboardMenu(game);
+        UpdateLeaderboard(game);
     }
 
-    void DrawLeaderboardMenu(sf::RenderWindow& window, const LeaderboardMenu& leaderboardMenu)
+    void LeaderboardMenu::Draw(sf::RenderWindow& window) const
     {
-        window.draw(leaderboardMenu.heading);
+        window.draw(_heading);
 
-        for (auto& item : leaderboardMenu.leaderboard)
+        for (auto& item : _leaderboard)
         {
             window.draw(item);
         }
+    }
+
+    std::vector<sf::Text>& LeaderboardMenu::GetLeaderboard()
+    {
+        return _leaderboard;
     }
 }

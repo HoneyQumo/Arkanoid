@@ -3,14 +3,19 @@
 
 namespace ArkanoidGame
 {
-    struct LeaderboardMenu
-    {
-        sf::Text heading;
-        std::vector<sf::Text> leaderboard;
-    };
-
     class Game;
-    void UpdateLeaderboardInLeaderboardMenu(Game& game);
-    void InitLeaderboardMenu(Game& game);
-    void DrawLeaderboardMenu(sf::RenderWindow& window, const LeaderboardMenu& leaderboardMenu);
+
+    class LeaderboardMenu
+    {
+    public:
+        void UpdateLeaderboard(const Game& game);
+        void Init(Game& game);
+        void Draw(sf::RenderWindow& window) const;
+
+        std::vector<sf::Text>& GetLeaderboard();
+
+    private:
+        sf::Text _heading;
+        std::vector<sf::Text> _leaderboard;
+    };
 }
