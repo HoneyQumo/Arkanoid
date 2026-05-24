@@ -3,24 +3,23 @@
 
 namespace ArkanoidGame
 {
-    void ResetSettingsMenu(SettingsMenu& settingsMenu)
+    void SettingsMenu::Reset()
     {
-        SetOptionKey(settingsMenu.options, settingsMenu.selectedOptionKey, SettingsType::Sound);
+        SetOptionKey(_options, _selectedOptionKey, SettingsType::Sound);
     }
 
-    void InitSettingsMenu(Game& game)
+    void SettingsMenu::Init(Game& game)
     {
-        auto& settingsMenu = game.GUI.settingsMenu;
-        ResetSettingsMenu(settingsMenu);
+        Reset();
 
-        InitText(settingsMenu.heading, L"..::Настройки::..", game.assets.font);
-        settingsMenu.heading.setStyle(sf::Text::Underlined);
-        settingsMenu.heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
+        InitText(_heading, L"..::Настройки::..", game.assets.font);
+        _heading.setStyle(sf::Text::Underlined);
+        _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
 
         int index = 0;
-        for (auto& option : settingsMenu.options)
+        for (auto& option : _options)
         {
-            const auto color = settingsMenu.selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
+            const auto color = _selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
             InitText(option.second.textNode, option.second.title, game.assets.font, TEXT_MENU_ITEM, color);
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT + (index * 30.f));
 
@@ -33,22 +32,22 @@ namespace ArkanoidGame
         }
     }
 
-    void DrawSettingsMenu(sf::RenderWindow& window, const SettingsMenu& settingsMenu)
+    void SettingsMenu::Draw(sf::RenderWindow& window) const
     {
-        window.draw(settingsMenu.heading);
+        window.draw(_heading);
 
-        for (const auto& option : settingsMenu.options)
+        for (const auto& option : _options)
         {
             window.draw(option.second.textNode);
         }
     }
 
-    void SettingsMenuOptionSelectHandler(Game& game)
+    void SettingsMenu::OptionSelectHandler(Game& game) const
     {
         auto& isSoundState = game.settings.states[SettingsType::Sound];
         auto& isMusicState = game.settings.states[SettingsType::Music];
 
-        switch (game.GUI.settingsMenu.selectedOptionKey)
+        switch (_selectedOptionKey)
         {
         case SettingsType::Sound:
             isSoundState = !isSoundState;
@@ -79,7 +78,7 @@ namespace ArkanoidGame
         }
     }
 
-    void SettingsMenuKeyboardHandler(const sf::Event& event, Game& game)
+    void SettingsMenu::KeyboardHandler(const sf::Event& event, Game& game)
     {
         if (event.type == sf::Event::KeyPressed)
         {
@@ -87,9 +86,9 @@ namespace ArkanoidGame
             {
                 game.assets.menuSelect.play();
 
-                for (auto& option : game.GUI.settingsMenu.options)
+                for (auto& option : _options)
                 {
-                    if (option.first != SettingsType::ResetLeaderboard && option.first == game.GUI.settingsMenu.selectedOptionKey)
+                    if (option.first != SettingsType::ResetLeaderboard && option.first == _selectedOptionKey)
                     {
                         const auto& style = option.second.textNode.getStyle();
                         option.second.textNode.setStyle(style == sf::Text::Underlined ? sf::Text::Regular : sf::Text::Underlined);
@@ -97,17 +96,17 @@ namespace ArkanoidGame
                     }
                 }
 
-                SettingsMenuOptionSelectHandler(game);
+                OptionSelectHandler(game);
             }
             else if (event.key.code == sf::Keyboard::Up)
             {
                 game.assets.menuToggle.play();
-                MenuToggleOption(game.GUI.settingsMenu.options, game.GUI.settingsMenu.selectedOptionKey, DirectionVertical::Up);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
                 game.assets.menuToggle.play();
-                MenuToggleOption(game.GUI.settingsMenu.options, game.GUI.settingsMenu.selectedOptionKey, DirectionVertical::Down);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
             }
         }
     }

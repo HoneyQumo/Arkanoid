@@ -6,24 +6,27 @@
 
 namespace ArkanoidGame
 {
-    struct SettingsMenu
-    {
-        sf::Text heading;
+    class Game;
 
-        std::map<SettingsType, MenuOption> options = {
+    class SettingsMenu
+    {
+    public:
+        void Reset();
+        void Init(Game& game);
+        void Draw(sf::RenderWindow& window) const;
+
+        void OptionSelectHandler(Game& game) const;
+        void KeyboardHandler(const sf::Event& event, Game& game);
+
+    private:
+        sf::Text _heading;
+
+        std::map<SettingsType, MenuOption> _options = {
             {SettingsType::Sound, {L"Звук", {}}},
             {SettingsType::Music, {L"Музыка", {}}},
             {SettingsType::ResetLeaderboard, {L"Сбросить рекорды", {}}},
         };
 
-        SettingsType selectedOptionKey = SettingsType::Sound;
+        SettingsType _selectedOptionKey = SettingsType::Sound;
     };
-
-    class Game;
-    void ResetSettingsMenu(SettingsMenu& settingsMenu);
-    void InitSettingsMenu(Game& game);
-    void DrawSettingsMenu(sf::RenderWindow& window, const SettingsMenu& settingsMenu);
-
-    void SettingsMenuOptionSelectHandler(Game& game);
-    void SettingsMenuKeyboardHandler(const sf::Event& event, Game& game);
 }

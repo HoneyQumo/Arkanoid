@@ -54,7 +54,7 @@ namespace ArkanoidGame
         GUI.gameOverMenu.Init(game);
         GUI.leaderboardMenu.Init(game);
         GUI.askNicknameMenu.Init(game);
-        InitSettingsMenu(game);
+        GUI.settingsMenu.Init(game);
 
         /* Player */
         // platform = *new Platform();
@@ -185,7 +185,7 @@ namespace ArkanoidGame
 
             break;
         case State::Settings:
-            DrawSettingsMenu(window, GUI.settingsMenu);
+            GUI.settingsMenu.Draw(window);
             break;
         case State::Leaderboard:
             GUI.leaderboardMenu.Draw(window);
