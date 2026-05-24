@@ -52,7 +52,7 @@ namespace ArkanoidGame
                             _window.close();
                             break;
                         case Game::State::Playing:
-                            ResetPauseMenu(_game.GUI.pauseMenu);
+                            _game.GUI.pauseMenu.Reset();
                             _game.PushState(Game::State::Pause);
                             break;
                         case Game::State::Pause:
@@ -76,7 +76,7 @@ namespace ArkanoidGame
                         switch (gameState)
                         {
                         case Game::State::Playing:
-                            ResetPauseMenu(_game.GUI.pauseMenu);
+                            _game.GUI.pauseMenu.Reset();
                             _game.PushState(Game::State::Pause);
                             break;
                         case Game::State::Pause:
@@ -100,7 +100,7 @@ namespace ArkanoidGame
                     _game.GUI.askNicknameMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::Pause:
-                    PauseMenuKeyboardHandler(event, _game);
+                    _game.GUI.pauseMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::MainMenu:
                     _game.GUI.mainMenu.KeyboardHandler(_window, event, _game);

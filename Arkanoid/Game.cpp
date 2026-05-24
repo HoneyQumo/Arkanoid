@@ -49,7 +49,7 @@ namespace ArkanoidGame
 
         /* GUI */
         GUI.mainMenu.InitMainMenu(game);
-        InitPauseMenu(game);
+        GUI.pauseMenu.Init(game);
         InitDifficultyLevelMenu(game);
         InitGameOverMenu(game);
         InitLeaderboardMenu(game);
@@ -177,7 +177,7 @@ namespace ArkanoidGame
 
             break;
         case State::Pause:
-            DrawPauseMenu(window, GUI.pauseMenu);
+            GUI.pauseMenu.Draw(window);
 
             break;
         case State::DifficultyLevel:

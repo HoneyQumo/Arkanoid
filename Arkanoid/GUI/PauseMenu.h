@@ -5,29 +5,32 @@
 
 namespace ArkanoidGame
 {
-    enum class PauseMenuOptionKey
-    {
-        Continue = 0,
-        Exit,
-    };
+    class Game;
 
-    struct PauseMenu
+    class PauseMenu
     {
-        sf::Text heading;
-
-        std::map<PauseMenuOptionKey, MenuOption> options = {
-            {PauseMenuOptionKey::Continue, {L"Продолжить", {}}},
-            {PauseMenuOptionKey::Exit, {L"Выйти в меню", {}}},
+    public:
+        enum class OptionKey
+        {
+            Continue = 0,
+            Exit,
         };
 
-        PauseMenuOptionKey selectedOptionKey = PauseMenuOptionKey::Continue;
+        void Reset();
+        void Init(const Game& game);
+        void Draw(sf::RenderWindow& window) const;
+
+        void OptionSelectHandler(Game& game) const;
+        void KeyboardHandler(const sf::Event& event, Game& game);
+
+    private:
+        sf::Text _heading;
+
+        std::map<OptionKey, MenuOption> _options = {
+            {OptionKey::Continue, {L"Продолжить", {}}},
+            {OptionKey::Exit, {L"Выйти в меню", {}}},
+        };
+
+        OptionKey _selectedOptionKey = OptionKey::Continue;
     };
-
-    class Game;
-    void ResetPauseMenu(PauseMenu& pauseMenu);
-    void InitPauseMenu(Game& game);
-    void DrawPauseMenu(sf::RenderWindow& window, const PauseMenu& pauseMenu);
-
-    void PauseMenuOptionSelectHandler(Game& game);
-    void PauseMenuKeyboardHandler(const sf::Event& event, Game& game);
 }
