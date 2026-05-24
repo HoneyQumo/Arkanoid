@@ -5,11 +5,20 @@
 
 namespace ArkanoidGame
 {
-    struct DifficultyLevelMenu
-    {
-        sf::Text heading;
+    class Game;
 
-        std::map<DifficultyLevel::Type, MenuOption> options = {
+    class DifficultyLevelMenu
+    {
+    public:
+        void Reset();
+        void Init(const Game& game);
+        void Draw(sf::RenderWindow& window) const;
+        void KeyboardHandler(const sf::Event& event, Game& game);
+
+    private:
+        sf::Text _heading;
+
+        std::map<DifficultyLevel::Type, MenuOption> _options = {
             {DifficultyLevel::Type::Easy, {L"Простой", {}}},
             {DifficultyLevel::Type::EasyMedium, {L"Тяжелее простого", {}}},
             {DifficultyLevel::Type::Medium, {L"Средний", {}}},
@@ -17,13 +26,6 @@ namespace ArkanoidGame
             {DifficultyLevel::Type::Hard, {L"Тяжелый", {}}},
         };
 
-        DifficultyLevel::Type selectedOptionKey = DifficultyLevel::Type::Easy;
+        DifficultyLevel::Type _selectedOptionKey = DifficultyLevel::Type::Easy;
     };
-
-    void ResetDifficultyLevelMenu(DifficultyLevelMenu& difficultyLevelMenu);
-    class Game;
-    void InitDifficultyLevelMenu(Game& game);
-    void DrawDifficultyLevelMenu(sf::RenderWindow& window, const DifficultyLevelMenu& difficultyLevelMenu);
-
-    void DifficultyLevelMenuKeyboardHandler(const sf::Event& event, Game& game);
 }

@@ -3,24 +3,23 @@
 
 namespace ArkanoidGame
 {
-    void ResetDifficultyLevelMenu(DifficultyLevelMenu& difficultyLevelMenu)
+    void DifficultyLevelMenu::Reset()
     {
-        SetOptionKey(difficultyLevelMenu.options, difficultyLevelMenu.selectedOptionKey, DifficultyLevel::Type::Easy);
+        SetOptionKey(_options, _selectedOptionKey, DifficultyLevel::Type::Easy);
     }
 
-    void InitDifficultyLevelMenu(Game& game)
+    void DifficultyLevelMenu::Init(const Game& game)
     {
-        auto& difficultyLevelMenu = game.GUI.difficultyLevelMenu;
-        ResetDifficultyLevelMenu(difficultyLevelMenu);
+        Reset();
 
-        InitText(difficultyLevelMenu.heading, L"..::Сложность::..", game.assets.font);
-        difficultyLevelMenu.heading.setStyle(sf::Text::Underlined);
-        difficultyLevelMenu.heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
+        InitText(_heading, L"..::Сложность::..", game.assets.font);
+        _heading.setStyle(sf::Text::Underlined);
+        _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
 
         int index = 0;
-        for (auto& option : difficultyLevelMenu.options)
+        for (auto& option : _options)
         {
-            const auto color = difficultyLevelMenu.selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
+            const auto color = _selectedOptionKey == option.first ? sf::Color::Green : sf::Color::White;
             InitText(option.second.textNode, option.second.title, game.assets.font, TEXT_MENU_ITEM, color);
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT + (index * 30.f));
 
@@ -33,26 +32,26 @@ namespace ArkanoidGame
         }
     }
 
-    void DrawDifficultyLevelMenu(sf::RenderWindow& window, const DifficultyLevelMenu& difficultyLevelMenu)
+    void DifficultyLevelMenu::Draw(sf::RenderWindow& window) const
     {
-        window.draw(difficultyLevelMenu.heading);
+        window.draw(_heading);
 
-        for (const auto& option : difficultyLevelMenu.options)
+        for (const auto& option : _options)
         {
             window.draw(option.second.textNode);
         }
     }
 
-    void DifficultyLevelMenuKeyboardHandler(const sf::Event& event, Game& game)
+    void DifficultyLevelMenu::KeyboardHandler(const sf::Event& event, Game& game)
     {
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Enter)
             {
                 game.assets.menuSelect.play();
-                game.difficulty.SetDifficultyLevel(game.GUI.difficultyLevelMenu.selectedOptionKey);
+                game.difficulty.SetDifficultyLevel(_selectedOptionKey);
 
-                for (auto& option : game.GUI.difficultyLevelMenu.options)
+                for (auto& option : _options)
                 {
                     if (option.first == game.difficulty.GetType())
                     {
@@ -67,12 +66,12 @@ namespace ArkanoidGame
             else if (event.key.code == sf::Keyboard::Up)
             {
                 game.assets.menuToggle.play();
-                MenuToggleOption(game.GUI.difficultyLevelMenu.options, game.GUI.difficultyLevelMenu.selectedOptionKey, DirectionVertical::Up);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
                 game.assets.menuToggle.play();
-                MenuToggleOption(game.GUI.difficultyLevelMenu.options, game.GUI.difficultyLevelMenu.selectedOptionKey, DirectionVertical::Down);
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
             }
         }
     }
