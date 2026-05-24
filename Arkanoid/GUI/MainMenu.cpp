@@ -1,18 +1,16 @@
 ﻿#include "../Application.h"
-#include "../Game.h"
-#include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
-    void MainMenu::ResetMainMenu()
+    void MainMenu::Reset()
     {
-        SetOptionKey(_options, _selectedOptionKey, MainMenuOptionKey::StartGame);
+        SetOptionKey(_options, _selectedOptionKey, OptionKey::StartGame);
     }
 
 
-    void MainMenu::InitMainMenu(const Game& game)
+    void MainMenu::Init(const Game& game)
     {
-        ResetMainMenu();
+        Reset();
 
         InitText(_heading, "..::MAIN MENU::..", game.assets.font);
         _heading.setStyle(sf::Text::Underlined);
@@ -28,7 +26,7 @@ namespace ArkanoidGame
         }
     }
 
-    void MainMenu::DrawMainMenu(sf::RenderWindow& window) const
+    void MainMenu::Draw(sf::RenderWindow& window) const
     {
         window.draw(_heading);
 
@@ -66,20 +64,20 @@ namespace ArkanoidGame
 
         switch (_selectedOptionKey)
         {
-        case MainMenuOptionKey::StartGame:
+        case OptionKey::StartGame:
             game.SwitchState(Game::State::Playing);
             break;
-        case MainMenuOptionKey::DifficultyLevel:
+        case OptionKey::DifficultyLevel:
             game.PushState(Game::State::DifficultyLevel);
             break;
-        case MainMenuOptionKey::Leaderboard:
+        case OptionKey::Leaderboard:
             game.gui.leaderboardMenu.UpdateLeaderboard(Application::Instance().GetGame());
             game.PushState(Game::State::Leaderboard);
             break;
-        case MainMenuOptionKey::Settings:
+        case OptionKey::Settings:
             game.PushState(Game::State::Settings);
             break;
-        case MainMenuOptionKey::Exit:
+        case OptionKey::Exit:
             window.close();
             break;
         }

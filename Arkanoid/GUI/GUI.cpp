@@ -4,7 +4,7 @@ namespace ArkanoidGame
 {
     void GUI::Init(Game& game)
     {
-        mainMenu.InitMainMenu(game);
+        mainMenu.Init(game);
         pauseMenu.Init(game);
         difficultyLevelMenu.Init(game);
         gameOverMenu.Init(game);

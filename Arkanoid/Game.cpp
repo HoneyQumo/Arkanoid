@@ -150,7 +150,7 @@ namespace ArkanoidGame
         switch (gameState)
         {
         case State::MainMenu:
-            gui.mainMenu.DrawMainMenu(window);
+            gui.mainMenu.Draw(window);
 
             break;
         case State::Playing:

@@ -1,17 +1,20 @@
 ﻿#pragma once
-#include <map>
-#include <string>
-#include "SFML/Graphics.hpp"
-#include "../Shared/Constants.h"
-#include "../Shared/Math.h"
-#include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
     class MainMenu
     {
     public:
-        enum class MainMenuOptionKey
+        void Reset();
+
+        void Init(const Game& game);
+
+        void Draw(sf::RenderWindow& window) const;
+
+        void KeyboardHandler(sf::RenderWindow& window, const sf::Event& event, Game& game);
+
+    private:
+        enum class OptionKey
         {
             StartGame = 0,
             DifficultyLevel,
@@ -20,25 +23,16 @@ namespace ArkanoidGame
             Exit
         };
 
-        void ResetMainMenu();
-
-        void InitMainMenu(const Game& game);
-
-        void DrawMainMenu(sf::RenderWindow& window) const;
-
-        void KeyboardHandler(sf::RenderWindow& window, const sf::Event& event, Game& game);
-
-    private:
         sf::Text _heading;
 
-        std::map<MainMenuOptionKey, MenuOption> _options = {
-            {MainMenuOptionKey::StartGame, {L"Начать игру", {}}},
-            {MainMenuOptionKey::DifficultyLevel, {L"Уровень сложности", {}}},
-            {MainMenuOptionKey::Leaderboard, {L"Таблица рекордов", {}}},
-            {MainMenuOptionKey::Settings, {L"Настройки", {}}},
-            {MainMenuOptionKey::Exit, {L"Выход", {}}},
+        std::map<OptionKey, MenuOption> _options = {
+            {OptionKey::StartGame, {L"Начать игру", {}}},
+            {OptionKey::DifficultyLevel, {L"Уровень сложности", {}}},
+            {OptionKey::Leaderboard, {L"Таблица рекордов", {}}},
+            {OptionKey::Settings, {L"Настройки", {}}},
+            {OptionKey::Exit, {L"Выход", {}}},
         };
-        MainMenuOptionKey _selectedOptionKey = MainMenuOptionKey::StartGame;
+        OptionKey _selectedOptionKey = OptionKey::StartGame;
 
         void OptionSelectHandler(sf::RenderWindow& window) const;
     };
