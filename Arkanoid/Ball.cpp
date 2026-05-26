@@ -26,13 +26,11 @@ namespace ArkanoidGame
     {
         if (_attached)
         {
-            const auto platformSprite = platform.GetSprite();
-            const auto platformPosition = platformSprite.getPosition();
-            const auto platformBounds = platformSprite.getGlobalBounds();
+            const auto platformBounds = platform.GetSprite().getGlobalBounds();
 
             _sprite.setPosition({
-                platformPosition.x,
-                platformPosition.y - platformBounds.height / 2.f,
+                platformBounds.left + platformBounds.width / 2.f,
+                platformBounds.top - platformBounds.height / 2.f,
             });
 
             _lastBouncedPosition = _sprite.getPosition();
