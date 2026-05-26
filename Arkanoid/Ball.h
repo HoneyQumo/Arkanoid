@@ -22,7 +22,6 @@ namespace ArkanoidGame
         void BounceOffWall(float speed);
 
     private:
-        sf::Vector2f _lastBouncedPosition;
         sf::Vector2f _velocity{0.f, 0.f};
         bool _attached = true;
     };

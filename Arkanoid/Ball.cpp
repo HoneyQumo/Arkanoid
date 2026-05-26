@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
+#include <cmath>
 
 namespace ArkanoidGame
 {
@@ -33,7 +34,6 @@ namespace ArkanoidGame
                 platformBounds.top - platformBounds.height / 2.f,
             });
 
-            _lastBouncedPosition = _sprite.getPosition();
             return;
         }
 
@@ -67,10 +67,9 @@ namespace ArkanoidGame
         const auto& platformSprite = platform.GetSprite();
         const sf::Vector2f pPosition = platformSprite.getPosition();
         const sf::Vector2f bPosition = _sprite.getPosition();
-        _lastBouncedPosition = bPosition;
 
-        // const float halfW = platformSprite.getSize().x * 0.5f;
-        constexpr float halfW = PLATFORM_WIDTH / 2.f;
+        const float halfW = platform.GetSprite().getGlobalBounds().width / 2.f;
+
         float hit = (bPosition.x - pPosition.x) / halfW;
         hit = std::max(-1.f, std::min(hit, 1.f));
 
@@ -78,50 +77,62 @@ namespace ArkanoidGame
         _velocity = {speed * hit, -speed};
     }
 
-    /* Todo: Криво рассчитываются углы отскока от стенок */
     void Ball::BounceOffWall(const float speed)
     {
-        const auto& position = _sprite.getPosition();
-        const auto& bounds = _sprite.getGlobalBounds();
+        const auto bounds = _sprite.getGlobalBounds();
+        const float radiusX = bounds.width * 0.5f;
+        const float radiusY = bounds.height * 0.5f;
 
-        const auto top = bounds.top;
-        const auto bottom = bounds.top + bounds.height;
-        const auto left = bounds.left;
-        const auto right = bounds.left + bounds.width;
+        sf::Vector2f position = _sprite.getPosition();
+        bool bounced = false;
 
-        const bool topWallCollision = top <= 0.f;
-        const bool rightWallCollision = right >= SCREEN_WIDTH;
-        const bool bottomWallCollision = bottom >= SCREEN_HEIGHT;
-        const bool leftWallCollision = left <= 0.f;
-
-        if (topWallCollision)
+        if (bounds.top < 0.f)
         {
-            const auto diffX = position.x - _lastBouncedPosition.x;
-            _velocity = {speed * Sign(diffX), speed};
-
-            _lastBouncedPosition = position;
+            position.y = radiusY;
+            if (_velocity.y < 0.f)
+            {
+                _velocity.y = -_velocity.y;
+            }
+            bounced = true;
         }
 
-        if (rightWallCollision)
+        if (bounds.left < 0.f)
         {
-            const auto diffY = position.y - _lastBouncedPosition.y;
-            _velocity = {-speed, speed * Sign(diffY)};
-
-            _lastBouncedPosition = position;
+            position.x = radiusX;
+            if (_velocity.x < 0.f)
+            {
+                _velocity.x = -_velocity.x;
+            }
+            bounced = true;
         }
 
-        if (bottomWallCollision)
+        if (bounds.left + bounds.width > static_cast<float>(SCREEN_WIDTH))
+        {
+            position.x = static_cast<float>(SCREEN_WIDTH) - radiusX;
+            if (_velocity.x > 0.f)
+            {
+                _velocity.x = -_velocity.x;
+            }
+            bounced = true;
+        }
+
+        if (bounds.top + bounds.height > static_cast<float>(SCREEN_HEIGHT))
         {
             Game& game = Application::Instance().GetGame();
             game.PushState(Game::State::GameOver);
+            return;
         }
 
-        if (leftWallCollision)
+        if (bounced)
         {
-            const auto diffY = position.y - _lastBouncedPosition.y;
-            _velocity = {speed, speed * Sign(diffY)};
+            _sprite.setPosition(position);
 
-            _lastBouncedPosition = position;
+            const float len = std::hypot(_velocity.x, _velocity.y);
+            constexpr float kEpsilon = 0.00001f;
+            if (len > kEpsilon)
+            {
+                _velocity *= speed / len;
+            }
         }
     }
 }
