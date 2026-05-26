@@ -3,29 +3,40 @@
 
 namespace ArkanoidGame
 {
+    // void SetSpriteSize(sf::Sprite& sprite, const float desiredWidth, const float desiredHeight)
+    // {
+    //     const sf::FloatRect spriteRect = sprite.getLocalBounds();
+    //     const sf::Vector2f scale = {desiredWidth / spriteRect.width, desiredHeight / spriteRect.height};
+    //     sprite.setScale(scale);
+    // }
+
     void SetSpriteSize(sf::Sprite& sprite, const float desiredWidth, const float desiredHeight)
     {
-        const sf::FloatRect spriteRect = sprite.getLocalBounds();
-        const sf::Vector2f scale = {desiredWidth / spriteRect.width, desiredHeight / spriteRect.height};
-        sprite.setScale(scale);
+        const sf::IntRect& frame = sprite.getTextureRect();
+        if (frame.width <= 0 || frame.height <= 0)
+        {
+            return;
+        }
+
+        sprite.setScale({
+            desiredWidth / static_cast<float>(frame.width),
+            desiredHeight / static_cast<float>(frame.height)
+        });
     }
 
-    void SetOrigin(sf::Sprite& sprite, const sf::Vector2f& origin)
-    {
-        const sf::FloatRect spriteRect = sprite.getLocalBounds();
-        sprite.setOrigin(origin.x * spriteRect.width, origin.y * spriteRect.height);
-    }
+    // void SetSpriteOrigin(sf::Sprite& sprite, const sf::Vector2f& origin)
+    // {
+    //     const sf::FloatRect spriteRect = sprite.getLocalBounds();
+    //     sprite.setOrigin(origin.x * spriteRect.width, origin.y * spriteRect.height);
+    // }
 
-    void SetOrigin(sf::RectangleShape& shape, const sf::Vector2f& origin)
+    void SetSpriteOrigin(sf::Sprite& sprite, const sf::Vector2f& origin)
     {
-        const sf::FloatRect shapeRect = shape.getLocalBounds();
-        shape.setOrigin(origin.x * shapeRect.width, origin.y * shapeRect.height);
-    }
-
-    void SetOrigin(sf::CircleShape& shape, const sf::Vector2f& origin)
-    {
-        const sf::FloatRect shapeRect = shape.getLocalBounds();
-        shape.setOrigin(origin.x * shapeRect.width, origin.y * shapeRect.height);
+        const sf::IntRect& frame = sprite.getTextureRect();
+        sprite.setOrigin(
+            origin.x * static_cast<float>(frame.width),
+            origin.y * static_cast<float>(frame.height)
+        );
     }
 
     sf::Vector2f GetTextOrigin(const sf::Text& text, const sf::Vector2f& relativePosition)
@@ -45,11 +56,11 @@ namespace ArkanoidGame
         return dis(gen);
     }
 
-    bool HasRectCircleCollision(const sf::RectangleShape& rectangle, const sf::CircleShape& circle)
+    bool HasRectCircleCollision(const sf::Sprite& rectangle, const sf::Sprite& circle)
     {
         const auto rBounds = rectangle.getGlobalBounds();
         const auto cPosition = circle.getPosition();
-        const auto cRadius = circle.getRadius();
+        const auto cRadius = circle.getGlobalBounds().width / 2.f;
 
         const auto& plLeft = rBounds.left;
         const auto& plTop = rBounds.top;

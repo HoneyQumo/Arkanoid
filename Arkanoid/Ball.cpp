@@ -5,9 +5,12 @@
 
 namespace ArkanoidGame
 {
-    Ball::Ball()
+    void Ball::Init(Game& game)
     {
-        InitShape();
+        _sprite = sf::Sprite(game.assets.atlas);
+        _sprite.setTextureRect({32, 32, 16, 16});
+        SetSpriteSize(_sprite, BALL_SIZE, BALL_SIZE);
+        SetSpriteOrigin(_sprite, {0.5f, 0.5f});
     }
 
     void Ball::Launch()
@@ -19,44 +22,26 @@ namespace ArkanoidGame
         _velocity = {0.f * difficultyValues.speed, -1.f * difficultyValues.speed};
     }
 
-    void Ball::Update(const Platform& platform, const float dt)
+    void Ball::Update(Platform& platform, const float dt)
     {
         if (_attached)
         {
-            const auto platformShape = platform.GetShape();
-            const auto platformPosition = platformShape.getPosition();
-            const auto platformBounds = platformShape.getLocalBounds();
+            const auto platformSprite = platform.GetSprite();
+            const auto platformPosition = platformSprite.getPosition();
+            const auto platformBounds = platformSprite.getGlobalBounds();
 
-            _shape.setPosition({
+            _sprite.setPosition({
                 platformPosition.x,
-                platformPosition.y - platformBounds.height,
+                platformPosition.y - platformBounds.height / 2.f,
             });
 
-            _lastBouncedPosition = _shape.getPosition();
+            _lastBouncedPosition = _sprite.getPosition();
             return;
         }
 
-        sf::Vector2f newPosition = _shape.getPosition();
+        sf::Vector2f newPosition = _sprite.getPosition();
         newPosition += _velocity * dt;
-        _shape.setPosition(newPosition);
-    }
-
-    void Ball::Draw(sf::RenderWindow& window) const
-    {
-        window.draw(_shape);
-    }
-
-    void Ball::InitShape()
-    {
-        _shape.setRadius(BALL_SIZE / 2.f);
-        _shape.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f);
-        _shape.setFillColor(sf::Color::Blue);
-        SetOrigin(_shape, {0.5f, 0.5f});
-    }
-
-    sf::CircleShape& Ball::GetShape()
-    {
-        return _shape;
+        _sprite.setPosition(newPosition);
     }
 
     void Ball::SetAttached(const bool& value)
@@ -79,14 +64,15 @@ namespace ArkanoidGame
         return _velocity;
     }
 
-    void Ball::BounceOffPlatform(const Platform& platform, const float speed)
+    void Ball::BounceOffPlatform(Platform& platform, const float speed)
     {
-        const auto& platformShape = platform.GetShape();
-        const sf::Vector2f pPosition = platformShape.getPosition();
-        const sf::Vector2f bPosition = _shape.getPosition();
+        const auto& platformSprite = platform.GetSprite();
+        const sf::Vector2f pPosition = platformSprite.getPosition();
+        const sf::Vector2f bPosition = _sprite.getPosition();
         _lastBouncedPosition = bPosition;
 
-        const float halfW = platformShape.getSize().x * 0.5f;
+        // const float halfW = platformSprite.getSize().x * 0.5f;
+        constexpr float halfW = PLATFORM_WIDTH / 2.f;
         float hit = (bPosition.x - pPosition.x) / halfW;
         hit = std::max(-1.f, std::min(hit, 1.f));
 
@@ -97,8 +83,8 @@ namespace ArkanoidGame
     /* Todo: Криво рассчитываются углы отскока от стенок */
     void Ball::BounceOffWall(const float speed)
     {
-        const auto& position = _shape.getPosition();
-        const auto& bounds = _shape.getGlobalBounds();
+        const auto& position = _sprite.getPosition();
+        const auto& bounds = _sprite.getGlobalBounds();
 
         const auto top = bounds.top;
         const auto bottom = bounds.top + bounds.height;

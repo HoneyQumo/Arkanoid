@@ -46,6 +46,10 @@ namespace ArkanoidGame
     {
         ResetState();
 
+
+        game.platform.Init(game);
+        game.ball.Init(game);
+
         /* gui */
         gui.Init(game);
 
@@ -67,7 +71,7 @@ namespace ArkanoidGame
         assert(assets.font.loadFromFile(RESOURCES_FONTS + "\\pixel_font-7.ttf"));
 
         /* Graphics */
-        // assert(assets.apple.loadFromFile(RESOURCES_GRAPHICS + "\\apple.png"));
+        assert(assets.atlas.loadFromFile(RESOURCES_GRAPHICS + "\\spritesheet-atlas.png"));
 
         /* Sounds */
         assert(assets.musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
@@ -116,7 +120,7 @@ namespace ArkanoidGame
 
                 ball.BounceOffWall(speed);
 
-                if (HasRectCircleCollision(platform.GetShape(), ball.GetShape()) && (ball.GetVelocity().y > 0.f))
+                if (HasRectCircleCollision(platform.GetSprite(), ball.GetSprite()) && (ball.GetVelocity().y > 0.f))
                 {
                     if (platform.GetSticky())
                     {

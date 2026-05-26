@@ -5,9 +5,13 @@
 
 namespace ArkanoidGame
 {
-    Platform::Platform()
+    void Platform::Init(Game& game)
     {
-        InitShape();
+        _sprite = sf::Sprite(game.assets.atlas);
+        _sprite.setTextureRect({32, 64, 48, 14});
+        SetSpriteSize(_sprite, PLATFORM_WIDTH, PLATFORM_HEIGHT);
+        SetSpriteOrigin(_sprite, {0.5f, 0.5f});
+        _sprite.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 100.f);
     }
 
     void Platform::Update(Ball& ball, const float dt)
@@ -21,36 +25,30 @@ namespace ArkanoidGame
         }
     }
 
-    void Platform::Draw(sf::RenderWindow& window) const
-    {
-        window.draw(_shape);
-    }
-
     void Platform::Control(Ball& ball, const float dt)
     {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
         {
-            const auto position = _shape.getPosition();
+            const auto position = _sprite.getPosition();
             float mousePositionX = static_cast<float>(sf::Mouse::getPosition(Application::Instance().GetWindow()).x);
-
-            const auto platformHalfW = _shape.getSize().x / 2.f;
+            const auto platformHalfW = _sprite.getGlobalBounds().width / 2.f;
 
             if (mousePositionX - platformHalfW < 0.f) mousePositionX = platformHalfW;
             else if (mousePositionX + platformHalfW > static_cast<float>(SCREEN_WIDTH)) mousePositionX = static_cast<float>(SCREEN_WIDTH) - platformHalfW;
 
-            _shape.setPosition(mousePositionX, position.y);
+            _sprite.setPosition(mousePositionX, position.y);
         }
         else
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
-                const auto position = _shape.getPosition();
-                _shape.setPosition(position.x + (dt * PLATFORM_SPEED), position.y);
+                const auto position = _sprite.getPosition();
+                _sprite.setPosition(position.x + (dt * PLATFORM_SPEED), position.y);
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
-                const auto position = _shape.getPosition();
-                _shape.setPosition(position.x - (dt * PLATFORM_SPEED), position.y);
+                const auto position = _sprite.getPosition();
+                _sprite.setPosition(position.x - (dt * PLATFORM_SPEED), position.y);
             }
         }
 
@@ -59,19 +57,6 @@ namespace ArkanoidGame
             _sticky = false;
             ball.Launch();
         }
-    }
-
-    void Platform::InitShape()
-    {
-        _shape.setSize({PLATFORM_WIDTH, PLATFORM_HEIGHT});
-        _shape.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 100.f);
-        _shape.setFillColor(sf::Color::Magenta);
-        SetOrigin(_shape, {0.5f, 0.5f});
-    }
-
-    sf::RectangleShape Platform::GetShape() const
-    {
-        return _shape;
     }
 
     void Platform::SetSticky(const bool& value)

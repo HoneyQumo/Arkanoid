@@ -18,5 +18,7 @@ namespace ArkanoidGame
                   death,
                   menuToggle,
                   menuSelect;
+
+        sf::Texture atlas;
     };
 }
