@@ -28,9 +28,10 @@ namespace ArkanoidGame
 
     void Platform::Control(Ball& ball, const float dt)
     {
-        Application::Instance().GetWindow().setMouseCursorVisible(!sf::Mouse::isButtonPressed(sf::Mouse::Right));
+        const bool& isSpacePressed = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+        Application::Instance().GetWindow().setMouseCursorVisible(!isSpacePressed);
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        if (isSpacePressed)
         {
             const auto position = _sprite.getPosition();
             float mousePositionX = static_cast<float>(sf::Mouse::getPosition(Application::Instance().GetWindow()).x);
