@@ -23,11 +23,12 @@ namespace ArkanoidGame
         _velocity = {0.f * difficultyValues.speed, -1.f * difficultyValues.speed};
     }
 
-    void Ball::Update(Platform& platform, const float dt)
+    void Ball::Update(Game& game, const float dt)
     {
         if (_attached)
         {
-            const auto platformBounds = platform.GetSprite().getGlobalBounds();
+            auto platform = dynamic_cast<Platform*>(game.gameObjects[0].get());
+            const auto platformBounds = platform->GetSprite().getGlobalBounds();
 
             _sprite.setPosition({
                 platformBounds.left + platformBounds.width / 2.f,

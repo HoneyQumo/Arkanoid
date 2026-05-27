@@ -32,8 +32,7 @@ namespace ArkanoidGame
         unsigned score = 0;
         bool isWin = false;
 
-        Platform platform;
-        Ball ball;
+        std::vector<std::shared_ptr<GameObject>> gameObjects;
 
         DifficultyLevel difficulty;
         Settings settings;

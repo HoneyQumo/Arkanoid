@@ -6,9 +6,4 @@ namespace ArkanoidGame
     {
         window.draw(_sprite);
     }
-
-    sf::Sprite& GameObject::GetSprite()
-    {
-        return _sprite;
-    }
 }

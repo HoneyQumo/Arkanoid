@@ -9,8 +9,8 @@ namespace ArkanoidGame
     class Platform : public GameObject
     {
     public:
-        void Init(Game& game);
-        void Update(Ball& ball, float dt);
+        void Init(Game& game) override;
+        void Update(Game& game, float dt) override;
 
         void Control(Ball& ball, float dt);
 

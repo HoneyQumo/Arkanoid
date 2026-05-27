@@ -55,9 +55,6 @@ namespace ArkanoidGame
                             _game.gui.pauseMenu.Reset();
                             _game.PushState(Game::State::Pause);
                             break;
-                        case Game::State::Pause:
-                            _game.PopState();
-                            break;
                         default:
                             _game.PopState();
                             break;

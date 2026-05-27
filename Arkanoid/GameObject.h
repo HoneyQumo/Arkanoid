@@ -3,12 +3,17 @@
 
 namespace ArkanoidGame
 {
+    class Game;
+
     class GameObject
     {
     public:
-        void Draw(sf::RenderWindow& window) const;
+        virtual void Init(Game& game) = 0;
 
-        sf::Sprite& GetSprite();
+        virtual void Update(Game& game, float dt) = 0;
+        virtual void Draw(sf::RenderWindow& window) const;
+
+        sf::Sprite& GetSprite() { return _sprite; }
 
     protected:
         sf::Sprite _sprite;

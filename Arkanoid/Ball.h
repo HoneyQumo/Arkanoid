@@ -7,9 +7,9 @@ namespace ArkanoidGame
     class Ball : public GameObject
     {
     public:
-        void Init(Game& game);
+        void Init(Game& game) override;
         void Launch();
-        void Update(Platform& platform, float dt);
+        void Update(Game& game, float dt) override;
 
         void SetAttached(const bool& value);
         bool GetAttached() const;

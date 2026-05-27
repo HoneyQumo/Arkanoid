@@ -14,9 +14,10 @@ namespace ArkanoidGame
         _sprite.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 100.f);
     }
 
-    void Platform::Update(Ball& ball, const float dt)
+    void Platform::Update(Game& game, const float dt)
     {
-        Control(ball, dt);
+        auto ball = dynamic_cast<Ball*>(game.gameObjects[1].get());
+        Control(*ball, dt);
 
         if (_sticky)
         {
@@ -27,6 +28,8 @@ namespace ArkanoidGame
 
     void Platform::Control(Ball& ball, const float dt)
     {
+        Application::Instance().GetWindow().setMouseCursorVisible(!sf::Mouse::isButtonPressed(sf::Mouse::Right));
+
         if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
         {
             const auto position = _sprite.getPosition();

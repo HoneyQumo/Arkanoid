@@ -46,10 +46,6 @@ namespace ArkanoidGame
     {
         ResetState();
 
-
-        game.platform.Init(game);
-        game.ball.Init(game);
-
         /* gui */
         gui.Init(game);
 
@@ -95,6 +91,14 @@ namespace ArkanoidGame
         assets.menuSelect.setBuffer(assets.menuSelectBuffer);
         assets.menuSelect.setVolume(SOUNDS_INITIAL_VOLUME);
 
+        gameObjects.emplace_back(std::make_shared<Platform>());
+        gameObjects.emplace_back(std::make_shared<Ball>());
+
+        for (auto&& object : gameObjects)
+        {
+            object->Init(game);
+        }
+
         difficulty.SetDifficultyLevel(DifficultyLevel::Type::Medium);
 
         leaderboard.DeserializeAndLoad();
@@ -113,23 +117,28 @@ namespace ArkanoidGame
             break;
         case State::Playing:
             {
-                platform.Update(ball, deltaTime);
-                ball.Update(platform, deltaTime);
+                for (auto&& object : gameObjects)
+                {
+                    object->Update(Application::Instance().GetGame(), deltaTime);
+                }
+
+                const auto platform = dynamic_cast<Platform*>(gameObjects[0].get());
+                const auto ball = dynamic_cast<Ball*>(gameObjects[1].get());
 
                 const auto speed = difficulty.GetValues().speed;
 
-                ball.BounceOffWall(speed);
+                ball->BounceOffWall(speed);
 
-                if (HasRectCircleCollision(platform.GetSprite(), ball.GetSprite()) && (ball.GetVelocity().y > 0.f))
+                if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
                 {
-                    if (platform.GetSticky())
+                    if (platform->GetSticky())
                     {
-                        ball.SetAttached(true);
+                        ball->SetAttached(true);
 
                         return;
                     }
 
-                    ball.BounceOffPlatform(platform, difficulty.GetValues().speed);
+                    ball->BounceOffPlatform(*platform, difficulty.GetValues().speed);
                 }
                 break;
             }
@@ -148,7 +157,6 @@ namespace ArkanoidGame
 
     void Game::Draw(sf::RenderWindow& window)
     {
-        Game& game = Application::Instance().GetGame();
         const State& gameState = GetState();
 
         switch (gameState)
@@ -158,8 +166,11 @@ namespace ArkanoidGame
 
             break;
         case State::Playing:
-            game.platform.Draw(window);
-            game.ball.Draw(window);
+            for (auto&& object : gameObjects)
+            {
+                object->Draw(window);
+            }
+
             break;
 
         case State::AskNickname:
