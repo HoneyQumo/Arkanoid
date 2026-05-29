@@ -76,6 +76,8 @@ namespace ArkanoidGame
 
         /* TODO: Тут меняется скорость полёта ball, нужно нормализовать? */
         _velocity = {speed * hit, -speed};
+
+        NormalizeVelocity(speed);
     }
 
     void Ball::BounceOffWall(const float speed)
@@ -127,13 +129,17 @@ namespace ArkanoidGame
         if (bounced)
         {
             _sprite.setPosition(position);
+            NormalizeVelocity(speed);
+        }
+    }
 
-            const float len = std::hypot(_velocity.x, _velocity.y);
-            constexpr float kEpsilon = 0.00001f;
-            if (len > kEpsilon)
-            {
-                _velocity *= speed / len;
-            }
+    void Ball::NormalizeVelocity(const float speed)
+    {
+        const float len = std::hypot(_velocity.x, _velocity.y);
+        constexpr float kEpsilon = 0.00001f;
+        if (len > kEpsilon)
+        {
+            _velocity *= speed / len;
         }
     }
 }
