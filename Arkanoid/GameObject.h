@@ -8,6 +8,8 @@ namespace ArkanoidGame
     class GameObject
     {
     public:
+        virtual ~GameObject() = default;
+        
         virtual void Init(Game& game) = 0;
 
         virtual void Update(Game& game, float dt) = 0;
