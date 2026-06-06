@@ -7,7 +7,6 @@
 #include "Platform.h"
 #include "GUI/GUI.h"
 #include "Shared/Assets.h"
-#include "Shared/Constants.h"
 #include "GameState/GameState.h"
 
 namespace ArkanoidGame

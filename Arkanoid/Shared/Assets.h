@@ -20,5 +20,7 @@ namespace ArkanoidGame
                   menuSelect;
 
         sf::Texture atlas;
+        
+        void Init();
     };
 }

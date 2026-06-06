@@ -1,5 +1,4 @@
-﻿#include <cassert>
-#include "Game.h"
+﻿#include "Game.h"
 #include "Application.h"
 
 namespace ArkanoidGame
@@ -64,42 +63,8 @@ namespace ArkanoidGame
 
     void Game::Init(Game& game)
     {
-        /* Fonts */
-        assert(assets.font.loadFromFile(RESOURCES_FONTS + "\\pixel_font-7.ttf"));
-
-        /* Graphics */
-        assert(assets.atlas.loadFromFile(RESOURCES_GRAPHICS + "\\spritesheet-atlas.png"));
-
-        /* Sounds */
-        assert(assets.musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
-        assets.music.setBuffer(assets.musicBuffer);
-        // assets.music.setVolume(MUSIC_INITIAL_VOLUME);
-        assets.music.setVolume(0);
-
-        assert(assets.deathBuffer.loadFromFile(RESOURCES_AUDIO + "\\death.wav"));
-        assets.death.setBuffer(assets.deathBuffer);
-        assets.death.setVolume(SOUNDS_INITIAL_VOLUME);
-
-        // assert(assets.eatBuffer.loadFromFile(RESOURCES_AUDIO + "\\eat.wav"));
-        // assets.eat.setBuffer(assets.eatBuffer);
-        // assets.eat.setVolume(SOUNDS_INITIAL_VOLUME);
-
-        assert(assets.menuToggleBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-toggle.wav"));
-        assets.menuToggle.setBuffer(assets.menuToggleBuffer);
-        assets.menuToggle.setVolume(SOUNDS_INITIAL_VOLUME);
-
-        assert(assets.menuSelectBuffer.loadFromFile(RESOURCES_AUDIO + "\\menu-select.wav"));
-        assets.menuSelect.setBuffer(assets.menuSelectBuffer);
-        assets.menuSelect.setVolume(SOUNDS_INITIAL_VOLUME);
-
-        // gameObjects.emplace_back(std::make_shared<Platform>());
-        // gameObjects.emplace_back(std::make_shared<Ball>());
-        //
-        // for (auto&& object : gameObjects)
-        // {
-        //     object->Init(game);
-        // }
-
+        game.assets.Init();
+        
         difficulty.SetDifficultyLevel(DifficultyLevel::Type::Medium);
 
         leaderboard.DeserializeAndLoad();
