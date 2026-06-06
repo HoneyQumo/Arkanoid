@@ -91,13 +91,13 @@ namespace ArkanoidGame
         assets.menuSelect.setBuffer(assets.menuSelectBuffer);
         assets.menuSelect.setVolume(SOUNDS_INITIAL_VOLUME);
 
-        gameObjects.emplace_back(std::make_shared<Platform>());
-        gameObjects.emplace_back(std::make_shared<Ball>());
-
-        for (auto&& object : gameObjects)
-        {
-            object->Init(game);
-        }
+        // gameObjects.emplace_back(std::make_shared<Platform>());
+        // gameObjects.emplace_back(std::make_shared<Ball>());
+        //
+        // for (auto&& object : gameObjects)
+        // {
+        //     object->Init(game);
+        // }
 
         difficulty.SetDifficultyLevel(DifficultyLevel::Type::Medium);
 
@@ -107,7 +107,7 @@ namespace ArkanoidGame
     }
 
 
-    void Game::Update(const float& deltaTime)
+    void Game::Update(float deltaTime)
     {
         const State& gameState = GetState();
 
@@ -117,30 +117,30 @@ namespace ArkanoidGame
             break;
         case State::Playing:
             {
-                for (auto&& object : gameObjects)
-                {
-                    object->Update(Application::Instance().GetGame(), deltaTime);
-                }
-
-                const auto platform = dynamic_cast<Platform*>(gameObjects[0].get());
-                const auto ball = dynamic_cast<Ball*>(gameObjects[1].get());
-
-                const auto speed = difficulty.GetValues().speed;
-
-                ball->BounceOffWall(speed);
-
-                if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
-                {
-                    if (platform->GetSticky())
-                    {
-                        ball->SetAttached(true);
-
-                        return;
-                    }
-
-                    ball->BounceOffPlatform(*platform, difficulty.GetValues().speed);
-                }
-                break;
+                // for (auto&& object : gameObjects)
+                // {
+                //     object->Update(Application::Instance().GetGame(), deltaTime);
+                // }
+                //
+                // const auto platform = dynamic_cast<Platform*>(gameObjects[0].get());
+                // const auto ball = dynamic_cast<Ball*>(gameObjects[1].get());
+                //
+                // const auto speed = difficulty.GetValues().speed;
+                //
+                // ball->BounceOffWall(speed);
+                //
+                // if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
+                // {
+                //     if (platform->GetSticky())
+                //     {
+                //         ball->SetAttached(true);
+                //
+                //         return;
+                //     }
+                //
+                //     ball->BounceOffPlatform(*platform, difficulty.GetValues().speed);
+                // }
+                // break;
             }
 
         case State::GameOver:
@@ -166,12 +166,12 @@ namespace ArkanoidGame
 
             break;
         case State::Playing:
-            for (auto&& object : gameObjects)
-            {
-                object->Draw(window);
-            }
-
-            break;
+        // for (auto&& object : gameObjects)
+        // {
+        //     object->Draw(window);
+        // }
+        //
+        // break;
 
         case State::AskNickname:
             gui.askNicknameMenu.Draw(window);

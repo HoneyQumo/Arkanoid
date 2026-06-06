@@ -164,6 +164,9 @@
         <ClCompile Include="Game.cpp"/>
         <ClCompile Include="GameMain.cpp"/>
         <ClCompile Include="GameObject.cpp" />
+        <ClCompile Include="GameState\GameState.cpp" />
+        <ClCompile Include="GameState\GameStateData.cpp" />
+        <ClCompile Include="GameState\GameStatePlaying.cpp" />
         <ClCompile Include="GUI\AskNicknameMenu.cpp"/>
         <ClCompile Include="GUI\DifficultyLevelMenu.cpp"/>
         <ClCompile Include="GUI\GameOverMenu.cpp"/>
@@ -186,6 +189,9 @@
         <ClInclude Include="DifficultyLevel.h"/>
         <ClInclude Include="Game.h"/>
         <ClInclude Include="GameObject.h" />
+        <ClInclude Include="GameState\GameState.h" />
+        <ClInclude Include="GameState\GameStateData.h" />
+        <ClInclude Include="GameState\GameStatePlaying.h" />
         <ClInclude Include="GUI\AskNicknameMenu.h"/>
         <ClInclude Include="GUI\DifficultyLevelMenu.h"/>
         <ClInclude Include="GUI\GameOverMenu.h"/>

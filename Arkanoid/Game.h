@@ -8,23 +8,24 @@
 #include "GUI/GUI.h"
 #include "Shared/Assets.h"
 #include "Shared/Constants.h"
+#include "GameState/GameState.h"
 
 namespace ArkanoidGame
 {
     class Game
     {
     public:
-        enum class State
-        {
-            Playing = 0,
-            GameOver,
-            Pause,
-            MainMenu,
-            DifficultyLevel,
-            Settings,
-            Leaderboard,
-            AskNickname
-        };
+        // enum class State
+        // {
+        //     Playing = 0,
+        //     GameOver,
+        //     Pause,
+        //     MainMenu,
+        //     DifficultyLevel,
+        //     Settings,
+        //     Leaderboard,
+        //     AskNickname
+        // };
 
         Assets assets;
 
@@ -32,26 +33,26 @@ namespace ArkanoidGame
         unsigned score = 0;
         bool isWin = false;
 
-        std::vector<std::shared_ptr<GameObject>> gameObjects;
+        // std::vector<std::shared_ptr<GameObject>> gameObjects;
 
         DifficultyLevel difficulty;
         Settings settings;
         Leaderboard leaderboard;
 
         void ResetState();
-        void PushState(const State& state);
+        void PushState(const GameState::Type& state);
         void PopState();
-        void SwitchState(const State& state);
-        State GetState();
+        void SwitchState(const GameState::Type& state);
+        GameState::Type GetState();
 
         void Reset(Game& game);
         void Init(Game& game);
-        void Update(const float& deltaTime);
+        void Update(float deltaTime);
         void Draw(sf::RenderWindow& window);
 
         // void ShutdownGame();
 
     private:
-        std::stack<State> _gameStateStack;
+        std::stack<GameState> _gameStateStack;
     };
 }
