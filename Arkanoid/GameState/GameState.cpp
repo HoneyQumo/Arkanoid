@@ -2,14 +2,25 @@
 
 #include <assert.h>
 
+#include "GameStateGameOver.h"
+#include "GameStatePlaying.h"
+
 namespace ArkanoidGame
 {
     GameState::GameState(Type type) : _type(type)
     {
         switch (type)
         {
-        case Type::Playing: { break; }
-        case Type::GameOver: { break; }
+        case Type::Playing:
+            {
+                _data = std::make_unique<GameStatePlaying>();
+                break;
+            }
+        case Type::GameOver:
+            {
+                _data = std::make_unique<GameStateGameOver>();
+                break;
+            }
         case Type::Pause: { break; }
         case Type::MainMenu: { break; }
         case Type::DifficultyLevel: { break; }

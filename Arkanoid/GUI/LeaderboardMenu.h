@@ -8,8 +8,7 @@ namespace ArkanoidGame
     class LeaderboardMenu
     {
     public:
-        void UpdateLeaderboard(const Game& game);
-        void Init(const Game& game);
+        void Init(Game& game);
         void Draw(sf::RenderWindow& window) const;
 
         std::vector<sf::Text>& GetLeaderboard();

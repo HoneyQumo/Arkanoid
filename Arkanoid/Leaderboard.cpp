@@ -92,4 +92,26 @@ namespace ArkanoidGame
 
         return false;
     }
+
+    std::vector<sf::Text> Leaderboard::GetGUI(Game& game, const size_t size) const
+    {
+        std::vector<sf::Text> tmpData;
+        const auto leaderboard = GetSorted();
+
+        const auto minSize = std::min(size, leaderboard.size());
+        
+        for (unsigned i = 0; i < minSize; ++i)
+        {
+            const auto& item = leaderboard[i];
+
+            sf::Text tmpItem;
+            const auto text = std::to_wstring(i + 1) + L". " + item.playerName + L" (" + std::to_wstring(item.score) + L")";
+            InitText(tmpItem, text, game.assets.font, TEXT_MENU_ITEM, sf::Color::White, {0.f, 0.5f});
+            tmpItem.setPosition(SCREEN_WIDTH / 2.f - 100.f, (SCREEN_HEIGHT / 2.f - 160.f) + (i * 30.f));
+
+            tmpData.push_back(tmpItem);
+        }
+        
+        return tmpData;
+    }
 }

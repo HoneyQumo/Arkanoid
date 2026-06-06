@@ -88,11 +88,6 @@ namespace ArkanoidGame
                 const auto& gameState = _game.GetState();
                 switch (gameState)
                 {
-                case Game::State::Playing:
-                    break;
-                case Game::State::GameOver:
-                    _game.gui.gameOverMenu.KeyboardHandler(event, _game);
-                    break;
                 case Game::State::AskNickname:
                     _game.gui.askNicknameMenu.KeyboardHandler(event, _game);
                     break;

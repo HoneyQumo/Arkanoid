@@ -57,7 +57,6 @@ namespace ArkanoidGame
             {
                 game.assets.menuSelect.play();
                 game.leaderboard.Add(game);
-                game.gui.gameOverMenu.UpdateLeaderboard(game);
                 game.leaderboard.SerializeAndSaveGame();
                 game.PopState();
             }

@@ -57,8 +57,9 @@ namespace ArkanoidGame
         {
             assets.music.play();
         }
-        score = 0;
-        isWin = false;
+        
+        game.SetScore(0);
+        game.SetWin(false);
     }
 
     void Game::Init(Game& game)
@@ -115,38 +116,6 @@ namespace ArkanoidGame
         {
         case State::MainMenu:
             break;
-        case State::Playing:
-            {
-                // for (auto&& object : gameObjects)
-                // {
-                //     object->Update(Application::Instance().GetGame(), deltaTime);
-                // }
-                //
-                // const auto platform = dynamic_cast<Platform*>(gameObjects[0].get());
-                // const auto ball = dynamic_cast<Ball*>(gameObjects[1].get());
-                //
-                // const auto speed = difficulty.GetValues().speed;
-                //
-                // ball->BounceOffWall(speed);
-                //
-                // if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
-                // {
-                //     if (platform->GetSticky())
-                //     {
-                //         ball->SetAttached(true);
-                //
-                //         return;
-                //     }
-                //
-                //     ball->BounceOffPlatform(*platform, difficulty.GetValues().speed);
-                // }
-                // break;
-            }
-
-        case State::GameOver:
-            gui.gameOverMenu.Update(Application::Instance().GetGame());
-
-            break;
         case State::Pause:
         case State::DifficultyLevel:
         case State::Settings:
@@ -165,20 +134,9 @@ namespace ArkanoidGame
             gui.mainMenu.Draw(window);
 
             break;
-        case State::Playing:
-        // for (auto&& object : gameObjects)
-        // {
-        //     object->Draw(window);
-        // }
-        //
-        // break;
 
         case State::AskNickname:
             gui.askNicknameMenu.Draw(window);
-
-            break;
-        case State::GameOver:
-            gui.gameOverMenu.Draw(window);
 
             break;
         case State::Pause:

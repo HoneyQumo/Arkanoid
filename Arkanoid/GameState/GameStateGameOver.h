@@ -1,23 +1,20 @@
 ﻿#pragma once
-#include "SFML/Graphics.hpp"
+#include "GameStateData.h"
 #include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
     class Game;
 
-    class GameOverMenu
+    class GameStateGameOver : public GameStateData
     {
     public:
-        void Reset();
-
-        void UpdateLeaderboard(const Game& game);
-        void Init(Game& game);
-        void Update(const Game& game);
-        void Draw(sf::RenderWindow& window) const;
-
-        void KeyboardHandler(const sf::Event& event, Game& game);
-
+        void Init() override;
+        void WindowEventHandler(const sf::Event& event) override;
+        void Update(float deltaTime) override;
+        void Draw(sf::RenderWindow& window) override;
+        
+        
     private:
         enum class OptionKey
         {
@@ -28,7 +25,7 @@ namespace ArkanoidGame
         sf::Text _heading;
         sf::Text _scoreTitle;
 
-        sf::Text _recordsTitle;
+        sf::Text _leaderboardTitle;
         std::vector<sf::Text> _leaderboard;
 
         std::map<OptionKey, MenuOption> _options = {

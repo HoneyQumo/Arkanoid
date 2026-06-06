@@ -15,25 +15,9 @@ namespace ArkanoidGame
     class Game
     {
     public:
-        // enum class State
-        // {
-        //     Playing = 0,
-        //     GameOver,
-        //     Pause,
-        //     MainMenu,
-        //     DifficultyLevel,
-        //     Settings,
-        //     Leaderboard,
-        //     AskNickname
-        // };
-
         Assets assets;
 
         GUI gui;
-        unsigned score = 0;
-        bool isWin = false;
-
-        // std::vector<std::shared_ptr<GameObject>> gameObjects;
 
         DifficultyLevel difficulty;
         Settings settings;
@@ -51,8 +35,17 @@ namespace ArkanoidGame
         void Draw(sf::RenderWindow& window);
 
         // void ShutdownGame();
+        
+        void SetScore(unsigned value) { _score = value; }
+        unsigned GetScore() const { return _score; }
+        
+        void SetWin(bool value) { _isWin = value; }
+        bool GetWin() const { return _isWin; }
 
     private:
         std::stack<GameState> _gameStateStack;
+        unsigned _score = 0;
+        bool _isWin = false;
+        
     };
 }
