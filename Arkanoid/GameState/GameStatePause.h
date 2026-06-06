@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <map>
+#include "GameStateData.h"
 #include "SFML/Graphics.hpp"
 #include "../Shared/Shared.h"
 
@@ -7,14 +8,12 @@ namespace ArkanoidGame
 {
     class Game;
 
-    class PauseMenu
+    class GameStatePause : public GameStateData
     {
     public:
-        void Reset();
-        void Init(const Game& game);
-        void Draw(sf::RenderWindow& window) const;
-
-        void KeyboardHandler(const sf::Event& event, Game& game);
+        void Init() override;
+        void WindowEventHandler(const sf::Event& event) override;
+        void Draw(sf::RenderWindow& window) override;
 
     private:
         enum class OptionKey
@@ -31,7 +30,7 @@ namespace ArkanoidGame
         };
 
         OptionKey _selectedOptionKey = OptionKey::Continue;
-        
+
         void OptionSelectHandler(Game& game) const;
     };
 }

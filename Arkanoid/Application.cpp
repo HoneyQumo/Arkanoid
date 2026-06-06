@@ -51,37 +51,11 @@ namespace ArkanoidGame
                         case Game::State::MainMenu:
                             _window.close();
                             break;
-                        // case Game::State::Playing:
-                        //     _game.gui.pauseMenu.Reset();
-                        //     _game.PushState(Game::State::Pause);
-                        //     break;
                         default:
                             _game.PopState();
                             break;
                         }
                         break;
-
-                    case sf::Keyboard::Backspace:
-                        if (gameState != Game::State::AskNickname)
-                        {
-                            _game.PopState();
-                        }
-
-                        break;
-
-                    case sf::Keyboard::P:
-                        switch (gameState)
-                        {
-                        // case Game::State::Playing:
-                        //     _game.gui.pauseMenu.Reset();
-                        //     _game.PushState(Game::State::Pause);
-                        //     break;
-                        case Game::State::Pause:
-                            _game.PopState();
-                            break;
-                        }
-                        break;
-                    }
                 }
 
 
@@ -90,9 +64,6 @@ namespace ArkanoidGame
                 {
                 case Game::State::AskNickname:
                     _game.gui.askNicknameMenu.KeyboardHandler(event, _game);
-                    break;
-                case Game::State::Pause:
-                    _game.gui.pauseMenu.KeyboardHandler(event, _game);
                     break;
                 case Game::State::MainMenu:
                     _game.gui.mainMenu.KeyboardHandler(_window, event, _game);

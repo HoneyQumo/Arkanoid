@@ -5,10 +5,10 @@ namespace ArkanoidGame
 {
     void Game::ResetState()
     {
-        SwitchState(State::MainMenu);
+        SwitchState(GameState::Type::MainMenu);
     }
 
-    void Game::PushState(const State& state)
+    void Game::PushState(const GameState::Type& state)
     {
         _gameStateStack.push(state);
     }
@@ -21,7 +21,7 @@ namespace ArkanoidGame
         }
     }
 
-    void Game::SwitchState(const State& state)
+    void Game::SwitchState(const GameState::Type& state)
     {
         while (!_gameStateStack.empty())
         {
@@ -31,14 +31,14 @@ namespace ArkanoidGame
         PushState(state);
     }
 
-    Game::State Game::GetState()
+    GameState::Type Game::GetState()
     {
         if (!_gameStateStack.empty())
         {
-            return _gameStateStack.top();
+            return _gameStateStack.top().GetType();
         }
 
-        return State::MainMenu;
+        return GameState::Type::MainMenu;
     }
 
     void Game::Reset(Game& game)
@@ -102,10 +102,6 @@ namespace ArkanoidGame
 
         case State::AskNickname:
             gui.askNicknameMenu.Draw(window);
-
-            break;
-        case State::Pause:
-            gui.pauseMenu.Draw(window);
 
             break;
         case State::DifficultyLevel:

@@ -23,8 +23,6 @@ namespace ArkanoidGame
             case sf::Keyboard::Escape:
             case sf::Keyboard::P:
                 {
-                    // _game.gui.pauseMenu.Reset();
-                    // _game.PushState(Game::State::Pause);
                     Application::Instance().GetGame().PushState(GameState::Type::Pause);
                     break;
                 }
