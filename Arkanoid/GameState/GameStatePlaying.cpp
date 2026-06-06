@@ -14,6 +14,24 @@ namespace ArkanoidGame
         }
     }
 
+    void GameStatePlaying::WindowEventHandler(const sf::Event& event)
+    {
+        if (event.type == sf::Event::KeyPressed)
+        {
+            switch (event.key.code)
+            {
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::P:
+                {
+                    // _game.gui.pauseMenu.Reset();
+                    // _game.PushState(Game::State::Pause);
+                    Application::Instance().GetGame().PushState(GameState::Type::Pause);
+                    break;
+                }
+            }
+        }
+    }
+
     void GameStatePlaying::Update(float deltaTime)
     {
         for (auto&& object : _gameObjects)

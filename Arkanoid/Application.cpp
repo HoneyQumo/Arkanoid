@@ -51,10 +51,10 @@ namespace ArkanoidGame
                         case Game::State::MainMenu:
                             _window.close();
                             break;
-                        case Game::State::Playing:
-                            _game.gui.pauseMenu.Reset();
-                            _game.PushState(Game::State::Pause);
-                            break;
+                        // case Game::State::Playing:
+                        //     _game.gui.pauseMenu.Reset();
+                        //     _game.PushState(Game::State::Pause);
+                        //     break;
                         default:
                             _game.PopState();
                             break;
@@ -72,10 +72,10 @@ namespace ArkanoidGame
                     case sf::Keyboard::P:
                         switch (gameState)
                         {
-                        case Game::State::Playing:
-                            _game.gui.pauseMenu.Reset();
-                            _game.PushState(Game::State::Pause);
-                            break;
+                        // case Game::State::Playing:
+                        //     _game.gui.pauseMenu.Reset();
+                        //     _game.PushState(Game::State::Pause);
+                        //     break;
                         case Game::State::Pause:
                             _game.PopState();
                             break;
