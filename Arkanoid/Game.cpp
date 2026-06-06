@@ -56,7 +56,7 @@ namespace ArkanoidGame
         {
             assets.music.play();
         }
-        
+
         game.SetScore(0);
         game.SetWin(false);
     }
@@ -64,7 +64,7 @@ namespace ArkanoidGame
     void Game::Init(Game& game)
     {
         game.assets.Init();
-        
+
         difficulty.SetDifficultyLevel(DifficultyLevel::Type::Medium);
 
         leaderboard.DeserializeAndLoad();
@@ -75,46 +75,10 @@ namespace ArkanoidGame
 
     void Game::Update(float deltaTime)
     {
-        const State& gameState = GetState();
-
-        switch (gameState)
-        {
-        case State::MainMenu:
-            break;
-        case State::Pause:
-        case State::DifficultyLevel:
-        case State::Settings:
-        case State::Leaderboard:
-            break;
-        }
     }
 
     void Game::Draw(sf::RenderWindow& window)
     {
-        const State& gameState = GetState();
-
-        switch (gameState)
-        {
-        case State::MainMenu:
-            gui.mainMenu.Draw(window);
-
-            break;
-
-        case State::AskNickname:
-            gui.askNicknameMenu.Draw(window);
-
-            break;
-        case State::DifficultyLevel:
-            gui.difficultyLevelMenu.Draw(window);
-
-            break;
-        case State::Settings:
-            gui.settingsMenu.Draw(window);
-            break;
-        case State::Leaderboard:
-            gui.leaderboardMenu.Draw(window);
-            break;
-        }
     }
 
     // void Game::ShutdownGame()

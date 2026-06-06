@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "GameStateGameOver.h"
+#include "GameStateMainMenu.h"
 #include "GameStatePause.h"
 #include "GameStatePlaying.h"
 
@@ -27,7 +28,11 @@ namespace ArkanoidGame
                 _data = std::make_unique<GameStatePause>();
                 break;
             }
-        case Type::MainMenu: { break; }
+        case Type::MainMenu:
+            {
+                _data = std::make_unique<GameStateMainMenu>();
+                break;
+            }
         case Type::DifficultyLevel: { break; }
         case Type::Settings: { break; }
         case Type::Leaderboard: { break; }

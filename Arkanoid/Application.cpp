@@ -38,44 +38,6 @@ namespace ArkanoidGame
                     _window.close();
                     break;
                 }
-
-                if (event.type == sf::Event::KeyPressed)
-                {
-                    const auto& gameState = _game.GetState();
-
-                    switch (event.key.code)
-                    {
-                    case sf::Keyboard::Escape:
-                        switch (gameState)
-                        {
-                        case Game::State::MainMenu:
-                            _window.close();
-                            break;
-                        default:
-                            _game.PopState();
-                            break;
-                        }
-                        break;
-                }
-
-
-                const auto& gameState = _game.GetState();
-                switch (gameState)
-                {
-                case Game::State::AskNickname:
-                    _game.gui.askNicknameMenu.KeyboardHandler(event, _game);
-                    break;
-                case Game::State::MainMenu:
-                    _game.gui.mainMenu.KeyboardHandler(_window, event, _game);
-                    break;
-                case Game::State::DifficultyLevel:
-                    _game.gui.difficultyLevelMenu.KeyboardHandler(event, _game);
-                    break;
-                case Game::State::Settings:
-                    _game.gui.settingsMenu.KeyboardHandler(event, _game);
-                case Game::State::Leaderboard:
-                    break;
-                }
             }
 
             _game.Update(deltaTime);
