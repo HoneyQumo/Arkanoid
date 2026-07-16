@@ -17,7 +17,7 @@ namespace ArkanoidGame
             unsigned score;
         };
 
-        void Add(Game& game);
+        void Add(unsigned score, const sf::String& nickname);
         std::vector<Item> GetSorted() const;
 
         bool SerializeAndSaveGame() const;

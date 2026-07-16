@@ -1,17 +1,15 @@
-﻿#include "AskNicknameMenu.h"
+﻿#include "GameStateAskNickname.h"
 #include "../Application.h"
+
 
 namespace ArkanoidGame
 {
-    void AskNicknameMenu::Reset()
+    void GameStateAskNickname::Init()
     {
+        Game& game = Application::Instance().GetGame();
+
         _nicknameInput.clear();
         SetOptionKey(_options, _selectedOptionKey, OptionKey::Yes);
-    }
-
-    void AskNicknameMenu::Init(const Game& game)
-    {
-        Reset();
 
         InitText(_heading, std::wstring(L"..::Новый рекорд!::.."), game.assets.font);
         _heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
@@ -35,8 +33,7 @@ namespace ArkanoidGame
         }
     }
 
-
-    void AskNicknameMenu::Draw(sf::RenderWindow& window) const
+    void GameStateAskNickname::Draw(sf::RenderWindow& window)
     {
         window.draw(_heading);
         window.draw(_subHeading);
@@ -48,15 +45,17 @@ namespace ArkanoidGame
         }
     }
 
-
-    void AskNicknameMenu::KeyboardHandler(const sf::Event& event, Game& game)
+    void GameStateAskNickname::WindowEventHandler(const sf::Event& event)
     {
+        Game& game = Application::Instance().GetGame();
+
+
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Enter)
             {
                 game.assets.menuSelect.play();
-                game.leaderboard.Add(game);
+                game.leaderboard.Add(game.GetScore(), _nicknameInput);
                 game.leaderboard.SerializeAndSaveGame();
                 game.PopState();
             }
@@ -107,10 +106,5 @@ namespace ArkanoidGame
             _nicknameText.setString(_nicknameInput.toWideString());
             _nicknameText.setOrigin(GetTextOrigin(_nicknameText, {0.5f, 0.5f}));
         }
-    }
-
-    sf::String& AskNicknameMenu::GetNicknameInput()
-    {
-        return _nicknameInput;
     }
 }

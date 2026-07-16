@@ -1,20 +1,19 @@
 ﻿#pragma once
+#include "GameStateData.h"
 #include "SFML/Graphics.hpp"
 #include "../Shared/Shared.h"
 
+
 namespace ArkanoidGame
 {
-    class Game;
-
-    class AskNicknameMenu
+    class GameStateAskNickname : public GameStateData
     {
     public:
-        void Reset();
-        void Init(const Game& game);
-        void Draw(sf::RenderWindow& window) const;
-        void KeyboardHandler(const sf::Event& event, Game& game);
-        
-        sf::String& GetNicknameInput();
+        void Init() override;
+        void Draw(sf::RenderWindow& window) override;
+        void WindowEventHandler(const sf::Event& event) override;
+
+        sf::String& GetNicknameInput() { return _nicknameInput; }
 
     private:
         enum class OptionKey
@@ -22,7 +21,7 @@ namespace ArkanoidGame
             Yes = 0,
             No
         };
-        
+
         sf::Text _heading;
         sf::Text _subHeading;
 

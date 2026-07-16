@@ -6,12 +6,11 @@
 
 namespace ArkanoidGame
 {
-    void Leaderboard::Add(Game& game)
+    void Leaderboard::Add(unsigned score, const sf::String& nickname)
     {
-        const auto& nicknameInput = game.gui.askNicknameMenu.GetNicknameInput();
-        const auto playerName = nicknameInput.isEmpty() ? L"XYZ" : nicknameInput.toWideString();
+        const auto playerName = nickname.isEmpty() ? L"XYZ" : nickname.toWideString();
 
-        _array.push_back({playerName, game.GetScore()});
+        _array.push_back({playerName, score});
 
         std::stable_sort(_array.begin(), _array.end(), [](const Item& item1, const Item& item2)
         {
