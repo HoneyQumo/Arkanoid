@@ -1,16 +1,13 @@
-﻿#include "../Game.h"
-#include "../Shared/Shared.h"
+﻿#include "GameStateDifficultyLevel.h"
+#include "../Application.h"
 
 namespace ArkanoidGame
 {
-    void DifficultyLevelMenu::Reset()
+    void GameStateDifficultyLevel::Init()
     {
-        SetOptionKey(_options, _selectedOptionKey, DifficultyLevel::Type::Easy);
-    }
+        Game& game = Application::Instance().GetGame();
 
-    void DifficultyLevelMenu::Init(const Game& game)
-    {
-        Reset();
+        SetOptionKey(_options, _selectedOptionKey, DifficultyLevel::Type::Easy);
 
         InitText(_heading, L"..::Сложность::..", game.assets.font);
         _heading.setStyle(sf::Text::Underlined);
@@ -32,7 +29,7 @@ namespace ArkanoidGame
         }
     }
 
-    void DifficultyLevelMenu::Draw(sf::RenderWindow& window) const
+    void GameStateDifficultyLevel::Draw(sf::RenderWindow& window)
     {
         window.draw(_heading);
 
@@ -42,8 +39,10 @@ namespace ArkanoidGame
         }
     }
 
-    void DifficultyLevelMenu::KeyboardHandler(const sf::Event& event, Game& game)
+    void GameStateDifficultyLevel::WindowEventHandler(const sf::Event& event)
     {
+        Game& game = Application::Instance().GetGame();
+
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Enter)

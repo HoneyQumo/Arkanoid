@@ -45,9 +45,6 @@ namespace ArkanoidGame
     {
         ResetState();
 
-        /* gui */
-        gui.Init(game);
-
         /* Sounds */
         assets.music.setPlayingOffset(sf::seconds(0.f));
         assets.music.setLoop(true);

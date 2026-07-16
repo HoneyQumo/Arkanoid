@@ -1,19 +1,17 @@
 ﻿#pragma once
+#include "GameStateData.h"
 #include "SFML/Graphics.hpp"
 #include "../DifficultyLevel.h"
 #include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
-    class Game;
-
-    class DifficultyLevelMenu
+    class GameStateDifficultyLevel : public GameStateData
     {
     public:
-        void Reset();
-        void Init(const Game& game);
-        void Draw(sf::RenderWindow& window) const;
-        void KeyboardHandler(const sf::Event& event, Game& game);
+        void Init() override;
+        void Draw(sf::RenderWindow& window) override;
+        void WindowEventHandler(const sf::Event& event) override;
 
     private:
         sf::Text _heading;

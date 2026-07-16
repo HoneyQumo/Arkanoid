@@ -167,6 +167,7 @@
         <ClCompile Include="GameState\GameState.cpp"/>
         <ClCompile Include="GameState\GameStateAskNickname.cpp"/>
         <ClCompile Include="GameState\GameStateData.cpp"/>
+        <ClCompile Include="GameState\GameStateDifficultyLevel.cpp"/>
         <ClCompile Include="GameState\GameStateGameOver.cpp">
             <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
             <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -477,7 +478,6 @@
             <AdditionalIncludeDirectories>F:\XyzSchool\cpp-course\Arkanoid\\SFML\SFML-2.5.1\include;</AdditionalIncludeDirectories>
             <LinkCompiled>true</LinkCompiled>
         </ClCompile>
-        <ClCompile Include="GUI\DifficultyLevelMenu.cpp"/>
         <ClCompile Include="Leaderboard.cpp"/>
         <ClCompile Include="Platform.cpp"/>
         <ClCompile Include="Settings.cpp"/>
@@ -495,13 +495,13 @@
         <ClInclude Include="GameState\GameState.h"/>
         <ClInclude Include="GameState\GameStateAskNickname.h"/>
         <ClInclude Include="GameState\GameStateData.h"/>
+        <ClInclude Include="GameState\GameStateDifficultyLevel.h"/>
         <ClInclude Include="GameState\GameStateGameOver.h"/>
         <ClInclude Include="GameState\GameStateLeaderboard.h"/>
         <ClInclude Include="GameState\GameStatePlaying.h"/>
         <ClInclude Include="GameState\GameStatePause.h"/>
         <ClInclude Include="GameState\GameStateMainMenu.h"/>
         <ClInclude Include="GameState\GameStateSettings.h"/>
-        <ClInclude Include="GUI\DifficultyLevelMenu.h"/>
         <ClInclude Include="Leaderboard.h"/>
         <ClInclude Include="Platform.h"/>
         <ClInclude Include="Settings.h"/>
