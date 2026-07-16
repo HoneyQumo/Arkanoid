@@ -1,20 +1,20 @@
 ﻿#pragma once
-#include "SFML/Graphics.hpp"
+#include "GameStateData.h"
+// #include "SFML/Graphics.hpp"
 #include "../Settings.h"
+#include "../Application.h"
 #include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
     class Game;
 
-    class SettingsMenu
+    class GameStateSettings : public GameStateData
     {
     public:
-        void Reset();
-        void Init(Game& game);
-        void Draw(sf::RenderWindow& window) const;
-
-        void KeyboardHandler(const sf::Event& event, Game& game);
+        void Init() override;
+        void WindowEventHandler(const sf::Event& event) override;
+        void Draw(sf::RenderWindow& window) override;
 
     private:
         sf::Text _heading;

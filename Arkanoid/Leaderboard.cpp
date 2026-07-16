@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "Leaderboard.h"
 #include "Game.h"
+#include "Shared/Shared.h"
 
 namespace ArkanoidGame
 {
@@ -10,7 +11,7 @@ namespace ArkanoidGame
         const auto& nicknameInput = game.gui.askNicknameMenu.GetNicknameInput();
         const auto playerName = nicknameInput.isEmpty() ? L"XYZ" : nicknameInput.toWideString();
 
-        _array.push_back({playerName, game.score});
+        _array.push_back({playerName, game.GetScore()});
 
         std::stable_sort(_array.begin(), _array.end(), [](const Item& item1, const Item& item2)
         {
@@ -77,10 +78,9 @@ namespace ArkanoidGame
         return false;
     }
 
-    bool Leaderboard::Clear(LeaderboardMenu& leaderboardMenu)
+    bool Leaderboard::Clear()
     {
         _array.clear();
-        leaderboardMenu.GetLeaderboard().clear();
 
         std::wofstream file(LEADERBOARD_FILE_PATH, std::ios::out | std::ios::trunc);
 

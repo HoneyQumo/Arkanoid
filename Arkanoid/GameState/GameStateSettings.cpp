@@ -1,17 +1,13 @@
-﻿#include "../Game.h"
+﻿#include "GameStateSettings.h"
+#include "../Game.h"
 #include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {
-    void SettingsMenu::Reset()
+    void GameStateSettings::Init()
     {
-        SetOptionKey(_options, _selectedOptionKey, Settings::Type::Sound);
-    }
-
-    void SettingsMenu::Init(Game& game)
-    {
-        Reset();
-
+        Game& game = Application::Instance().GetGame();
+        
         InitText(_heading, L"..::Настройки::..", game.assets.font);
         _heading.setStyle(sf::Text::Underlined);
         _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
@@ -32,7 +28,7 @@ namespace ArkanoidGame
         }
     }
 
-    void SettingsMenu::Draw(sf::RenderWindow& window) const
+    void GameStateSettings::Draw(sf::RenderWindow& window)
     {
         window.draw(_heading);
 
@@ -42,7 +38,42 @@ namespace ArkanoidGame
         }
     }
 
-    void SettingsMenu::OptionSelectHandler(Game& game) const
+    void GameStateSettings::WindowEventHandler(const sf::Event& event)
+    {
+        Game& game = Application::Instance().GetGame();
+        
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Enter)
+            {
+                game.assets.menuSelect.play();
+
+                for (auto& option : _options)
+                {
+                    if (option.first != Settings::Type::ResetLeaderboard && option.first == _selectedOptionKey)
+                    {
+                        const auto& style = option.second.textNode.getStyle();
+                        option.second.textNode.setStyle(style == sf::Text::Underlined ? sf::Text::Regular : sf::Text::Underlined);
+                        break;
+                    }
+                }
+
+                OptionSelectHandler(game);
+            }
+            else if (event.key.code == sf::Keyboard::Up)
+            {
+                game.assets.menuToggle.play();
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
+            }
+            else if (event.key.code == sf::Keyboard::Down)
+            {
+                game.assets.menuToggle.play();
+                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+            }
+        }
+    }
+    
+    void GameStateSettings::OptionSelectHandler(Game& game) const
     {
         switch (_selectedOptionKey)
         {
@@ -76,41 +107,8 @@ namespace ArkanoidGame
                 break;
             }
         case Settings::Type::ResetLeaderboard:
-            game.leaderboard.Clear(game.gui.leaderboardMenu);
+            game.leaderboard.Clear();
             break;
-        }
-    }
-
-    void SettingsMenu::KeyboardHandler(const sf::Event& event, Game& game)
-    {
-        if (event.type == sf::Event::KeyPressed)
-        {
-            if (event.key.code == sf::Keyboard::Enter)
-            {
-                game.assets.menuSelect.play();
-
-                for (auto& option : _options)
-                {
-                    if (option.first != Settings::Type::ResetLeaderboard && option.first == _selectedOptionKey)
-                    {
-                        const auto& style = option.second.textNode.getStyle();
-                        option.second.textNode.setStyle(style == sf::Text::Underlined ? sf::Text::Regular : sf::Text::Underlined);
-                        break;
-                    }
-                }
-
-                OptionSelectHandler(game);
-            }
-            else if (event.key.code == sf::Keyboard::Up)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
-            }
-            else if (event.key.code == sf::Keyboard::Down)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
-            }
         }
     }
 }

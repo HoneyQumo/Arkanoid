@@ -23,7 +23,7 @@ namespace ArkanoidGame
         bool SerializeAndSaveGame() const;
         bool DeserializeAndLoad();
 
-        bool Clear(LeaderboardMenu& leaderboardMenu);
+        bool Clear();
         
         std::vector<sf::Text> GetGUI(Game& game, const size_t size = 5) const;
 

@@ -1,4 +1,6 @@
-﻿#include "../Game.h"
+﻿#include "LeaderboardMenu.h"
+#include "../Shared/Shared.h"
+#include "../Game.h"
 
 namespace ArkanoidGame
 {

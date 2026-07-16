@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include "GameStateData.h"
 #include "../Application.h"
-// #include "SFML/Graphics.hpp"
-// #include "../Shared/Shared.h"
+#include "../Shared/Shared.h"
 
 namespace ArkanoidGame
 {

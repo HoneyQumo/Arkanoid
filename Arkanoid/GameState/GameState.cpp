@@ -6,6 +6,7 @@
 #include "GameStateMainMenu.h"
 #include "GameStatePause.h"
 #include "GameStatePlaying.h"
+#include "GameStateSettings.h"
 
 namespace ArkanoidGame
 {
@@ -34,7 +35,11 @@ namespace ArkanoidGame
                 break;
             }
         case Type::DifficultyLevel: { break; }
-        case Type::Settings: { break; }
+        case Type::Settings:
+            {
+                _data = std::make_unique<GameStateSettings>();
+                break;
+            }
         case Type::Leaderboard: { break; }
         case Type::AskNickname: { break; }
         default:

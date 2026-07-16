@@ -5,7 +5,7 @@
 #include "DifficultyLevel.h"
 #include "Leaderboard.h"
 #include "Platform.h"
-#include "GUI/GUI.h"
+#include "Settings.h"
 #include "Shared/Assets.h"
 #include "GameState/GameState.h"
 
@@ -15,8 +15,6 @@ namespace ArkanoidGame
     {
     public:
         Assets assets;
-
-        GUI gui;
 
         DifficultyLevel difficulty;
         Settings settings;
