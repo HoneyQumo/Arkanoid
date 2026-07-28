@@ -14,6 +14,7 @@ namespace ArkanoidGame
     public:
         void Init() override;
         void WindowEventHandler(const sf::Event& event) override;
+        void Update(float deltaTime) override;
         void Draw(sf::RenderWindow& window) override;
 
     private:

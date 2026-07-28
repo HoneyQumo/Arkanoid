@@ -7,7 +7,7 @@ namespace ArkanoidGame
     void GameStateSettings::Init()
     {
         Game& game = Application::Instance().GetGame();
-        
+
         InitText(_heading, L"..::Настройки::..", game.assets.font);
         _heading.setStyle(sf::Text::Underlined);
         _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
@@ -41,7 +41,7 @@ namespace ArkanoidGame
     void GameStateSettings::WindowEventHandler(const sf::Event& event)
     {
         Game& game = Application::Instance().GetGame();
-        
+
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Enter)
@@ -72,7 +72,11 @@ namespace ArkanoidGame
             }
         }
     }
-    
+
+    void GameStateSettings::Update(float deltaTime)
+    {
+    }
+
     void GameStateSettings::OptionSelectHandler(Game& game) const
     {
         switch (_selectedOptionKey)

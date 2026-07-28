@@ -56,7 +56,7 @@ namespace ArkanoidGame
                     {
                         game.PopState();
                     }
-                    
+
                     break;
                 }
             case sf::Keyboard::P:
@@ -66,6 +66,10 @@ namespace ArkanoidGame
                 }
             }
         }
+    }
+
+    void GameStatePause::Update(float deltaTime)
+    {
     }
 
     void GameStatePause::Draw(sf::RenderWindow& window)

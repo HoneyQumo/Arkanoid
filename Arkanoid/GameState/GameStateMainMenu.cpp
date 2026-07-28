@@ -55,6 +55,10 @@ namespace ArkanoidGame
         }
     }
 
+    void GameStateMainMenu::Update(float deltaTime)
+    {
+    }
+
     void GameStateMainMenu::Draw(sf::RenderWindow& window)
     {
         window.draw(_heading);
