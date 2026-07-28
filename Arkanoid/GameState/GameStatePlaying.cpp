@@ -1,5 +1,6 @@
 ﻿#include "GameStatePlaying.h"
 #include "../Application.h"
+#include "../Shared/Math.h"
 
 namespace ArkanoidGame
 {
