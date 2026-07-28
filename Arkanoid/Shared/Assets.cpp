@@ -15,8 +15,7 @@ namespace ArkanoidGame
         /* Sounds */
         assert(musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
         music.setBuffer(musicBuffer);
-        // music.setVolume(MUSIC_INITIAL_VOLUME);
-        music.setVolume(0);
+        music.setVolume(MUSIC_INITIAL_VOLUME);
 
         assert(deathBuffer.loadFromFile(RESOURCES_AUDIO + "\\death.wav"));
         death.setBuffer(deathBuffer);
