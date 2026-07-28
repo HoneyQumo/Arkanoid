@@ -16,14 +16,6 @@ namespace ArkanoidGame
 
     void Platform::Update(Game& game, const float dt)
     {
-        auto ball = dynamic_cast<Ball*>(game.gameObjects[1].get());
-        Control(*ball, dt);
-
-        if (_sticky)
-        {
-            // Todo: Когда ball касается platform нужно включать ball._attached
-            // ball.SetAttached(true);
-        }
     }
 
     void Platform::Control(Ball& ball, const float dt)

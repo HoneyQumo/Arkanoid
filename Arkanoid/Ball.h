@@ -11,6 +11,8 @@ namespace ArkanoidGame
         void Launch();
         void Update(Game& game, float dt) override;
 
+        void AttachToPlatform(const Platform& platform);
+
         void SetAttached(const bool& value);
         bool GetAttached() const;
 

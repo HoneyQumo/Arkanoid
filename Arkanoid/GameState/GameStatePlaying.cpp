@@ -41,6 +41,14 @@ namespace ArkanoidGame
         const auto platform = dynamic_cast<Platform*>(_gameObjects[0].get());
         const auto ball = dynamic_cast<Ball*>(_gameObjects[1].get());
 
+        platform->Control(*ball, deltaTime);
+
+        if (ball->GetAttached())
+        {
+            ball->AttachToPlatform(*platform);
+            return;
+        }
+
         const Game& game = Application::Instance().GetGame();
         const auto speed = game.difficulty.GetValues().speed;
 

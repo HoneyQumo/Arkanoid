@@ -25,22 +25,32 @@ namespace ArkanoidGame
 
     void Ball::Update(Game& game, const float dt)
     {
-        if (_attached)
-        {
-            auto platform = dynamic_cast<Platform*>(game.gameObjects[0].get());
-            const auto platformBounds = platform->GetSprite().getGlobalBounds();
-
-            _sprite.setPosition({
-                platformBounds.left + platformBounds.width / 2.f,
-                platformBounds.top - platformBounds.height / 2.f,
-            });
-
-            return;
-        }
+        // if (_attached)
+        // {
+        //     auto platform = dynamic_cast<Platform*>(game.gameObjects[0].get());
+        //     const auto platformBounds = platform->GetSprite().getGlobalBounds();
+        //
+        //     _sprite.setPosition({
+        //         platformBounds.left + platformBounds.width / 2.f,
+        //         platformBounds.top - platformBounds.height / 2.f,
+        //     });
+        //
+        //     return;
+        // }
 
         sf::Vector2f newPosition = _sprite.getPosition();
         newPosition += _velocity * dt;
         _sprite.setPosition(newPosition);
+    }
+
+    void Ball::AttachToPlatform(const Platform& platform)
+    {
+        const auto platformBounds = platform.GetSprite().getGlobalBounds();
+
+        _sprite.setPosition({
+            platformBounds.left + platformBounds.width / 2.f,
+            platformBounds.top - platformBounds.height / 2.f,
+        });
     }
 
     void Ball::SetAttached(const bool& value)
@@ -122,7 +132,7 @@ namespace ArkanoidGame
         if (bounds.top + bounds.height > static_cast<float>(SCREEN_HEIGHT))
         {
             Game& game = Application::Instance().GetGame();
-            game.PushState(Game::State::GameOver);
+            game.PushState(GameState::Type::GameOver);
             return;
         }
 

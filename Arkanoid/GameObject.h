@@ -16,6 +16,7 @@ namespace ArkanoidGame
         virtual void Draw(sf::RenderWindow& window) const;
 
         sf::Sprite& GetSprite() { return _sprite; }
+        const sf::Sprite& GetSprite() const { return _sprite; }
 
     protected:
         sf::Sprite _sprite;
