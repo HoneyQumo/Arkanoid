@@ -38,6 +38,8 @@ namespace ArkanoidGame
                     _window.close();
                     break;
                 }
+
+                _game.WindowEventHandler(event);
             }
 
             _game.Update(deltaTime);
