@@ -2,7 +2,10 @@
 
 #include <assert.h>
 
+#include "GameStateAskNickname.h"
+#include "GameStateDifficultyLevel.h"
 #include "GameStateGameOver.h"
+#include "GameStateLeaderboard.h"
 #include "GameStateMainMenu.h"
 #include "GameStatePause.h"
 #include "GameStatePlaying.h"
@@ -34,14 +37,26 @@ namespace ArkanoidGame
                 _data = std::make_unique<GameStateMainMenu>();
                 break;
             }
-        case Type::DifficultyLevel: { break; }
+        case Type::DifficultyLevel:
+            {
+                _data = std::make_unique<GameStateDifficultyLevel>();
+                break;
+            }
         case Type::Settings:
             {
                 _data = std::make_unique<GameStateSettings>();
                 break;
             }
-        case Type::Leaderboard: { break; }
-        case Type::AskNickname: { break; }
+        case Type::Leaderboard:
+            {
+                _data = std::make_unique<GameStateLeaderboard>();
+                break;
+            }
+        case Type::AskNickname:
+            {
+                _data = std::make_unique<GameStateAskNickname>();
+                break;
+            }
         default:
             {
                 assert(false);
