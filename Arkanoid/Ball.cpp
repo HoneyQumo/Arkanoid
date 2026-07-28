@@ -25,19 +25,6 @@ namespace ArkanoidGame
 
     void Ball::Update(Game& game, const float dt)
     {
-        // if (_attached)
-        // {
-        //     auto platform = dynamic_cast<Platform*>(game.gameObjects[0].get());
-        //     const auto platformBounds = platform->GetSprite().getGlobalBounds();
-        //
-        //     _sprite.setPosition({
-        //         platformBounds.left + platformBounds.width / 2.f,
-        //         platformBounds.top - platformBounds.height / 2.f,
-        //     });
-        //
-        //     return;
-        // }
-
         sf::Vector2f newPosition = _sprite.getPosition();
         newPosition += _velocity * dt;
         _sprite.setPosition(newPosition);
