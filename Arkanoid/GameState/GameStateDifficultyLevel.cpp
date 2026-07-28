@@ -37,38 +37,54 @@ namespace ArkanoidGame
         }
     }
 
+    void GameStateDifficultyLevel::Update(float deltaTime)
+    {
+    }
+
     void GameStateDifficultyLevel::WindowEventHandler(const sf::Event& event)
     {
         Game& game = Application::Instance().GetGame();
 
         if (event.type == sf::Event::KeyPressed)
         {
-            if (event.key.code == sf::Keyboard::Enter)
+            switch (event.key.code)
             {
-                game.assets.menuSelect.play();
-                game.difficulty.SetDifficultyLevel(_selectedOptionKey);
-
-                for (auto& option : _options)
+            case sf::Keyboard::Enter:
                 {
-                    if (option.first == game.difficulty.GetType())
+                    game.assets.menuSelect.play();
+                    game.difficulty.SetDifficultyLevel(_selectedOptionKey);
+
+                    for (auto& option : _options)
                     {
-                        option.second.textNode.setStyle(sf::Text::Underlined);
+                        if (option.first == game.difficulty.GetType())
+                        {
+                            option.second.textNode.setStyle(sf::Text::Underlined);
+                        }
+                        else
+                        {
+                            option.second.textNode.setStyle(sf::Text::Regular);
+                        }
                     }
-                    else
-                    {
-                        option.second.textNode.setStyle(sf::Text::Regular);
-                    }
+                    break;
                 }
-            }
-            else if (event.key.code == sf::Keyboard::Up)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
-            }
-            else if (event.key.code == sf::Keyboard::Down)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+            case sf::Keyboard::Up:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
+                    break;
+                }
+            case sf::Keyboard::Down:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+                    break;
+                }
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::Backspace:
+                {
+                    game.PopStateOrCloseWindow();
+                    break;
+                }
             }
         }
     }

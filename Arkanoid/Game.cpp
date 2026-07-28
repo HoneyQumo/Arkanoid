@@ -13,6 +13,18 @@ namespace ArkanoidGame
         _gameStateStack.push(GameState(state, *this));
     }
 
+    void Game::PopStateOrCloseWindow()
+    {
+        if (GetState() == GameState::Type::MainMenu)
+        {
+            Application::Instance().GetWindow().close();
+        }
+        else
+        {
+            PopState();
+        }
+    }
+
     void Game::PopState()
     {
         if (_gameStateStack.size() != 1)

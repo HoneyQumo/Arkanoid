@@ -31,23 +31,37 @@ namespace ArkanoidGame
     void GameStateGameOver::WindowEventHandler(const sf::Event& event)
     {
         Game& game = Application::Instance().GetGame();
-        
+
         if (event.type == sf::Event::KeyPressed)
         {
-            if (event.key.code == sf::Keyboard::Enter)
+            switch (event.key.code)
             {
-                game.assets.menuSelect.play();
-                OptionSelectHandler(game);
-            }
-            else if (event.key.code == sf::Keyboard::Up)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
-            }
-            else if (event.key.code == sf::Keyboard::Down)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+            case sf::Keyboard::Enter:
+                {
+                    game.assets.menuSelect.play();
+                    OptionSelectHandler(game);
+                    break;
+                }
+            case sf::Keyboard::Up:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
+
+                    break;
+                }
+            case sf::Keyboard::Down:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+
+                    break;
+                }
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::Backspace:
+                {
+                    game.PopStateOrCloseWindow();
+                    break;
+                }
             }
         }
     }
@@ -79,12 +93,16 @@ namespace ArkanoidGame
         switch (_selectedOptionKey)
         {
         case OptionKey::StartGame:
-            game.Reset(game);
-            game.SwitchState(GameState::Type::Playing);
-            break;
+            {
+                game.Reset(game);
+                game.SwitchState(GameState::Type::Playing);
+                break;
+            }
         case OptionKey::ExitToMainMenu:
-            game.Reset(game);
-            break;
+            {
+                game.Reset(game);
+                break;
+            }
         }
     }
 }

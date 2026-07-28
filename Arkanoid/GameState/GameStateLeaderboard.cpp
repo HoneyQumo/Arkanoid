@@ -14,6 +14,28 @@ namespace ArkanoidGame
         _leaderboard = game.leaderboard.GetGUI(game, 10);
     }
 
+    void GameStateLeaderboard::Update(float deltaTime)
+    {
+    }
+
+    void GameStateLeaderboard::WindowEventHandler(const sf::Event& event)
+    {
+        Game& game = Application::Instance().GetGame();
+
+        if (event.type == sf::Event::KeyPressed)
+        {
+            switch (event.key.code)
+            {
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::Backspace:
+                {
+                    game.PopStateOrCloseWindow();
+                    break;
+                }
+            }
+        }
+    }
+
     void GameStateLeaderboard::Draw(sf::RenderWindow& window)
     {
         window.draw(_heading);

@@ -42,31 +42,43 @@ namespace ArkanoidGame
 
         if (event.type == sf::Event::KeyPressed)
         {
-            if (event.key.code == sf::Keyboard::Enter)
+            switch (event.key.code)
             {
-                game.assets.menuSelect.play();
-
-                for (auto& option : _options)
+            case sf::Keyboard::Enter:
                 {
-                    if (option.first != Settings::Type::ResetLeaderboard && option.first == _selectedOptionKey)
-                    {
-                        const auto& style = option.second.textNode.getStyle();
-                        option.second.textNode.setStyle(style == sf::Text::Underlined ? sf::Text::Regular : sf::Text::Underlined);
-                        break;
-                    }
-                }
+                    game.assets.menuSelect.play();
 
-                OptionSelectHandler(game);
-            }
-            else if (event.key.code == sf::Keyboard::Up)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
-            }
-            else if (event.key.code == sf::Keyboard::Down)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+                    for (auto& option : _options)
+                    {
+                        if (option.first != Settings::Type::ResetLeaderboard && option.first == _selectedOptionKey)
+                        {
+                            const auto& style = option.second.textNode.getStyle();
+                            option.second.textNode.setStyle(style == sf::Text::Underlined ? sf::Text::Regular : sf::Text::Underlined);
+                            break;
+                        }
+                    }
+
+                    OptionSelectHandler(game);
+                    break;
+                }
+            case sf::Keyboard::Up:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
+                    break;
+                }
+            case sf::Keyboard::Down:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+                    break;
+                }
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::Backspace:
+                {
+                    game.PopStateOrCloseWindow();
+                    break;
+                }
             }
         }
     }

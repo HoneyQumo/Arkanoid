@@ -13,6 +13,7 @@ namespace ArkanoidGame
     public:
         void Init(Game& game) override;
         void Draw(sf::RenderWindow& window) override;
+        void Update(float deltaTime) override;
         void WindowEventHandler(const sf::Event& event) override;
 
         sf::String& GetNicknameInput() { return _nicknameInput; }

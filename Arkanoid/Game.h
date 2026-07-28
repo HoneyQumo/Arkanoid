@@ -22,6 +22,7 @@ namespace ArkanoidGame
 
         void ResetState();
         void PushState(const GameState::Type& state);
+        void PopStateOrCloseWindow();
         void PopState();
         void SwitchState(const GameState::Type& state);
         GameState::Type GetState();

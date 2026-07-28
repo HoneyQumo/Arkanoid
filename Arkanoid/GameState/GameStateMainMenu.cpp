@@ -74,20 +74,30 @@ namespace ArkanoidGame
         switch (_selectedOptionKey)
         {
         case OptionKey::StartGame:
-            game.SwitchState(GameState::Type::Playing);
-            break;
+            {
+                game.SwitchState(GameState::Type::Playing);
+                break;
+            }
         case OptionKey::DifficultyLevel:
-            game.PushState(GameState::Type::DifficultyLevel);
-            break;
+            {
+                game.PushState(GameState::Type::DifficultyLevel);
+                break;
+            }
         case OptionKey::Leaderboard:
-            game.PushState(GameState::Type::Leaderboard);
-            break;
+            {
+                game.PushState(GameState::Type::Leaderboard);
+                break;
+            }
         case OptionKey::Settings:
-            game.PushState(GameState::Type::Settings);
-            break;
+            {
+                game.PushState(GameState::Type::Settings);
+                break;
+            }
         case OptionKey::Exit:
-            Application::Instance().GetWindow().close();
-            break;
+            {
+                Application::Instance().GetWindow().close();
+                break;
+            }
         }
     }
 }

@@ -43,6 +43,10 @@ namespace ArkanoidGame
         }
     }
 
+    void GameStateAskNickname::Update(float deltaTime)
+    {
+    }
+
     void GameStateAskNickname::WindowEventHandler(const sf::Event& event)
     {
         Game& game = Application::Instance().GetGame();
@@ -50,22 +54,34 @@ namespace ArkanoidGame
 
         if (event.type == sf::Event::KeyPressed)
         {
-            if (event.key.code == sf::Keyboard::Enter)
+            switch (event.key.code)
             {
-                game.assets.menuSelect.play();
-                game.leaderboard.Add(game.GetScore(), _nicknameInput);
-                game.leaderboard.SerializeAndSaveGame();
-                game.PopState();
-            }
-            else if (event.key.code == sf::Keyboard::Up)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
-            }
-            else if (event.key.code == sf::Keyboard::Down)
-            {
-                game.assets.menuToggle.play();
-                MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+            case sf::Keyboard::Enter:
+                {
+                    game.assets.menuSelect.play();
+                    game.leaderboard.Add(game.GetScore(), _nicknameInput);
+                    game.leaderboard.SerializeAndSaveGame();
+                    game.PopState();
+                    break;
+                }
+            case sf::Keyboard::Up:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Up);
+                    break;
+                }
+            case sf::Keyboard::Down:
+                {
+                    game.assets.menuToggle.play();
+                    MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
+                    break;
+                }
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::Backspace:
+                {
+                    game.PopStateOrCloseWindow();
+                    break;
+                }
             }
         }
 

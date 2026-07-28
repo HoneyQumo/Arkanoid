@@ -11,6 +11,8 @@ namespace ArkanoidGame
     {
     public:
         void Init(Game& game) override;
+        void Update(float deltaTime) override;
+        void WindowEventHandler(const sf::Event& event) override;
         void Draw(sf::RenderWindow& window) override;
 
         std::vector<sf::Text>& GetLeaderboard() { return _leaderboard; }

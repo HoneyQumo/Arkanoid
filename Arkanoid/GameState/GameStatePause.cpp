@@ -48,18 +48,20 @@ namespace ArkanoidGame
                     MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
                     break;
                 }
+            // case sf::Keyboard::Backspace:
+            //     {
+            //         if (game.GetState() != GameState::Type::AskNickname)
+            //         {
+            //             game.PopState();
+            //         }
+            //
+            //         break;
+            //     }
             case sf::Keyboard::Backspace:
-                {
-                    if (game.GetState() != GameState::Type::AskNickname)
-                    {
-                        game.PopState();
-                    }
-
-                    break;
-                }
+            case sf::Keyboard::Escape:
             case sf::Keyboard::P:
                 {
-                    game.PopState();
+                    game.PopStateOrCloseWindow();
                     break;
                 }
             }
@@ -85,12 +87,16 @@ namespace ArkanoidGame
         switch (_selectedOptionKey)
         {
         case OptionKey::Continue:
-            game.PopState();
-            break;
+            {
+                game.PopState();
+                break;
+            }
         case OptionKey::Exit:
-            game.Reset(game);
-            game.SwitchState(GameState::Type::MainMenu);
-            break;
+            {
+                game.Reset(game);
+                game.SwitchState(GameState::Type::MainMenu);
+                break;
+            }
         }
     }
 }
