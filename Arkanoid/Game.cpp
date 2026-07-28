@@ -72,10 +72,17 @@ namespace ArkanoidGame
 
     void Game::Update(float deltaTime)
     {
+        _gameStateStack.top().Update(deltaTime);
     }
 
     void Game::Draw(sf::RenderWindow& window)
     {
+        _gameStateStack.top().Draw(window);
+    }
+
+    void Game::WindowEventHandler(sf::Event& event)
+    {
+        _gameStateStack.top().WindowEventHandler(event);
     }
 
     // void Game::ShutdownGame()

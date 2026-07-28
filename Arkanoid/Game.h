@@ -31,11 +31,13 @@ namespace ArkanoidGame
         void Update(float deltaTime);
         void Draw(sf::RenderWindow& window);
 
+        void WindowEventHandler(sf::Event& event);
+
         // void ShutdownGame();
-        
+
         void SetScore(unsigned value) { _score = value; }
         unsigned GetScore() const { return _score; }
-        
+
         void SetWin(bool value) { _isWin = value; }
         bool GetWin() const { return _isWin; }
 
@@ -43,6 +45,5 @@ namespace ArkanoidGame
         std::stack<GameState> _gameStateStack;
         unsigned _score = 0;
         bool _isWin = false;
-        
     };
 }
