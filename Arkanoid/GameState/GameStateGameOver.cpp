@@ -3,10 +3,8 @@
 
 namespace ArkanoidGame
 {
-    void GameStateGameOver::Init()
+    void GameStateGameOver::Init(Game& game)
     {
-        Game& game = Application::Instance().GetGame();
-        
         const auto text = game.GetWin() ? L"..::Победа::.." : L"..::Количество очков::..";
         InitText(_heading, std::wstring(text), game.assets.font);
         _heading.setStyle(sf::Text::Bold);

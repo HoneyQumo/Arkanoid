@@ -10,7 +10,7 @@ namespace ArkanoidGame
 
     void Game::PushState(const GameState::Type& state)
     {
-        _gameStateStack.push(state);
+        _gameStateStack.push(GameState(state, *this));
     }
 
     void Game::PopState()

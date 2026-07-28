@@ -5,6 +5,8 @@
 
 namespace ArkanoidGame
 {
+    class Game;
+
     class GameState
     {
     public:
@@ -21,7 +23,7 @@ namespace ArkanoidGame
         };
 
         GameState() = default;
-        GameState(Type type);
+        GameState(Type type, Game& game);
         GameState(const GameState& state) = delete;
         GameState(GameState&& state) { operator=(std::move(state)); }
 

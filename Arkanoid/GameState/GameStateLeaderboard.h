@@ -5,10 +5,12 @@
 
 namespace ArkanoidGame
 {
+    class Game;
+
     class GameStateLeaderboard : public GameStateData
     {
     public:
-        void Init() override;
+        void Init(Game& game) override;
         void Draw(sf::RenderWindow& window) override;
 
         std::vector<sf::Text>& GetLeaderboard() { return _leaderboard; }

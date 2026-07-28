@@ -9,7 +9,7 @@ namespace ArkanoidGame
     class GameStatePlaying : public GameStateData
     {
     public:
-        void Init() override;
+        void Init(Game& game) override;
         void WindowEventHandler(const sf::Event& event) override;
         void Update(float deltaTime) override;
         void Draw(sf::RenderWindow& window) override;

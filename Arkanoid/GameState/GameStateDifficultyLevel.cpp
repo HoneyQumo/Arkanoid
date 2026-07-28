@@ -3,10 +3,8 @@
 
 namespace ArkanoidGame
 {
-    void GameStateDifficultyLevel::Init()
+    void GameStateDifficultyLevel::Init(Game& game)
     {
-        Game& game = Application::Instance().GetGame();
-
         SetOptionKey(_options, _selectedOptionKey, DifficultyLevel::Type::Easy);
 
         InitText(_heading, L"..::Сложность::..", game.assets.font);

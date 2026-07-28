@@ -10,7 +10,7 @@
 
 namespace ArkanoidGame
 {
-    GameState::GameState(Type type) : _type(type)
+    GameState::GameState(Type type, Game& game) : _type(type)
     {
         switch (type)
         {
@@ -51,7 +51,7 @@ namespace ArkanoidGame
 
         if (_data)
         {
-            _data->Init();
+            _data->Init(game);
         }
     }
 

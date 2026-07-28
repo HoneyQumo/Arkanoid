@@ -4,10 +4,8 @@
 
 namespace ArkanoidGame
 {
-    void GameStateSettings::Init()
+    void GameStateSettings::Init(Game& game)
     {
-        Game& game = Application::Instance().GetGame();
-
         InitText(_heading, L"..::Настройки::..", game.assets.font);
         _heading.setStyle(sf::Text::Underlined);
         _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);

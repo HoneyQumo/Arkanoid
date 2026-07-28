@@ -5,10 +5,8 @@
 
 namespace ArkanoidGame
 {
-    void GameStateLeaderboard::Init()
+    void GameStateLeaderboard::Init(Game& game)
     {
-        Game& game = Application::Instance().GetGame();
-
         InitText(_heading, L"..::Таблица рекордов::..", game.assets.font, TEXT_HEADING_1);
         _heading.setStyle(sf::Text::Underlined | sf::Text::Bold);
         _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);

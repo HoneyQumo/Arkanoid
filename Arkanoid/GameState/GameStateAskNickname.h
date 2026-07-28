@@ -6,10 +6,12 @@
 
 namespace ArkanoidGame
 {
+    class Game;
+
     class GameStateAskNickname : public GameStateData
     {
     public:
-        void Init() override;
+        void Init(Game& game) override;
         void Draw(sf::RenderWindow& window) override;
         void WindowEventHandler(const sf::Event& event) override;
 

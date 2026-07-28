@@ -4,10 +4,8 @@
 
 namespace ArkanoidGame
 {
-    void GameStateAskNickname::Init()
+    void GameStateAskNickname::Init(Game& game)
     {
-        Game& game = Application::Instance().GetGame();
-
         _nicknameInput.clear();
         SetOptionKey(_options, _selectedOptionKey, OptionKey::Yes);
 

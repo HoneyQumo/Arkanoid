@@ -4,14 +4,14 @@
 
 namespace ArkanoidGame
 {
-    void GameStatePlaying::Init()
+    void GameStatePlaying::Init(Game& game)
     {
         _gameObjects.emplace_back(std::make_shared<Platform>());
         _gameObjects.emplace_back(std::make_shared<Ball>());
 
         for (auto&& object : _gameObjects)
         {
-            object->Init(Application::Instance().GetGame());
+            object->Init(game);
         }
     }
 
