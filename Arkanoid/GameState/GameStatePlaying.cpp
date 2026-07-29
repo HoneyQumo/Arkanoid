@@ -12,7 +12,7 @@ namespace ArkanoidGame
         _gameObjects.emplace_back(std::make_shared<Ball>());
 
 
-        const auto& level = GetLevel(game.difficulty.GetType(), 0);
+        const auto& level = GetLevel(game.difficulty.GetType(), game.GetLevelIndex());
 
         for (size_t row = 0; row < level.grid.size(); ++row)
         {
@@ -115,6 +115,20 @@ namespace ArkanoidGame
             ),
             _gameObjects.end()
         );
+
+        const bool hasBricks = std::any_of(
+            _gameObjects.begin(),
+            _gameObjects.end(),
+            [](const std::shared_ptr<GameObject>& obj)
+            {
+                return dynamic_cast<const Brick*>(obj.get()) != nullptr;
+            });
+
+        if (!hasBricks)
+        {
+            game.SetWin(true);
+            game.PushState(GameState::Type::GameOver);
+        }
     }
 
     void GameStatePlaying::Draw(sf::RenderWindow& window)

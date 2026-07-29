@@ -1,11 +1,25 @@
 ﻿#include "GameStateGameOver.h"
 #include "../Application.h"
+#include "../Level.h"
 
 namespace ArkanoidGame
 {
     void GameStateGameOver::Init(Game& game)
     {
-        const auto text = game.GetWin() ? L"..::Победа::.." : L"..::Количество очков::..";
+        const bool hasNextLevel = game.GetWin()
+            && (game.GetLevelIndex() + 1 < GetLevelCount(game.difficulty.GetType()));
+
+        if (!hasNextLevel)
+        {
+            _options.erase(OptionKey::NextLevel);
+        }
+
+        _selectedOptionKey = hasNextLevel ? OptionKey::NextLevel : OptionKey::StartGame;
+
+        const Level& level = GetLevel(game.difficulty.GetType(), game.GetLevelIndex());
+        const auto text = game.GetWin()
+                              ? L"..::Уровень пройден: " + level.name + L"::.."
+                              : L"..::Количество очков::..";
         InitText(_heading, std::wstring(text), game.assets.font);
         _heading.setStyle(sf::Text::Bold);
         _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
@@ -68,7 +82,24 @@ namespace ArkanoidGame
 
     void GameStateGameOver::Update(float deltaTime)
     {
-        _scoreTitle.setString(Application::Instance().GetGame().GetScore());
+        Game& game = Application::Instance().GetGame();
+
+        _scoreTitle.setString(std::to_string(game.GetScore()));
+
+        if (_needsLeaderboardRefresh)
+        {
+            _needsLeaderboardRefresh = false;
+            _leaderboard = game.leaderboard.GetGUI(game, 5);
+        }
+
+        if (_recordChecked) return;
+        _recordChecked = true;
+
+        if (game.GetScore() > 0 && game.GetScore() > game.leaderboard.GetBestScore())
+        {
+            _needsLeaderboardRefresh = true;
+            game.PushState(GameState::Type::AskNickname);
+        }
     }
 
     void GameStateGameOver::Draw(sf::RenderWindow& window)
@@ -92,6 +123,13 @@ namespace ArkanoidGame
     {
         switch (_selectedOptionKey)
         {
+        case OptionKey::NextLevel:
+            {
+                game.SetWin(false);
+                game.SetLevelIndex(game.GetLevelIndex() + 1);
+                game.SwitchState(GameState::Type::Playing);
+                break;
+            }
         case OptionKey::StartGame:
             {
                 game.Reset(game);

@@ -11,7 +11,7 @@ namespace ArkanoidGame
         _sprite.setTextureRect({32, 64, 48, 14});
         SetSpriteSize(_sprite, PLATFORM_WIDTH, PLATFORM_HEIGHT);
         SetSpriteOrigin(_sprite, {0.5f, 0.5f});
-        _sprite.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 100.f);
+        _sprite.setPosition(SCREEN_WIDTH / 2.f, PLATFORM_Y_POSITION);
     }
 
     void Platform::Update(Game& game, const float dt)

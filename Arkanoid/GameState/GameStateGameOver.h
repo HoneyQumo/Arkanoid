@@ -13,12 +13,12 @@ namespace ArkanoidGame
         void WindowEventHandler(const sf::Event& event) override;
         void Update(float deltaTime) override;
         void Draw(sf::RenderWindow& window) override;
-        
-        
+
     private:
         enum class OptionKey
         {
-            StartGame = 0,
+            NextLevel = 0,
+            StartGame,
             ExitToMainMenu
         };
 
@@ -28,8 +28,12 @@ namespace ArkanoidGame
         sf::Text _leaderboardTitle;
         std::vector<sf::Text> _leaderboard;
 
+        bool _recordChecked = false;
+        bool _needsLeaderboardRefresh = false;
+
         std::map<OptionKey, MenuOption> _options = {
-            {OptionKey::StartGame, {L"Начать игру", {}}},
+            {OptionKey::NextLevel, {L"Следующий уровень", {}}},
+            {OptionKey::StartGame, {L"Пройти заново", {}}},
             {OptionKey::ExitToMainMenu, {L"В главное меню", {}}},
         };
 

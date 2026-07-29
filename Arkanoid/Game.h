@@ -42,8 +42,12 @@ namespace ArkanoidGame
         void SetWin(bool value) { _isWin = value; }
         bool GetWin() const { return _isWin; }
 
+        void SetLevelIndex(size_t value) { _levelIndex = value; }
+        size_t GetLevelIndex() const { return _levelIndex; }
+
     private:
         std::stack<GameState> _gameStateStack;
+        size_t _levelIndex = 0;
         unsigned _score = 0;
         bool _isWin = false;
     };

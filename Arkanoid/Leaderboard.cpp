@@ -35,6 +35,12 @@ namespace ArkanoidGame
         return leaderboard;
     }
 
+    unsigned Leaderboard::GetBestScore() const
+    {
+        const auto sorted = GetSorted();
+        return sorted.empty() ? 0u : sorted.front().score;
+    }
+
     bool Leaderboard::SerializeAndSaveGame() const
     {
         std::wofstream file(LEADERBOARD_FILE_PATH);
@@ -98,7 +104,7 @@ namespace ArkanoidGame
         const auto leaderboard = GetSorted();
 
         const auto minSize = std::min(size, leaderboard.size());
-        
+
         for (unsigned i = 0; i < minSize; ++i)
         {
             const auto& item = leaderboard[i];
@@ -110,7 +116,7 @@ namespace ArkanoidGame
 
             tmpData.push_back(tmpItem);
         }
-        
+
         return tmpData;
     }
 }

@@ -26,10 +26,11 @@ namespace ArkanoidGame
     /* General */
     const std::string GAME_NAME = "Arkanoid";
 
-    /* Player */
+    /* Platform */
     constexpr float PLATFORM_WIDTH = SCREEN_WIDTH * 0.2f;
     constexpr float PLATFORM_HEIGHT = SCREEN_HEIGHT * 0.02f;
     constexpr float PLATFORM_SPEED = TOTAL_PIXELS / 1.5f;
+    constexpr float PLATFORM_Y_POSITION = SCREEN_HEIGHT - 100.f;
 
     /* Ball */
     constexpr float BALL_SIZE = 20.f;

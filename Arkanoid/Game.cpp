@@ -66,6 +66,7 @@ namespace ArkanoidGame
             assets.music.play();
         }
 
+        game.SetLevelIndex(0);
         game.SetScore(0);
         game.SetWin(false);
     }
