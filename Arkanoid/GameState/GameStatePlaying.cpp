@@ -38,6 +38,13 @@ namespace ArkanoidGame
         }
 
         InitHintText(_hint, L"[A] [D] Move    [RMB] Mouse    [Space] Launch    [Esc] Pause", game.assets.font);
+
+        InitText(_scoreText, "0", game.assets.font, TEXT_MENU_ITEM, sf::Color::White, {1.f, 0.5f});
+        _scoreText.setPosition(SCREEN_WIDTH - HUD_MARGIN_SIDE, HUD_Y_POSITION);
+
+        _heartSprite = sf::Sprite(game.assets.heart);
+        SetSpriteSize(_heartSprite, HEART_SIZE, HEART_SIZE);
+        SetSpriteOrigin(_heartSprite, {0.f, 0.5f});
     }
 
     void GameStatePlaying::WindowEventHandler(const sf::Event& event)
@@ -58,9 +65,15 @@ namespace ArkanoidGame
 
     void GameStatePlaying::Update(float deltaTime)
     {
+        Game& game = Application::Instance().GetGame();
+
+        /* Origin пересчитывается каждый раз: он зависит от ширины строки */
+        _scoreText.setString(std::to_string(game.GetScore()));
+        _scoreText.setOrigin(GetTextOrigin(_scoreText, {1.f, 0.5f}));
+
         for (auto&& object : _gameObjects)
         {
-            object->Update(Application::Instance().GetGame(), deltaTime);
+            object->Update(game, deltaTime);
         }
 
         const auto platform = dynamic_cast<Platform*>(_gameObjects[0].get());
@@ -74,10 +87,15 @@ namespace ArkanoidGame
             return;
         }
 
-        Game& game = Application::Instance().GetGame();
         const auto difficultyValues = game.difficulty.GetValues();
 
         ball->BounceOffWall(difficultyValues.speed);
+
+        if (ball->IsFallen())
+        {
+            HandleBallFall(game, *ball, *platform);
+            return;
+        }
 
         if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
         {
@@ -134,6 +152,24 @@ namespace ArkanoidGame
         }
     }
 
+    void GameStatePlaying::HandleBallFall(Game& game, Ball& ball, Platform& platform) const
+    {
+        game.assets.death.play();
+
+        const unsigned livesLeft = game.GetLives() > 0 ? game.GetLives() - 1 : 0;
+        game.SetLives(livesLeft);
+
+        if (livesLeft == 0)
+        {
+            game.SetWin(false);
+            game.PushState(GameState::Type::GameOver);
+            return;
+        }
+
+        ball.Respawn();
+        platform.SetSticky(true);
+    }
+
     void GameStatePlaying::Draw(sf::RenderWindow& window)
     {
         for (auto&& object : _gameObjects)
@@ -141,6 +177,18 @@ namespace ArkanoidGame
             object->Draw(window);
         }
 
+        const unsigned lives = Application::Instance().GetGame().GetLives();
+
+        for (unsigned i = 0; i < lives; ++i)
+        {
+            _heartSprite.setPosition(
+                HUD_MARGIN_SIDE + static_cast<float>(i) * (HEART_SIZE + HEART_GAP),
+                HUD_Y_POSITION);
+
+            window.draw(_heartSprite);
+        }
+
+        window.draw(_scoreText);
         window.draw(_hint);
     }
 }

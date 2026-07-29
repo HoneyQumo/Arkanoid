@@ -16,6 +16,11 @@ namespace ArkanoidGame
 
     private:
         std::vector<std::shared_ptr<GameObject>> _gameObjects;
+
         sf::Text _hint;
+        sf::Text _scoreText;
+        sf::Sprite _heartSprite;
+
+        void HandleBallFall(Game& game, Ball& ball, Platform& platform) const;
     };
 }

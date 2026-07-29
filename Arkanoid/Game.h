@@ -45,10 +45,14 @@ namespace ArkanoidGame
         void SetLevelIndex(size_t value) { _levelIndex = value; }
         size_t GetLevelIndex() const { return _levelIndex; }
 
+        void SetLives(unsigned value) { _lives = value; }
+        unsigned GetLives() const { return _lives; }
+
     private:
         std::stack<GameState> _gameStateStack;
         size_t _levelIndex = 0;
         unsigned _score = 0;
+        unsigned _lives = PLAYER_INITIAL_LIVES;
         bool _isWin = false;
     };
 }

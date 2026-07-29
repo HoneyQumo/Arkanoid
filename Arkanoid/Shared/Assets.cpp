@@ -12,6 +12,9 @@ namespace ArkanoidGame
         /* Graphics */
         assert(atlas.loadFromFile(RESOURCES_GRAPHICS + "\\spritesheet-atlas.png"));
 
+        const bool isHeartLoaded = heart.loadFromFile(RESOURCES_GRAPHICS + "\\heart.png");
+        assert(isHeartLoaded);
+
         /* Sounds */
         assert(musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
         music.setBuffer(musicBuffer);

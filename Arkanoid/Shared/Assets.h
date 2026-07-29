@@ -20,7 +20,8 @@ namespace ArkanoidGame
                   menuSelect;
 
         sf::Texture atlas;
-        
+        sf::Texture heart;
+
         void Init();
     };
 }

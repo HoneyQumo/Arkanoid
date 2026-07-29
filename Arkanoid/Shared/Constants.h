@@ -26,6 +26,15 @@ namespace ArkanoidGame
     /* General */
     const std::string GAME_NAME = "Arkanoid";
 
+    /* Player */
+    constexpr unsigned PLAYER_INITIAL_LIVES = 3;
+
+    /* HUD */
+    constexpr float HUD_Y_POSITION = SCREEN_HEIGHT - 68.f;
+    constexpr float HUD_MARGIN_SIDE = 20.f;
+    constexpr float HEART_SIZE = 26.f;
+    constexpr float HEART_GAP = 6.f;
+
     /* Platform */
     constexpr float PLATFORM_WIDTH = SCREEN_WIDTH * 0.2f;
     constexpr float PLATFORM_HEIGHT = SCREEN_HEIGHT * 0.02f;

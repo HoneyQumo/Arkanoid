@@ -13,6 +13,9 @@ namespace ArkanoidGame
 
         void AttachToPlatform(const Platform& platform);
 
+        bool IsFallen() const;
+        void Respawn();
+
         void SetAttached(const bool& value);
         bool GetAttached() const;
 
@@ -30,5 +33,6 @@ namespace ArkanoidGame
     private:
         sf::Vector2f _velocity{0.f, 0.f};
         bool _attached = true;
+        bool _isFallen = false;
     };
 }

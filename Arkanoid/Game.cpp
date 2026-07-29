@@ -68,6 +68,7 @@ namespace ArkanoidGame
 
         game.SetLevelIndex(0);
         game.SetScore(0);
+        game.SetLives(PLAYER_INITIAL_LIVES);
         game.SetWin(false);
     }
 

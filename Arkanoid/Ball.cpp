@@ -40,6 +40,18 @@ namespace ArkanoidGame
         });
     }
 
+    bool Ball::IsFallen() const
+    {
+        return _isFallen;
+    }
+
+    void Ball::Respawn()
+    {
+        _isFallen = false;
+        _attached = true;
+        _velocity = {0.f, 0.f};
+    }
+
     void Ball::SetAttached(const bool& value)
     {
         _attached = value;
@@ -118,8 +130,7 @@ namespace ArkanoidGame
 
         if (bounds.top + bounds.height > static_cast<float>(SCREEN_HEIGHT))
         {
-            Game& game = Application::Instance().GetGame();
-            game.PushState(GameState::Type::GameOver);
+            _isFallen = true;
             return;
         }
 
