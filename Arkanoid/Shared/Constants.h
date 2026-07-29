@@ -52,5 +52,9 @@ namespace ArkanoidGame
     constexpr unsigned TEXT_HEADING_2 = 50;
     constexpr unsigned TEXT_HEADING_3 = 40;
     constexpr unsigned TEXT_MENU_ITEM = 30;
+    constexpr unsigned TEXT_HINT = 20;
+
+    constexpr float HINT_OFFSET_BOTTOM = 40.f;
+    const auto HINT_COLOR = sf::Color(150, 150, 150);
     const sf::String INPUT_PLACEHOLDER = L"Введите имя (XYZ)";
 }

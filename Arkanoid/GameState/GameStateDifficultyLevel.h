@@ -18,6 +18,7 @@ namespace ArkanoidGame
 
     private:
         sf::Text _heading;
+        sf::Text _hint;
 
         std::map<DifficultyLevel::Type, MenuOption> _options = {
             {DifficultyLevel::Type::Easy, {L"Простой", {}}},

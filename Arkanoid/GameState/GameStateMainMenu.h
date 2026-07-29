@@ -24,6 +24,7 @@ namespace ArkanoidGame
         };
 
         sf::Text _heading;
+        sf::Text _hint;
 
         std::map<OptionKey, MenuOption> _options = {
             {OptionKey::StartGame, {L"Начать игру", {}}},

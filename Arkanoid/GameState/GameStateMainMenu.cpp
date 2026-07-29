@@ -16,6 +16,8 @@ namespace ArkanoidGame
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT + (index * 30.f));
             index++;
         }
+
+        InitHintText(_hint, L"[Up] [Down] Select    [Enter] Confirm    [Esc] Exit", game.assets.font);
     }
 
     void GameStateMainMenu::WindowEventHandler(const sf::Event& event)
@@ -65,6 +67,8 @@ namespace ArkanoidGame
         {
             window.draw(option.second.textNode);
         }
+
+        window.draw(_hint);
     }
 
     void GameStateMainMenu::OptionSelectHandler() const

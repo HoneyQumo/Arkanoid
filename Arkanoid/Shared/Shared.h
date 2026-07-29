@@ -21,6 +21,8 @@ namespace ArkanoidGame
         sf::Vector2f origin = {0.5f, 0.5f}
     );
 
+    void InitHintText(sf::Text& node, const sf::String& text, const sf::Font& font);
+
     template <typename T>
     static void MenuToggleOption(std::map<T, MenuOption>& options, T& selectedOptionKey, DirectionVertical direction)
     {

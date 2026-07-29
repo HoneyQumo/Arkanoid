@@ -24,6 +24,8 @@ namespace ArkanoidGame
 
             index++;
         }
+
+        InitHintText(_hint, L"[Up] [Down] Select    [Enter] Toggle    [Backspace] Return", game.assets.font);
     }
 
     void GameStateSettings::Draw(sf::RenderWindow& window)
@@ -34,6 +36,8 @@ namespace ArkanoidGame
         {
             window.draw(option.second.textNode);
         }
+
+        window.draw(_hint);
     }
 
     void GameStateSettings::WindowEventHandler(const sf::Event& event)

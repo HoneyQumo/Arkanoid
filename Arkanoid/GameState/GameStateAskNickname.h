@@ -27,6 +27,7 @@ namespace ArkanoidGame
 
         sf::Text _heading;
         sf::Text _subHeading;
+        sf::Text _hint;
 
         sf::String _nicknameInput;
         sf::Text _nicknameText;

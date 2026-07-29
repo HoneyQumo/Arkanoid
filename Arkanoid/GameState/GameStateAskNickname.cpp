@@ -29,6 +29,8 @@ namespace ArkanoidGame
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - OFFSET_TOP_WINDOW_10_PERCENT - (_options.size() - index) * 30.f);
             index++;
         }
+
+        InitHintText(_hint, L"[Enter] Save    [Backspace] Erase    [Esc] Return", game.assets.font);
     }
 
     void GameStateAskNickname::Draw(sf::RenderWindow& window)
@@ -41,6 +43,8 @@ namespace ArkanoidGame
         {
             window.draw(option.second.textNode);
         }
+
+        window.draw(_hint);
     }
 
     void GameStateAskNickname::Update(float deltaTime)

@@ -2,6 +2,7 @@
 #include "../Application.h"
 #include "../Brick.h"
 #include "../Shared/Math.h"
+#include "../Shared/Shared.h"
 #include "../Level.h"
 
 namespace ArkanoidGame
@@ -35,6 +36,8 @@ namespace ArkanoidGame
         {
             object->Init(game);
         }
+
+        InitHintText(_hint, L"[A] [D] Move    [RMB] Mouse    [Space] Launch    [Esc] Pause", game.assets.font);
     }
 
     void GameStatePlaying::WindowEventHandler(const sf::Event& event)
@@ -137,5 +140,7 @@ namespace ArkanoidGame
         {
             object->Draw(window);
         }
+
+        window.draw(_hint);
     }
 }

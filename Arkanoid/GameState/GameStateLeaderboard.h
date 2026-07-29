@@ -19,6 +19,7 @@ namespace ArkanoidGame
 
     private:
         sf::Text _heading;
+        sf::Text _hint;
         std::vector<sf::Text> _leaderboard;
     };
 }

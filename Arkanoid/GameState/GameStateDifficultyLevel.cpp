@@ -25,6 +25,8 @@ namespace ArkanoidGame
 
             index++;
         }
+
+        InitHintText(_hint, L"[Up] [Down] Select    [Enter] Apply    [Backspace] Return", game.assets.font);
     }
 
     void GameStateDifficultyLevel::Draw(sf::RenderWindow& window)
@@ -35,6 +37,8 @@ namespace ArkanoidGame
         {
             window.draw(option.second.textNode);
         }
+
+        window.draw(_hint);
     }
 
     void GameStateDifficultyLevel::Update(float deltaTime)

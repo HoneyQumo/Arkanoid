@@ -16,5 +16,6 @@ namespace ArkanoidGame
 
     private:
         std::vector<std::shared_ptr<GameObject>> _gameObjects;
+        sf::Text _hint;
     };
 }

@@ -19,6 +19,7 @@ namespace ArkanoidGame
 
     private:
         sf::Text _heading;
+        sf::Text _hint;
 
         std::map<Settings::Type, MenuOption> _options = {
             {Settings::Type::Sound, {L"Звук", {}}},

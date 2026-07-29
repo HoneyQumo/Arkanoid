@@ -20,6 +20,8 @@ namespace ArkanoidGame
             option.second.textNode.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_20_PERCENT + (index * 30.f));
             index++;
         }
+
+        InitHintText(_hint, L"[Up] [Down] Select    [Enter] Confirm    [Backspace] Return", game.assets.font);
     }
 
     void GameStatePause::WindowEventHandler(const sf::Event& event)
@@ -48,15 +50,6 @@ namespace ArkanoidGame
                     MenuToggleOption(_options, _selectedOptionKey, DirectionVertical::Down);
                     break;
                 }
-            // case sf::Keyboard::Backspace:
-            //     {
-            //         if (game.GetState() != GameState::Type::AskNickname)
-            //         {
-            //             game.PopState();
-            //         }
-            //
-            //         break;
-            //     }
             case sf::Keyboard::Backspace:
             case sf::Keyboard::Escape:
             case sf::Keyboard::P:
@@ -80,6 +73,8 @@ namespace ArkanoidGame
         {
             window.draw(option.second.textNode);
         }
+
+        window.draw(_hint);
     }
 
     void GameStatePause::OptionSelectHandler(Game& game) const

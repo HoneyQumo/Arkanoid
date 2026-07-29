@@ -26,6 +26,7 @@ namespace ArkanoidGame
         sf::Text _scoreTitle;
 
         sf::Text _leaderboardTitle;
+        sf::Text _hint;
         std::vector<sf::Text> _leaderboard;
 
         bool _recordChecked = false;

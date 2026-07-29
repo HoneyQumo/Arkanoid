@@ -17,4 +17,10 @@ namespace ArkanoidGame
         node.setFillColor(color);
         node.setOrigin(GetTextOrigin(node, origin));
     }
+
+    void InitHintText(sf::Text& node, const sf::String& text, const sf::Font& font)
+    {
+        InitText(node, text, font, TEXT_HINT, HINT_COLOR);
+        node.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - HINT_OFFSET_BOTTOM);
+    }
 }

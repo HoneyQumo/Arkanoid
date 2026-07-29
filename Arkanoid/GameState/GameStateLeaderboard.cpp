@@ -12,6 +12,8 @@ namespace ArkanoidGame
         _heading.setPosition(SCREEN_WIDTH / 2.f, OFFSET_TOP_WINDOW_10_PERCENT);
 
         _leaderboard = game.leaderboard.GetGUI(game, 10);
+
+        InitHintText(_hint, L"[Backspace] Return", game.assets.font);
     }
 
     void GameStateLeaderboard::Update(float deltaTime)
@@ -44,5 +46,7 @@ namespace ArkanoidGame
         {
             window.draw(item);
         }
+
+        window.draw(_hint);
     }
 }
