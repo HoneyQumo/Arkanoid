@@ -9,10 +9,10 @@ namespace ArkanoidGame
     {
         _sprite = sf::Sprite(game.assets.atlas);
         _sprite.setTextureRect(GetBrickFrameRect(_color, 0));
-        SetSpriteSize(_sprite, 50.f, 25.f);
+        SetSpriteSize(_sprite, BRICK_WIDTH, BRICK_HEIGHT);
         SetSpriteOrigin(_sprite, {0.5f, 0.5f});
         // SetSpriteOrigin(_sprite, {0.f, 0.f});
-        _sprite.setPosition(SCREEN_WIDTH / 2.f, 12.5f);
+        _sprite.setPosition(SCREEN_WIDTH / 2.f, BRICK_HEIGHT / 2.f);
     }
 
     void Brick::Update(Game& game, float dt)
