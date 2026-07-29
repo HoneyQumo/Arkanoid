@@ -16,8 +16,6 @@ namespace ArkanoidGame
         void Update(float deltaTime) override;
         void WindowEventHandler(const sf::Event& event) override;
 
-        sf::String& GetNicknameInput() { return _nicknameInput; }
-
     private:
         enum class OptionKey
         {

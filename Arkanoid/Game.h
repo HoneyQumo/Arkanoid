@@ -34,8 +34,6 @@ namespace ArkanoidGame
 
         void WindowEventHandler(sf::Event& event);
 
-        // void ShutdownGame();
-
         void SetScore(unsigned value) { _score = value; }
         unsigned GetScore() const { return _score; }
 

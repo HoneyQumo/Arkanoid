@@ -41,12 +41,6 @@ namespace ArkanoidGame
 
         Type GetType() const { return _type; }
 
-        template <class T>
-        T* GetData() const
-        {
-            return static_cast<T>(_data);
-        }
-
         void Update(float timeDelta);
         void Draw(sf::RenderWindow& window) const;
         void WindowEventHandler(sf::Event& event);

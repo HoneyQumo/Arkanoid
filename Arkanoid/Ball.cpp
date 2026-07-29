@@ -45,13 +45,6 @@ namespace ArkanoidGame
         return _isFallen;
     }
 
-    void Ball::Respawn()
-    {
-        _isFallen = false;
-        _attached = true;
-        _velocity = {0.f, 0.f};
-    }
-
     void Ball::SetAttached(const bool& value)
     {
         _attached = value;
@@ -83,9 +76,7 @@ namespace ArkanoidGame
         float hit = (bPosition.x - pPosition.x) / halfW;
         hit = std::max(-1.f, std::min(hit, 1.f));
 
-        /* TODO: Тут меняется скорость полёта ball, нужно нормализовать? */
         _velocity = {speed * hit, -speed};
-
         NormalizeVelocity(speed);
     }
 

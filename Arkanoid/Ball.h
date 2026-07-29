@@ -14,7 +14,6 @@ namespace ArkanoidGame
         void AttachToPlatform(const Platform& platform);
 
         bool IsFallen() const;
-        void Respawn();
 
         bool IsDestroyed() const override { return _isFallen; }
 
@@ -30,9 +29,9 @@ namespace ArkanoidGame
 
         void BounceOffRect(const sf::Sprite& rect);
 
+    private:
         void NormalizeVelocity(float speed);
 
-    private:
         sf::Vector2f _velocity{0.f, 0.f};
         bool _attached = true;
         bool _isFallen = false;

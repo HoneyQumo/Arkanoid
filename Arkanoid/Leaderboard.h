@@ -6,7 +6,6 @@
 namespace ArkanoidGame
 {
     class Game;
-    class LeaderboardMenu;
 
     class Leaderboard
     {

@@ -15,8 +15,6 @@ namespace ArkanoidGame
         void WindowEventHandler(const sf::Event& event) override;
         void Draw(sf::RenderWindow& window) override;
 
-        std::vector<sf::Text>& GetLeaderboard() { return _leaderboard; }
-
     private:
         sf::Text _heading;
         sf::Text _hint;

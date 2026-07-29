@@ -35,12 +35,12 @@ namespace ArkanoidGame
         bool IsUnbreakable() const { return _kind == Kind::Unbreakable; }
         bool IsDestroyed() const override;
 
-        static sf::IntRect GetBrickFrameRect(Color color, int frame);
-
         static Kind GetKindByLevelSymbol(char symbol);
         static Color GetColorByLevelSymbol(char symbol);
 
     private:
+        static sf::IntRect GetBrickFrameRect(Color color, int frame);
+
         static const std::map<Color, int> BRICK_COLOR_ROW;
 
         Kind _kind = Kind::Colored;

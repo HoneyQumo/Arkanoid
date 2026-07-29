@@ -98,8 +98,4 @@ namespace ArkanoidGame
     {
         _gameStateStack.top().WindowEventHandler(event);
     }
-
-    // void Game::ShutdownGame()
-    // {
-    // }
 }

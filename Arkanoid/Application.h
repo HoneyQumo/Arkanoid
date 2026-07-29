@@ -20,7 +20,6 @@ namespace ArkanoidGame
 
     private:
         Application();
-        // ~Application();
 
         Game _game;
         sf::RenderWindow _window;

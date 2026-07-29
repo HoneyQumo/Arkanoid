@@ -14,11 +14,6 @@ namespace ArkanoidGame
         _game.Init(_game);
     }
 
-    // Application::~Application()
-    // {
-    // ShutdownGame();
-    // }
-
     void Application::Run()
     {
         sf::Clock gameClock;

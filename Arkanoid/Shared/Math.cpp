@@ -4,13 +4,6 @@
 
 namespace ArkanoidGame
 {
-    // void SetSpriteSize(sf::Sprite& sprite, const float desiredWidth, const float desiredHeight)
-    // {
-    //     const sf::FloatRect spriteRect = sprite.getLocalBounds();
-    //     const sf::Vector2f scale = {desiredWidth / spriteRect.width, desiredHeight / spriteRect.height};
-    //     sprite.setScale(scale);
-    // }
-
     void SetSpriteSize(sf::Sprite& sprite, const float desiredWidth, const float desiredHeight)
     {
         const sf::IntRect& frame = sprite.getTextureRect();
@@ -24,12 +17,6 @@ namespace ArkanoidGame
             desiredHeight / static_cast<float>(frame.height)
         });
     }
-
-    // void SetSpriteOrigin(sf::Sprite& sprite, const sf::Vector2f& origin)
-    // {
-    //     const sf::FloatRect spriteRect = sprite.getLocalBounds();
-    //     sprite.setOrigin(origin.x * spriteRect.width, origin.y * spriteRect.height);
-    // }
 
     void SetSpriteOrigin(sf::Sprite& sprite, const sf::Vector2f& origin)
     {

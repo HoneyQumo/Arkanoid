@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "GameStateData.h"
-// #include "SFML/Graphics.hpp"
 #include "../Settings.h"
 #include "../Application.h"
 #include "../Shared/Shared.h"

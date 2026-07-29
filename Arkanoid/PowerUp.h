@@ -27,7 +27,7 @@ namespace ArkanoidGame
         Type GetType() const { return _type; }
         void Collect() { _isCollected = true; }
 
-        /* Мгновенные бонусы не имеют длительности и в HUD не показываются */
+        /* Пока не используется */
         static bool IsInstant(Type type);
         static sf::IntRect GetIconRect(Type type);
         static Type GetRandomType();
