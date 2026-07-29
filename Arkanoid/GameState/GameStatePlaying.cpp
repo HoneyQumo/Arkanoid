@@ -71,10 +71,10 @@ namespace ArkanoidGame
             return;
         }
 
-        const Game& game = Application::Instance().GetGame();
-        const auto speed = game.difficulty.GetValues().speed;
+        Game& game = Application::Instance().GetGame();
+        const auto difficultyValues = game.difficulty.GetValues();
 
-        ball->BounceOffWall(speed);
+        ball->BounceOffWall(difficultyValues.speed);
 
         if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
         {
@@ -85,7 +85,7 @@ namespace ArkanoidGame
                 return;
             }
 
-            ball->BounceOffPlatform(*platform, speed);
+            ball->BounceOffPlatform(*platform, difficultyValues.speed);
         }
 
         for (auto&& object : _gameObjects)
@@ -98,6 +98,8 @@ namespace ArkanoidGame
             {
                 brick->Hit();
                 ball->BounceOffRect(brick->GetSprite());
+                game.SetScore(game.GetScore() + difficultyValues.pointsRate);
+
                 break;
             }
         }

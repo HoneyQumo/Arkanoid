@@ -29,7 +29,7 @@ namespace ArkanoidGame
     /* Player */
     constexpr float PLATFORM_WIDTH = SCREEN_WIDTH * 0.2f;
     constexpr float PLATFORM_HEIGHT = SCREEN_HEIGHT * 0.02f;
-    constexpr float PLATFORM_SPEED = TOTAL_PIXELS / 2.f;
+    constexpr float PLATFORM_SPEED = TOTAL_PIXELS / 1.5f;
 
     /* Ball */
     constexpr float BALL_SIZE = 20.f;
