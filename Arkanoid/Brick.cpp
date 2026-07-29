@@ -1,18 +1,24 @@
 ﻿#include "Brick.h"
+
+#include <cassert>
+
 #include "Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 
 namespace ArkanoidGame
 {
+    Brick::Brick(const Color color, const sf::Vector2f position) : _color(color)
+    {
+        _sprite.setPosition(position);
+    }
+
     void Brick::Init(Game& game)
     {
-        _sprite = sf::Sprite(game.assets.atlas);
+        _sprite.setTexture(game.assets.atlas);
         _sprite.setTextureRect(GetBrickFrameRect(_color, 0));
         SetSpriteSize(_sprite, BRICK_WIDTH, BRICK_HEIGHT);
-        SetSpriteOrigin(_sprite, {0.5f, 0.5f});
-        // SetSpriteOrigin(_sprite, {0.f, 0.f});
-        _sprite.setPosition(SCREEN_WIDTH / 2.f, BRICK_HEIGHT / 2.f);
+        SetSpriteOrigin(_sprite, {0.f, 0.f});
     }
 
     void Brick::Update(Game& game, float dt)
@@ -41,6 +47,24 @@ namespace ArkanoidGame
             BRICK_FRAME_WIDTH,
             BRICK_FRAME_HEIGHT,
         };
+    }
+
+    Brick::Color Brick::GetColorByLevelSymbol(const char symbol)
+    {
+        switch (symbol)
+        {
+        case 'R': return Color::Red;
+        case 'B': return Color::Blue;
+        case 'Y': return Color::Yellow;
+        case 'G': return Color::Green;
+        case 'P': return Color::Purple;
+        case 'O': return Color::Orange;
+        default:
+            {
+                assert(false);
+                return Color::Red;
+            }
+        }
     }
 
     const std::map<Brick::Color, int> Brick::BRICK_COLOR_ROW = {

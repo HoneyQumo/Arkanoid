@@ -2,6 +2,7 @@
 #include "../Application.h"
 #include "../Brick.h"
 #include "../Shared/Math.h"
+#include "../Level.h"
 
 namespace ArkanoidGame
 {
@@ -9,7 +10,26 @@ namespace ArkanoidGame
     {
         _gameObjects.emplace_back(std::make_shared<Platform>());
         _gameObjects.emplace_back(std::make_shared<Ball>());
-        _gameObjects.emplace_back(std::make_shared<Brick>());
+
+
+        const auto& level = GetLevel(game.difficulty.GetType(), 0);
+
+        for (size_t row = 0; row < level.grid.size(); ++row)
+        {
+            for (size_t col = 0; col < level.grid[row].size(); ++col)
+            {
+                const char symbol = level.grid[row][col];
+
+                if (symbol == '.') continue;
+
+                const auto brickColor = Brick::GetColorByLevelSymbol(symbol);
+                auto brick = std::make_shared<Brick>(
+                    brickColor,
+                    sf::Vector2f(static_cast<float>(col) * BRICK_WIDTH, static_cast<float>(row) * BRICK_HEIGHT));
+
+                _gameObjects.emplace_back(brick);
+            }
+        }
 
         for (auto&& object : _gameObjects)
         {

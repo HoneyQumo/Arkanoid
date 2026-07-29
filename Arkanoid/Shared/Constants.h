@@ -41,10 +41,10 @@ namespace ArkanoidGame
     constexpr int BRICK_FRAME_WIDTH = 32;
     constexpr int BRICK_FRAME_HEIGHT = 16;
 
-    constexpr float BRICK_WIDTH = SCREEN_WIDTH * 0.1f;
-    constexpr float BRICK_HEIGHT = SCREEN_HEIGHT * 0.05f;
+    constexpr float BRICK_WIDTH = SCREEN_WIDTH * 0.05f;
+    constexpr float BRICK_HEIGHT = BRICK_WIDTH / 2.f;
 
-    constexpr float BRICK_DESTROY_FRAME_DURATION = 0.05f;
+    constexpr float BRICK_DESTROY_FRAME_DURATION = 0.04f;
 
     /* Text */
     constexpr unsigned TEXT_HEADING_1 = 60;

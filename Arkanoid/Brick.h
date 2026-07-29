@@ -16,6 +16,8 @@ namespace ArkanoidGame
             Orange,
         };
 
+        Brick(Color color, sf::Vector2f position);
+
         void Init(Game& game) override;
         void Update(Game& game, float dt) override;
 
@@ -23,7 +25,9 @@ namespace ArkanoidGame
         bool IsBreaking() const { return _isBreaking; }
         bool IsDestroyed() const override;
 
-        sf::IntRect GetBrickFrameRect(Color color = Color::Red, int frame = 0);
+        static sf::IntRect GetBrickFrameRect(Color color, int frame);
+
+        static Color GetColorByLevelSymbol(char symbol);
 
     private:
         static const std::map<Color, int> BRICK_COLOR_ROW;

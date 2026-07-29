@@ -480,6 +480,7 @@
             <LinkCompiled>true</LinkCompiled>
         </ClCompile>
         <ClCompile Include="Leaderboard.cpp"/>
+        <ClCompile Include="Level.cpp"/>
         <ClCompile Include="Platform.cpp"/>
         <ClCompile Include="Settings.cpp"/>
         <ClCompile Include="Shared\Assets.cpp"/>
@@ -505,6 +506,7 @@
         <ClInclude Include="GameState\GameStateMainMenu.h"/>
         <ClInclude Include="GameState\GameStateSettings.h"/>
         <ClInclude Include="Leaderboard.h"/>
+        <ClInclude Include="Level.h"/>
         <ClInclude Include="Platform.h"/>
         <ClInclude Include="Settings.h"/>
         <ClInclude Include="Shared\Assets.h"/>
