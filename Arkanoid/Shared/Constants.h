@@ -34,6 +34,14 @@ namespace ArkanoidGame
     /* Ball */
     constexpr float BALL_SIZE = 20.f;
 
+    /* Brick */
+    constexpr int BRICK_ATLAS_LEFT = 32;
+    constexpr int BRICK_ATLAS_TOP = 176;
+    constexpr int BRICK_FRAME_COUNT = 11;
+    constexpr int BRICK_FRAME_WIDTH = 32;
+    constexpr int BRICK_FRAME_HEIGHT = 16;
+    constexpr float BRICK_DESTROY_FRAME_DURATION = 0.05f;
+
     /* Text */
     constexpr unsigned TEXT_HEADING_1 = 60;
     constexpr unsigned TEXT_HEADING_2 = 50;

@@ -1,5 +1,6 @@
 ﻿#include "GameStatePlaying.h"
 #include "../Application.h"
+#include "../Brick.h"
 #include "../Shared/Math.h"
 
 namespace ArkanoidGame
@@ -8,6 +9,7 @@ namespace ArkanoidGame
     {
         _gameObjects.emplace_back(std::make_shared<Platform>());
         _gameObjects.emplace_back(std::make_shared<Ball>());
+        _gameObjects.emplace_back(std::make_shared<Brick>());
 
         for (auto&& object : _gameObjects)
         {
@@ -65,6 +67,30 @@ namespace ArkanoidGame
 
             ball->BounceOffPlatform(*platform, speed);
         }
+
+        for (auto&& object : _gameObjects)
+        {
+            const auto brick = dynamic_cast<Brick*>(object.get());
+
+            if (!brick || brick->IsBreaking()) continue;
+
+            if (HasRectCircleCollision(brick->GetSprite(), ball->GetSprite()))
+            {
+                brick->Hit();
+            }
+        }
+
+        _gameObjects.erase(
+            std::remove_if(
+                _gameObjects.begin(),
+                _gameObjects.end(),
+                [](const std::shared_ptr<GameObject>& obj)
+                {
+                    return obj->IsDestroyed();
+                }
+            ),
+            _gameObjects.end()
+        );
     }
 
     void GameStatePlaying::Draw(sf::RenderWindow& window)
