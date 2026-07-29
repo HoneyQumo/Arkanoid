@@ -16,6 +16,8 @@ namespace ArkanoidGame
         bool IsFallen() const;
         void Respawn();
 
+        bool IsDestroyed() const override { return _isFallen; }
+
         void SetAttached(const bool& value);
         bool GetAttached() const;
 

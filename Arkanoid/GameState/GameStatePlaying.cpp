@@ -1,4 +1,7 @@
-﻿#include "GameStatePlaying.h"
+#include "GameStatePlaying.h"
+
+#include <algorithm>
+
 #include "../Application.h"
 #include "../Brick.h"
 #include "../Shared/Math.h"
@@ -9,9 +12,9 @@ namespace ArkanoidGame
 {
     void GameStatePlaying::Init(Game& game)
     {
-        _gameObjects.emplace_back(std::make_shared<Platform>());
+        _platform = std::make_shared<Platform>();
+        _gameObjects.emplace_back(_platform);
         _gameObjects.emplace_back(std::make_shared<Ball>());
-
 
         const auto& level = GetLevel(game.difficulty.GetType(), game.GetLevelIndex());
 
@@ -23,12 +26,10 @@ namespace ArkanoidGame
 
                 if (symbol == '.') continue;
 
-                const auto brickColor = Brick::GetColorByLevelSymbol(symbol);
-                auto brick = std::make_shared<Brick>(
-                    brickColor,
-                    sf::Vector2f(static_cast<float>(col) * BRICK_WIDTH, static_cast<float>(row) * BRICK_HEIGHT));
-
-                _gameObjects.emplace_back(brick);
+                _gameObjects.emplace_back(std::make_shared<Brick>(
+                    Brick::GetKindByLevelSymbol(symbol),
+                    Brick::GetColorByLevelSymbol(symbol),
+                    sf::Vector2f(static_cast<float>(col) * BRICK_WIDTH, static_cast<float>(row) * BRICK_HEIGHT)));
             }
         }
 
@@ -37,7 +38,7 @@ namespace ArkanoidGame
             object->Init(game);
         }
 
-        InitHintText(_hint, L"[A] [D] Move    [RMB] Mouse    [Space] Launch    [Esc] Pause", game.assets.font);
+        InitHintText(_hint, L"[A] [D] Move    [RMB] Mouse    [Space] [LMB] Launch    [Esc] Pause", game.assets.font);
 
         InitText(_scoreText, "0", game.assets.font, TEXT_MENU_ITEM, sf::Color::White, {1.f, 0.5f});
         _scoreText.setPosition(SCREEN_WIDTH - HUD_MARGIN_SIDE, HUD_Y_POSITION);
@@ -47,6 +48,11 @@ namespace ArkanoidGame
         _heartSprite = sf::Sprite(game.assets.heart);
         SetSpriteSize(_heartSprite, HEART_SIZE, HEART_SIZE);
         SetSpriteOrigin(_heartSprite, {0.f, 0.5f});
+
+        _powerUpIcon = sf::Sprite(game.assets.powerups);
+        _powerUpIcon.setTextureRect(PowerUp::GetIconRect(PowerUp::Type::Expand));
+        SetSpriteSize(_powerUpIcon, HUD_POWERUP_WIDTH, HUD_POWERUP_HEIGHT);
+        SetSpriteOrigin(_powerUpIcon, {0.f, 0.5f});
     }
 
     void GameStatePlaying::WindowEventHandler(const sf::Event& event)
@@ -78,72 +84,59 @@ namespace ArkanoidGame
         {
             _comboText.setString("+" + std::to_string(_combo));
             _comboText.setOrigin(GetTextOrigin(_comboText, {1.f, 0.5f}));
-
-            /* Прижимаем к счёту слева, с учётом его текущей ширины */
             _comboText.setPosition(
                 _scoreText.getPosition().x - _scoreText.getLocalBounds().width - COMBO_GAP,
                 HUD_Y_POSITION);
         }
+
+        UpdateEffects(game, deltaTime);
 
         for (auto&& object : _gameObjects)
         {
             object->Update(game, deltaTime);
         }
 
-        const auto platform = dynamic_cast<Platform*>(_gameObjects[0].get());
-        const auto ball = dynamic_cast<Ball*>(_gameObjects[1].get());
-
-        platform->Control(*ball, deltaTime);
-
-        if (ball->GetAttached())
-        {
-            ball->AttachToPlatform(*platform);
-            return;
-        }
+        _platform->Control(deltaTime);
 
         const auto difficultyValues = game.difficulty.GetValues();
+        const float ballSpeed = IsEffectActive(PowerUp::Type::Slow)
+                                    ? difficultyValues.speed * POWERUP_SLOW_FACTOR
+                                    : difficultyValues.speed;
 
-        ball->BounceOffWall(difficultyValues.speed);
+        auto balls = CollectBalls();
 
-        if (ball->IsFallen())
+        LaunchAttachedBalls(balls);
+
+        for (auto* ball : balls)
         {
-            HandleBallFall(game, *ball, *platform);
-            return;
-        }
-
-        if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
-        {
-            _combo = 0;
-
-            if (platform->GetSticky())
+            if (ball->GetAttached())
             {
-                ball->SetAttached(true);
-
-                return;
+                ball->AttachToPlatform(*_platform);
+                continue;
             }
 
-            ball->BounceOffPlatform(*platform, difficultyValues.speed);
-        }
+            ball->BounceOffWall(ballSpeed);
 
-        for (auto&& object : _gameObjects)
-        {
-            const auto brick = dynamic_cast<Brick*>(object.get());
+            if (ball->IsFallen()) continue;
 
-            if (!brick || brick->IsBreaking()) continue;
-
-            if (HasRectCircleCollision(brick->GetSprite(), ball->GetSprite()))
+            if (HasRectCircleCollision(_platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
             {
-                brick->Hit();
-                ball->BounceOffRect(brick->GetSprite());
-                game.assets.destroy.play();
+                /* Касание платформы сбрасывает комбо */
+                _combo = 0;
 
-                ++_combo;
-                const unsigned comboBonus = (_combo - 1) * difficultyValues.comboBonus;
-                game.SetScore(game.GetScore() + difficultyValues.pointsRate + comboBonus);
+                if (_platform->GetSticky())
+                {
+                    ball->SetAttached(true);
+                    continue;
+                }
 
-                break;
+                ball->BounceOffPlatform(*_platform, ballSpeed);
             }
+
+            HandleBrickCollisions(game, *ball, difficultyValues);
         }
+
+        CollectPowerUps(game);
 
         _gameObjects.erase(
             std::remove_if(
@@ -157,15 +150,13 @@ namespace ArkanoidGame
             _gameObjects.end()
         );
 
-        const bool hasBricks = std::any_of(
-            _gameObjects.begin(),
-            _gameObjects.end(),
-            [](const std::shared_ptr<GameObject>& obj)
-            {
-                return dynamic_cast<const Brick*>(obj.get()) != nullptr;
-            });
+        if (CollectBalls().empty())
+        {
+            HandleAllBallsLost(game);
+            return;
+        }
 
-        if (!hasBricks)
+        if (!HasBreakableBricks())
         {
             ReleaseMouse();
             game.SetWin(true);
@@ -173,15 +164,249 @@ namespace ArkanoidGame
         }
     }
 
-    void GameStatePlaying::ReleaseMouse()
+    std::vector<Ball*> GameStatePlaying::CollectBalls() const
     {
-        auto& window = Application::Instance().GetWindow();
+        std::vector<Ball*> balls;
 
-        window.setMouseCursorVisible(true);
-        window.setMouseCursorGrabbed(false);
+        for (auto&& object : _gameObjects)
+        {
+            if (const auto ball = dynamic_cast<Ball*>(object.get()))
+            {
+                balls.push_back(ball);
+            }
+        }
+
+        return balls;
     }
 
-    void GameStatePlaying::HandleBallFall(Game& game, Ball& ball, Platform& platform)
+    bool GameStatePlaying::HasBreakableBricks() const
+    {
+        return std::any_of(
+            _gameObjects.begin(),
+            _gameObjects.end(),
+            [](const std::shared_ptr<GameObject>& obj)
+            {
+                const auto brick = dynamic_cast<const Brick*>(obj.get());
+                /* Неразрушимые кирпичи остаются на поле навсегда,
+                   иначе уровень было бы невозможно пройти */
+                return brick != nullptr && !brick->IsUnbreakable();
+            });
+    }
+
+    bool GameStatePlaying::IsEffectActive(const PowerUp::Type type) const
+    {
+        return _activeEffects.find(type) != _activeEffects.end();
+    }
+
+    void GameStatePlaying::LaunchAttachedBalls(const std::vector<Ball*>& balls)
+    {
+        const bool isLaunchRequested = sf::Keyboard::isKeyPressed(sf::Keyboard::Space)
+            || sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+        if (!isLaunchRequested) return;
+
+        bool hasLaunched = false;
+
+        for (auto* ball : balls)
+        {
+            if (!ball->GetAttached()) continue;
+
+            ball->Launch();
+            hasLaunched = true;
+        }
+
+        if (hasLaunched && !IsEffectActive(PowerUp::Type::Catch))
+        {
+            _platform->SetSticky(false);
+        }
+    }
+
+    void GameStatePlaying::HandleBrickCollisions(Game& game, Ball& ball, const DifficultyLevel::Values& values)
+    {
+        Brick* destroyed = nullptr;
+
+        for (auto&& object : _gameObjects)
+        {
+            const auto brick = dynamic_cast<Brick*>(object.get());
+
+            if (!brick || brick->IsBreaking()) continue;
+
+            if (!HasRectCircleCollision(brick->GetSprite(), ball.GetSprite())) continue;
+
+            ball.BounceOffRect(brick->GetSprite());
+
+            if (brick->Hit())
+            {
+                destroyed = brick;
+            }
+
+            break;
+        }
+
+        if (!destroyed) return;
+
+        game.assets.destroy.play();
+
+        ++_combo;
+        const unsigned comboBonus = (_combo - 1) * values.comboBonus;
+        game.SetScore(game.GetScore() + values.pointsRate + comboBonus);
+
+        if (GetIntegerInRange(0, 999) < static_cast<int>(POWERUP_DROP_CHANCE * 1000.f))
+        {
+            const auto bounds = destroyed->GetSprite().getGlobalBounds();
+
+            auto powerUp = std::make_shared<PowerUp>(
+                PowerUp::GetRandomType(),
+                sf::Vector2f(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f));
+
+            powerUp->Init(game);
+            _gameObjects.emplace_back(powerUp);
+        }
+    }
+
+    void GameStatePlaying::CollectPowerUps(Game& game)
+    {
+        std::vector<PowerUp::Type> collected;
+
+        for (auto&& object : _gameObjects)
+        {
+            const auto powerUp = dynamic_cast<PowerUp*>(object.get());
+
+            if (!powerUp) continue;
+
+            if (!HasRectRectCollision(_platform->GetSprite(), powerUp->GetSprite())) continue;
+
+            powerUp->Collect();
+            collected.push_back(powerUp->GetType());
+        }
+
+        for (const auto type : collected)
+        {
+            game.assets.menuSelect.play();
+            ApplyPowerUp(game, type);
+        }
+    }
+
+    void GameStatePlaying::ApplyPowerUp(Game& game, const PowerUp::Type type)
+    {
+        switch (type)
+        {
+        case PowerUp::Type::Expand:
+            {
+                _activeEffects.erase(PowerUp::Type::Reduce);
+                _activeEffects[PowerUp::Type::Expand] = POWERUP_DURATION;
+                ApplyPlatformWidth();
+                break;
+            }
+        case PowerUp::Type::Reduce:
+            {
+                _activeEffects.erase(PowerUp::Type::Expand);
+                _activeEffects[PowerUp::Type::Reduce] = POWERUP_DURATION;
+                ApplyPlatformWidth();
+                break;
+            }
+        case PowerUp::Type::Catch:
+            {
+                _activeEffects[PowerUp::Type::Catch] = POWERUP_DURATION;
+                _platform->SetSticky(true);
+                break;
+            }
+        case PowerUp::Type::Slow:
+            {
+                _activeEffects[PowerUp::Type::Slow] = POWERUP_DURATION;
+                break;
+            }
+        case PowerUp::Type::MultiBall:
+            {
+                SpawnExtraBalls(game, CollectBalls());
+                break;
+            }
+        case PowerUp::Type::Life:
+            {
+                game.SetLives(game.GetLives() + 1);
+                break;
+            }
+        }
+    }
+
+    void GameStatePlaying::UpdateEffects(Game& game, const float deltaTime)
+    {
+        bool isPlatformWidthChanged = false;
+
+        for (auto it = _activeEffects.begin(); it != _activeEffects.end();)
+        {
+            it->second -= deltaTime;
+
+            if (it->second > 0.f)
+            {
+                ++it;
+                continue;
+            }
+
+            const PowerUp::Type expired = it->first;
+            it = _activeEffects.erase(it);
+
+            if (expired == PowerUp::Type::Expand || expired == PowerUp::Type::Reduce)
+            {
+                isPlatformWidthChanged = true;
+            }
+            else if (expired == PowerUp::Type::Catch)
+            {
+                _platform->SetSticky(false);
+            }
+        }
+
+        if (isPlatformWidthChanged)
+        {
+            ApplyPlatformWidth();
+        }
+    }
+
+    void GameStatePlaying::ApplyPlatformWidth()
+    {
+        if (IsEffectActive(PowerUp::Type::Expand))
+        {
+            _platform->SetWidth(PLATFORM_WIDTH_EXPANDED);
+        }
+        else if (IsEffectActive(PowerUp::Type::Reduce))
+        {
+            _platform->SetWidth(PLATFORM_WIDTH_REDUCED);
+        }
+        else
+        {
+            _platform->SetWidth(PLATFORM_WIDTH);
+        }
+    }
+
+    void GameStatePlaying::SpawnExtraBalls(Game& game, const std::vector<Ball*>& balls)
+    {
+        if (balls.empty()) return;
+
+        Ball* source = balls.front();
+        const auto position = source->GetSprite().getPosition();
+        auto velocity = source->GetVelocity();
+
+        if (velocity.x == 0.f && velocity.y == 0.f)
+        {
+            velocity = {0.f, -game.difficulty.GetValues().speed};
+        }
+
+        for (unsigned i = 1; i <= MULTIBALL_EXTRA_COUNT; ++i)
+        {
+            const float angle = MULTIBALL_SPREAD_RADIANS * static_cast<float>(i)
+                * (i % 2 == 0 ? -1.f : 1.f);
+
+            auto extra = std::make_shared<Ball>();
+            extra->Init(game);
+            extra->GetSprite().setPosition(position);
+            extra->SetAttached(false);
+            extra->SetVelocity(RotateVector(velocity, angle));
+
+            _gameObjects.emplace_back(extra);
+        }
+    }
+
+    void GameStatePlaying::HandleAllBallsLost(Game& game)
     {
         game.assets.death.play();
         _combo = 0;
@@ -197,8 +422,11 @@ namespace ArkanoidGame
             return;
         }
 
-        ball.Respawn();
-        platform.SetSticky(true);
+        auto ball = std::make_shared<Ball>();
+        ball->Init(game);
+        _gameObjects.emplace_back(ball);
+
+        _platform->SetSticky(true);
     }
 
     void GameStatePlaying::Draw(sf::RenderWindow& window)
@@ -219,6 +447,17 @@ namespace ArkanoidGame
             window.draw(_heartSprite);
         }
 
+        float iconX = HUD_POWERUP_LEFT;
+
+        for (const auto& effect : _activeEffects)
+        {
+            _powerUpIcon.setTextureRect(PowerUp::GetIconRect(effect.first));
+            _powerUpIcon.setPosition(iconX, HUD_Y_POSITION);
+            window.draw(_powerUpIcon);
+
+            iconX += HUD_POWERUP_WIDTH + HEART_GAP;
+        }
+
         window.draw(_scoreText);
 
         if (_combo >= COMBO_MIN_TO_SHOW)
@@ -227,5 +466,13 @@ namespace ArkanoidGame
         }
 
         window.draw(_hint);
+    }
+
+    void GameStatePlaying::ReleaseMouse()
+    {
+        auto& window = Application::Instance().GetWindow();
+
+        window.setMouseCursorVisible(true);
+        window.setMouseCursorGrabbed(false);
     }
 }

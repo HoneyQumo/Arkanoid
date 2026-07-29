@@ -4,7 +4,18 @@
 namespace ArkanoidGame
 {
     /* Сетка: 20 колонок, строка = 20 символов.
-       Первая пустая строка задаёт отступ от верхнего края экрана. */
+       Первая пустая строка задаёт отступ от верхнего края экрана.
+
+       R G B P Y O — обычные кирпичи (одно попадание)
+       A           — бронированный (три попадания, текстура меняется)
+       X           — неразрушимый (в условие победы не входит)
+
+       Правило: неразрушимые блоки никогда не отрезают обычные кирпичи
+       от мяча — сплошные ряды X допустимы только у верхнего края,
+       во всех остальных местах в них оставлены проходы. 
+    */
+
+    // TODO: вынести уровни в файлы, а не хранить тут
 
     /* ===== Easy ===== */
 
@@ -54,8 +65,8 @@ namespace ArkanoidGame
             "..BBB......BBB......",
             "..BBB......BBB......",
             "....................",
-            ".......YYYY.........",
-            ".......YYYY.........",
+            ".......YYAAYY.......",
+            ".......YYAAYY.......",
             "....................",
             "...GG.........GG....",
             "...GG.........GG....",
@@ -72,7 +83,7 @@ namespace ArkanoidGame
     const Level LEVEL_PYRAMID = {
         L"Пирамида", {
             "....................",
-            ".........RR.........",
+            ".........AA.........",
             "........OOOO........",
             ".......YYYYYY.......",
             "......GGGGGGGG......",
@@ -112,7 +123,7 @@ namespace ArkanoidGame
             "..OOOOO......OOOOO..",
             "...OOOOO....OOOOO...",
             "....YYYYY..YYYYY....",
-            ".....YYYYYYYYYY.....",
+            ".....YYYYAAYYYY.....",
             "....GGGGG..GGGGG....",
             "...GGGGG....GGGGG...",
             "..BBBBB......BBBBB..",
@@ -155,7 +166,7 @@ namespace ArkanoidGame
             "BB..BB..BB..BB..BB..",
             "BB..BB..BB..BB..BB..",
             "..PP..PP..PP..PP..PP",
-            "..PP..PP..PP..PP..PP",
+            "..AA..AA..AA..AA..AA",
             "RR..RR..RR..RR..RR..",
             "RR..RR..RR..RR..RR..",
         }
@@ -166,15 +177,15 @@ namespace ArkanoidGame
             "....................",
             "PPPPPPPPPPPPPPPPPPPP",
             "PPPPPPPPPPPPPPPPPPPP",
-            "BBBB............BBBB",
-            "BBBB............BBBB",
-            "BBBB............BBBB",
-            "GGGG............GGGG",
-            "GGGG............GGGG",
-            "GGGG............GGGG",
-            "YYYY............YYYY",
-            "YYYY............YYYY",
-            "YYYY............YYYY",
+            "BBBX............XBBB",
+            "BBBX............XBBB",
+            "BBBX............XBBB",
+            "GGGX............XGGG",
+            "GGGX............XGGG",
+            "GGGX............XGGG",
+            "YYYX............XYYY",
+            "YYYX............XYYY",
+            "YYYX............XYYY",
             "OOOOOOOOOOOOOOOOOOOO",
             "OOOOOOOOOOOOOOOOOOOO",
             "RRRRRRRRRRRRRRRRRRRR",
@@ -187,20 +198,20 @@ namespace ArkanoidGame
     const Level LEVEL_FORTRESS = {
         L"Крепость", {
             "....................",
-            "PPPPPPPPPPPPPPPPPPPP",
-            "P..................P",
-            "P.BBBBBBBBBBBBBBBB.P",
-            "P.B..............B.P",
-            "P.B.GGGGGGGGGGGG.B.P",
-            "P.B.G..........G.B.P",
-            "P.B.G.YYYYYYYY.G.B.P",
-            "P.B.G.YYYYYYYY.G.B.P",
-            "P.B.G..........G.B.P",
-            "P.B.GGGGGGGGGGGG.B.P",
-            "P.B..............B.P",
-            "P.BBBBBBBBBBBBBBBB.P",
-            "P..................P",
-            "PPPPPPPPPPPPPPPPPPPP",
+            "XXXXXXXXXXXXXXXXXXXX",
+            "X..................X",
+            "X.BBBBBBBBBBBBBBBB.X",
+            "X.B..............B.X",
+            "X.B.GGGGGGGGGGGG.B.X",
+            "X.B.G..........G.B.X",
+            "X.B.G.AAAAAAAA.G.B.X",
+            "X.B.G.AAAAAAAA.G.B.X",
+            "X.B.G..........G.B.X",
+            "X.B.GGGGGGGGGGGG.B.X",
+            "X.B..............B.X",
+            "X.BBBBBBBBBBBBBBBB.X",
+            "X..................X",
+            "XXXXX..........XXXXX",
         }
     };
 
@@ -240,7 +251,7 @@ namespace ArkanoidGame
             "Y..Y.Y..Y.Y..Y.Y..Y.",
             "YYY..YYY..YYY..YYY..",
             "..GGG..GGG..GGG..GGG",
-            ".G..G.G..G.G..G.G..G",
+            ".G..A.G..A.G..A.G..A",
             "..GGG..GGG..GGG..GGG",
         }
     };
@@ -256,43 +267,42 @@ namespace ArkanoidGame
             "OOOO..OOOO..OOOO..OO",
             "OOOOOOOOOOOOOOOOOOOO",
             "OO..OOOO..OOOO..OOOO",
+            "XX..XXXX..XXXX..XXXX",
             "YYYYYYYYYYYYYYYYYYYY",
             "YYYY..YYYY..YYYY..YY",
             "YYYYYYYYYYYYYYYYYYYY",
-            "GG..GGGG..GGGG..GGGG",
+            "GGGG..AAAA..GGGG..GG",
             "GGGGGGGGGGGGGGGGGGGG",
             "GGGG..GGGG..GGGG..GG",
             "BBBBBBBBBBBBBBBBBBBB",
             "BB..BBBB..BBBB..BBBB",
             "BBBBBBBBBBBBBBBBBBBB",
             "PPPP..PPPP..PPPP..PP",
-            "PPPPPPPPPPPPPPPPPPPP",
-            "PP..PPPP..PPPP..PPPP",
         }
     };
 
     const Level LEVEL_MAZE = {
         L"Лабиринт", {
             "....................",
-            "PPPPPPPPPPPPPPPPPPPP",
-            "P..................P",
-            "P.BBBBBBBBBBBBBBBB.P",
-            "P.B..............B.P",
-            "P.B.GGGGGGGGGGGG.B.P",
-            "P.B.G..........G.B.P",
-            "P.B.G.YYYYYYYY.G.B.P",
-            "P.B.G.Y......Y.G.B.P",
-            "P.B.G.Y.OOOO.Y.G.B.P",
-            "P.B.G.Y.O..O.Y.G.B.P",
-            "P.B.G.Y.OOOO.Y.G.B.P",
-            "P.B.G.Y......Y.G.B.P",
-            "P.B.G.YYYYYYYY.G.B.P",
-            "P.B.G..........G.B.P",
-            "P.B.GGGGGGGGGGGG.B.P",
-            "P.B..............B.P",
-            "P.BBBBBBBBBBBBBBBB.P",
-            "P..................P",
-            "PPPPPPPPPPPPPPPPPPPP",
+            "XXXXXXXXXXXXXXXXXXXX",
+            "X..................X",
+            "X.BBBBBBBBBBBBBBBB.X",
+            "X.B..............B.X",
+            "X.B.GGGGGGGGGGGG.B.X",
+            "X.B.G..........G.B.X",
+            "X.B.G.YYYYYYYY.G.B.X",
+            "X.B.G.Y......Y.G.B.X",
+            "X.B.G.Y.AAAA.Y.G.B.X",
+            "X.B.G.Y.A..A.Y.G.B.X",
+            "X.B.G.Y.AAAA.Y.G.B.X",
+            "X.B.G.Y......Y.G.B.X",
+            "X.B.G.YYYYYYYY.G.B.X",
+            "X.B.G..........G.B.X",
+            "X.B.GGGGGGGGGGGG.B.X",
+            "X.B..............B.X",
+            "X.BBBBBBBBBBBBBBBB.X",
+            "X..................X",
+            "XXXXX..........XXXXX",
         }
     };
 
@@ -306,8 +316,8 @@ namespace ArkanoidGame
             "RROOYYYYYYYYYYYYOORR",
             "ROOYYYYYYYYYYYYYYOOR",
             "ROOYYGGGGGGGGGGYYOOR",
-            "ROOYYGGGBBBBGGGYYOOR",
-            "ROOYYGGGBBBBGGGYYOOR",
+            "ROOYYGGGAAAAGGGYYOOR",
+            "ROOYYGGGAAAAGGGYYOOR",
             "ROOYYGGGGGGGGGGYYOOR",
             "ROOYYYYYYYYYYYYYYOOR",
             "RROOYYYYYYYYYYYYOORR",
@@ -330,14 +340,14 @@ namespace ArkanoidGame
             "R.R..............R.R",
             "..YY............YY..",
             "....................",
-            "..BB............BB..",
+            "..XX............XX..",
             "....BB........BB....",
             "..BBBBBBBBBBBBBBBB..",
             ".BBB..BBBBBBBB..BBB.",
             "BBBBBBBBBBBBBBBBBBBB",
             "B.BBBBBBBBBBBBBBBB.B",
             "B.B..............B.B",
-            "..PP............PP..",
+            "..AA............AA..",
         }
     };
 

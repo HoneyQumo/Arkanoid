@@ -1,5 +1,6 @@
 ﻿#include "Math.h"
 #include <random>
+#include <cmath>
 
 namespace ArkanoidGame
 {
@@ -74,5 +75,21 @@ namespace ArkanoidGame
         const float dy = cPosition.y - closestY;
 
         return (dx * dx + dy * dy) <= (cRadius * cRadius);
+    }
+
+    bool HasRectRectCollision(const sf::Sprite& first, const sf::Sprite& second)
+    {
+        return first.getGlobalBounds().intersects(second.getGlobalBounds());
+    }
+
+    sf::Vector2f RotateVector(const sf::Vector2f& value, const float radians)
+    {
+        const float sin = std::sin(radians);
+        const float cos = std::cos(radians);
+
+        return {
+            value.x * cos - value.y * sin,
+            value.x * sin + value.y * cos,
+        };
     }
 }

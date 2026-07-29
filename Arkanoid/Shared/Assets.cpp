@@ -15,6 +15,9 @@ namespace ArkanoidGame
         const bool isHeartLoaded = heart.loadFromFile(RESOURCES_GRAPHICS + "\\heart.png");
         assert(isHeartLoaded);
 
+        const bool isPowerupsLoaded = powerups.loadFromFile(RESOURCES_GRAPHICS + "\\powerups.png");
+        assert(isPowerupsLoaded);
+
         /* Sounds */
         assert(musicBuffer.loadFromFile(RESOURCES_AUDIO + "\\music.wav"));
         music.setBuffer(musicBuffer);

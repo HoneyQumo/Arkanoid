@@ -23,6 +23,7 @@ namespace ArkanoidGame
 
         sf::Texture atlas;
         sf::Texture heart;
+        sf::Texture powerups;
 
         void Init();
     };

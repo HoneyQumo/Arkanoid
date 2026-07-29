@@ -1,4 +1,4 @@
-﻿#include "Platform.h"
+#include "Platform.h"
 #include <algorithm>
 #include "Application.h"
 #include "Shared/Constants.h"
@@ -19,7 +19,7 @@ namespace ArkanoidGame
     {
     }
 
-    void Platform::Control(Ball& ball, const float dt)
+    void Platform::Control(const float dt)
     {
         auto& window = Application::Instance().GetWindow();
 
@@ -52,12 +52,12 @@ namespace ArkanoidGame
         positionX = std::max(halfWidth, std::min(positionX, static_cast<float>(SCREEN_WIDTH) - halfWidth));
 
         _sprite.setPosition(positionX, position.y);
+    }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && _sticky)
-        {
-            _sticky = false;
-            ball.Launch();
-        }
+    void Platform::SetWidth(const float width)
+    {
+        SetSpriteSize(_sprite, width, PLATFORM_HEIGHT);
+        SetSpriteOrigin(_sprite, {0.5f, 0.5f});
     }
 
     void Platform::SetSticky(const bool& value)

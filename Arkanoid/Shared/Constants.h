@@ -30,8 +30,13 @@ namespace ArkanoidGame
     constexpr unsigned PLAYER_INITIAL_LIVES = 3;
 
     /* HUD */
+    constexpr float HUD_POWERUP_WIDTH = 32.f;
+    constexpr float HUD_POWERUP_HEIGHT = 20.f;
+    constexpr float HUD_POWERUP_LEFT = 220.f;
+
     constexpr float HUD_Y_POSITION = SCREEN_HEIGHT - 68.f;
     constexpr float HUD_MARGIN_SIDE = 20.f;
+
     constexpr float HEART_SIZE = 26.f;
     constexpr float HEART_GAP = 6.f;
 
@@ -60,6 +65,29 @@ namespace ArkanoidGame
     constexpr float BRICK_HEIGHT = BRICK_WIDTH / 2.f;
 
     constexpr float BRICK_DESTROY_FRAME_DURATION = 0.04f;
+
+    const sf::IntRect BRICK_TILE_WOOD = {32, 272, 32, 16};
+    const sf::IntRect BRICK_TILE_MASONRY = {64, 272, 32, 16};
+    const sf::IntRect BRICK_TILE_STONE = {32, 288, 32, 16};
+    const sf::IntRect BRICK_TILE_DARK_STONE = {64, 288, 32, 16};
+
+    constexpr unsigned BRICK_ARMORED_HIT_POINTS = 3;
+
+    /* Бонусы */
+    constexpr int POWERUP_ICON_WIDTH = 32;
+    constexpr int POWERUP_ICON_HEIGHT = 20;
+    constexpr float POWERUP_WIDTH = 44.f;
+    constexpr float POWERUP_HEIGHT = 27.5f;
+    constexpr float POWERUP_FALL_SPEED = SCREEN_HEIGHT * 0.28f;
+    constexpr float POWERUP_DROP_CHANCE = 0.18f;
+    constexpr float POWERUP_DURATION = 12.f;
+
+    constexpr float POWERUP_SLOW_FACTOR = 0.65f;
+    constexpr float PLATFORM_WIDTH_EXPANDED = PLATFORM_WIDTH * 1.6f;
+    constexpr float PLATFORM_WIDTH_REDUCED = PLATFORM_WIDTH * 0.6f;
+
+    constexpr unsigned MULTIBALL_EXTRA_COUNT = 2;
+    constexpr float MULTIBALL_SPREAD_RADIANS = 0.45f;
 
     /* Text */
     constexpr unsigned TEXT_HEADING_1 = 60;

@@ -1,10 +1,9 @@
-﻿#pragma once
+#pragma once
 #include "GameObject.h"
 
 namespace ArkanoidGame
 {
     class Game;
-    class Ball;
 
     class Platform : public GameObject
     {
@@ -12,7 +11,11 @@ namespace ArkanoidGame
         void Init(Game& game) override;
         void Update(Game& game, float dt) override;
 
-        void Control(Ball& ball, float dt);
+        /* Только перемещение и курсор: запуск мяча живёт в GameStatePlaying,
+           потому что мячей может быть несколько */
+        void Control(float dt);
+
+        void SetWidth(float width);
 
         void SetSticky(const bool& value);
         bool GetSticky() const;

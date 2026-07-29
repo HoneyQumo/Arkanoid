@@ -482,6 +482,7 @@
         <ClCompile Include="Leaderboard.cpp"/>
         <ClCompile Include="Level.cpp"/>
         <ClCompile Include="Platform.cpp"/>
+        <ClCompile Include="PowerUp.cpp"/>
         <ClCompile Include="Settings.cpp"/>
         <ClCompile Include="Shared\Assets.cpp"/>
         <ClCompile Include="Shared\Constants.cpp"/>
@@ -508,6 +509,7 @@
         <ClInclude Include="Leaderboard.h"/>
         <ClInclude Include="Level.h"/>
         <ClInclude Include="Platform.h"/>
+        <ClInclude Include="PowerUp.h"/>
         <ClInclude Include="Settings.h"/>
         <ClInclude Include="Shared\Assets.h"/>
         <ClInclude Include="Shared\Constants.h"/>
