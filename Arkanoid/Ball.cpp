@@ -130,6 +130,41 @@ namespace ArkanoidGame
         }
     }
 
+    void Ball::BounceOffRect(const sf::Sprite& rect)
+    {
+        const auto ballBounds = _sprite.getGlobalBounds();
+        const auto rectBounds = rect.getGlobalBounds();
+
+        const float dx = (ballBounds.left + ballBounds.width / 2.f) - (rectBounds.left + rectBounds.width / 2.f);
+        const float dy = (ballBounds.top + ballBounds.height / 2.f) - (rectBounds.top + rectBounds.height / 2.f);
+
+        const float overlapX = (ballBounds.width + rectBounds.width) / 2.f - std::abs(dx);
+        const float overlapY = (ballBounds.height + rectBounds.height) / 2.f - std::abs(dy);
+
+        sf::Vector2f position = _sprite.getPosition();
+
+        // боковая грань
+        if (overlapX < overlapY)
+        {
+            if (_velocity.x * dx < 0.f)
+            {
+                _velocity.x = -_velocity.x;
+            }
+            position.x += (dx < 0.f ? -overlapX : overlapX);
+        }
+        // горизонтальная грань
+        else
+        {
+            if (_velocity.y * dy < 0.f)
+            {
+                _velocity.y = -_velocity.y;
+            }
+            position.y += (dy < 0.f ? -overlapY : overlapY);
+        }
+
+        _sprite.setPosition(position);
+    }
+
     void Ball::NormalizeVelocity(const float speed)
     {
         const float len = std::hypot(_velocity.x, _velocity.y);

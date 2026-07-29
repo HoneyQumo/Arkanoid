@@ -23,6 +23,8 @@ namespace ArkanoidGame
 
         void BounceOffWall(float speed);
 
+        void BounceOffRect(const sf::Sprite& rect);
+
         void NormalizeVelocity(float speed);
 
     private:

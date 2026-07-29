@@ -77,7 +77,7 @@ namespace ArkanoidGame
             if (HasRectCircleCollision(brick->GetSprite(), ball->GetSprite()))
             {
                 brick->Hit();
-
+                ball->BounceOffRect(brick->GetSprite());
                 break;
             }
         }
