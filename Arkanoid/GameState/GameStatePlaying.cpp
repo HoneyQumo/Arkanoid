@@ -42,6 +42,8 @@ namespace ArkanoidGame
         InitText(_scoreText, "0", game.assets.font, TEXT_MENU_ITEM, sf::Color::White, {1.f, 0.5f});
         _scoreText.setPosition(SCREEN_WIDTH - HUD_MARGIN_SIDE, HUD_Y_POSITION);
 
+        InitText(_comboText, "", game.assets.font, TEXT_MENU_ITEM, COMBO_COLOR, {1.f, 0.5f});
+
         _heartSprite = sf::Sprite(game.assets.heart);
         SetSpriteSize(_heartSprite, HEART_SIZE, HEART_SIZE);
         SetSpriteOrigin(_heartSprite, {0.f, 0.5f});
@@ -71,6 +73,17 @@ namespace ArkanoidGame
         _scoreText.setString(std::to_string(game.GetScore()));
         _scoreText.setOrigin(GetTextOrigin(_scoreText, {1.f, 0.5f}));
 
+        if (_combo >= COMBO_MIN_TO_SHOW)
+        {
+            _comboText.setString("+" + std::to_string(_combo));
+            _comboText.setOrigin(GetTextOrigin(_comboText, {1.f, 0.5f}));
+
+            /* Прижимаем к счёту слева, с учётом его текущей ширины */
+            _comboText.setPosition(
+                _scoreText.getPosition().x - _scoreText.getLocalBounds().width - COMBO_GAP,
+                HUD_Y_POSITION);
+        }
+
         for (auto&& object : _gameObjects)
         {
             object->Update(game, deltaTime);
@@ -99,6 +112,8 @@ namespace ArkanoidGame
 
         if (HasRectCircleCollision(platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
         {
+            _combo = 0;
+
             if (platform->GetSticky())
             {
                 ball->SetAttached(true);
@@ -119,7 +134,11 @@ namespace ArkanoidGame
             {
                 brick->Hit();
                 ball->BounceOffRect(brick->GetSprite());
-                game.SetScore(game.GetScore() + difficultyValues.pointsRate);
+                game.assets.destroy.play();
+
+                ++_combo;
+                const unsigned comboBonus = (_combo - 1) * difficultyValues.comboBonus;
+                game.SetScore(game.GetScore() + difficultyValues.pointsRate + comboBonus);
 
                 break;
             }
@@ -152,9 +171,10 @@ namespace ArkanoidGame
         }
     }
 
-    void GameStatePlaying::HandleBallFall(Game& game, Ball& ball, Platform& platform) const
+    void GameStatePlaying::HandleBallFall(Game& game, Ball& ball, Platform& platform)
     {
         game.assets.death.play();
+        _combo = 0;
 
         const unsigned livesLeft = game.GetLives() > 0 ? game.GetLives() - 1 : 0;
         game.SetLives(livesLeft);
@@ -189,6 +209,12 @@ namespace ArkanoidGame
         }
 
         window.draw(_scoreText);
+
+        if (_combo >= COMBO_MIN_TO_SHOW)
+        {
+            window.draw(_comboText);
+        }
+
         window.draw(_hint);
     }
 }

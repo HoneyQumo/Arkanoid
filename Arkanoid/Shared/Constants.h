@@ -35,6 +35,11 @@ namespace ArkanoidGame
     constexpr float HEART_SIZE = 26.f;
     constexpr float HEART_GAP = 6.f;
 
+    /* Game */
+    constexpr unsigned COMBO_MIN_TO_SHOW = 2;
+    constexpr float COMBO_GAP = 14.f;
+    const auto COMBO_COLOR = sf::Color(255, 210, 60);
+
     /* Platform */
     constexpr float PLATFORM_WIDTH = SCREEN_WIDTH * 0.2f;
     constexpr float PLATFORM_HEIGHT = SCREEN_HEIGHT * 0.02f;

@@ -24,6 +24,11 @@ namespace ArkanoidGame
         death.setBuffer(deathBuffer);
         death.setVolume(SOUNDS_INITIAL_VOLUME);
 
+        const bool isDestroyLoaded = destroyBuffer.loadFromFile(RESOURCES_AUDIO + "\\destroy.wav");
+        assert(isDestroyLoaded);
+        destroy.setBuffer(destroyBuffer);
+        destroy.setVolume(SOUNDS_INITIAL_VOLUME);
+
         // assert(eatBuffer.loadFromFile(RESOURCES_AUDIO + "\\eat.wav"));
         // eat.setBuffer(eatBuffer);
         // eat.setVolume(SOUNDS_INITIAL_VOLUME);

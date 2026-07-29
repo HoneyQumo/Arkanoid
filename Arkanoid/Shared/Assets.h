@@ -11,11 +11,13 @@ namespace ArkanoidGame
 
         sf::SoundBuffer musicBuffer,
                         deathBuffer,
+                        destroyBuffer,
                         menuToggleBuffer,
                         menuSelectBuffer;
 
         sf::Sound music,
                   death,
+                  destroy,
                   menuToggle,
                   menuSelect;
 

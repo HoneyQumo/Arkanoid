@@ -20,6 +20,7 @@ namespace ArkanoidGame
         {
             float speed;
             unsigned pointsRate;
+            unsigned comboBonus;
         };
 
         using ConfigMap = std::map<Type, Values>;
@@ -31,11 +32,11 @@ namespace ArkanoidGame
 
     private:
         ConfigMap _config = {
-            {Type::Easy, {SCREEN_WIDTH * .5f, 2}},
-            {Type::EasyMedium, {SCREEN_WIDTH * .6f, 4}},
-            {Type::Medium, {SCREEN_WIDTH * .7f, 6}},
-            {Type::MediumHard, {SCREEN_WIDTH * .8f, 8}},
-            {Type::Hard, {SCREEN_WIDTH * 1.f, 10}},
+            {Type::Easy, {SCREEN_WIDTH * .7f, 2, 1}},
+            {Type::EasyMedium, {SCREEN_WIDTH * .8f, 4, 2}},
+            {Type::Medium, {SCREEN_WIDTH * .9f, 6, 3}},
+            {Type::MediumHard, {SCREEN_WIDTH * 1.2f, 8, 5}},
+            {Type::Hard, {SCREEN_WIDTH * 1.4f, 10, 8}},
         };
         Type _type = Type::Medium;
         Values _value = _config.at(_type);

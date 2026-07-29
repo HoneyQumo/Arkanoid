@@ -19,8 +19,11 @@ namespace ArkanoidGame
 
         sf::Text _hint;
         sf::Text _scoreText;
+        sf::Text _comboText;
         sf::Sprite _heartSprite;
 
-        void HandleBallFall(Game& game, Ball& ball, Platform& platform) const;
+        unsigned _combo = 0;
+
+        void HandleBallFall(Game& game, Ball& ball, Platform& platform);
     };
 }
