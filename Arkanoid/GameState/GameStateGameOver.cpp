@@ -18,7 +18,7 @@ namespace ArkanoidGame
 
         const Level& level = GetLevel(game.difficulty.GetType(), game.GetLevelIndex());
         const auto text = game.GetWin()
-                              ? L"..::Уровень пройден: " + level.name + L"::.."
+                              ? L"\"" + level.name + L"\" " + L"пройден"
                               : L"..::Количество очков::..";
         InitText(_heading, std::wstring(text), game.assets.font);
         _heading.setStyle(sf::Text::Bold);
