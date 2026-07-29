@@ -7,6 +7,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_FIRST_STEPS = {
         L"Первые шаги", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "....RRRRRRRRRRRR....",
             "....OOOOOOOOOOOO....",
             "....YYYYYYYYYYYY....",
@@ -15,6 +22,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_STAIRS = {
         L"Ступеньки", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "RRRRRRRRRRRRRRRRRRRR",
             "..OOOOOOOOOOOOOOOO..",
             "....YYYYYYYYYYYY....",
@@ -25,6 +39,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_PYRAMID = {
         L"Пирамида", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "RRRRRRRRRRRRRRRRRRRR",
             "..OOOOOOOOOOOOOOOO..",
             "....YYYYYYYYYYYY....",
@@ -34,6 +55,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_COMB = {
         L"Гребёнка", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "R.R.R.R.R.R.R.R.R.R.",
             "OOOOOOOOOOOOOOOOOOOO",
             "Y.Y.Y.Y.Y.Y.Y.Y.Y.Y.",
@@ -45,16 +73,36 @@ namespace ArkanoidGame
 
     const Level LEVEL_RAINBOW = {
         L"Радуга", {
+            "....................",
+            "....................",
             "RRRRRRRRRRRRRRRRRRRR",
+            "....................",
+            "....................",
             "OOOOOOOOOOOOOOOOOOOO",
+            "....................",
+            "....................",
             "YYYYYYYYYYYYYYYYYYYY",
+            "....................",
+            "....................",
             "GGGGGGGGGGGGGGGGGGGG",
+            "....................",
+            "....................",
             "BBBBBBBBBBBBBBBBBBBB",
+            "....................",
+            "....................",
+            "PPPPPPPPPPPPPPPPPPPP",
         }
     };
 
     const Level LEVEL_CHECKERS = {
         L"Шахматы", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "RR..RR..RR..RR..RR..",
             "..OO..OO..OO..OO..OO",
             "YY..YY..YY..YY..YY..",
@@ -65,6 +113,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_GATES = {
         L"Ворота", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "RRRRRRRRRRRRRRRRRRRR",
             "OOOO............OOOO",
             "YYYY............YYYY",
@@ -77,6 +132,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_FORTRESS = {
         L"Крепость", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "PPPPPPPPPPPPPPPPPPPP",
             "PBBBBBBBBBBBBBBBBBBP",
             "PBGGGGGGGGGGGGGGGGBP",
@@ -88,6 +150,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_DIAGONALS = {
         L"Диагонали", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "RRRR....OOOO....YYYY",
             ".RRRR....OOOO....YYY",
             "..RRRR....OOOO....YY",
@@ -98,6 +167,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_HONEYCOMB = {
         L"Соты", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "PP..PP..PP..PP..PP..",
             "..BB..BB..BB..BB..BB",
             "GG..GG..GG..GG..GG..",
@@ -111,6 +187,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_WALL = {
         L"Стена", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "RRRRRRRRRRRRRRRRRRRR",
             "OOOOOOOOOOOOOOOOOOOO",
             "YYYYYYYYYYYYYYYYYYYY",
@@ -124,6 +207,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_MAZE = {
         L"Лабиринт", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "PPPPPPPPPPPPPPPPPPPP",
             "P..................P",
             "P.BBBBBBBBBBBBBBBB.P",
@@ -139,6 +229,13 @@ namespace ArkanoidGame
 
     const Level LEVEL_TARGET = {
         L"Мишень", {
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
+            "....................",
             "....RRRRRRRRRRRR....",
             "..RROOOOOOOOOOOORR..",
             "RROOYYYYYYYYYYYYOORR",
@@ -149,12 +246,6 @@ namespace ArkanoidGame
             "....RRRRRRRRRRRR....",
         }
     };
-
-    // const std::map<char, Brick::Color> LEVEL_CHAR_TO_COLOR = {
-    //     {'R', Brick::Color::Red},    {'G', Brick::Color::Green},
-    //     {'B', Brick::Color::Blue},   {'P', Brick::Color::Purple},
-    //     {'Y', Brick::Color::Yellow}, {'O', Brick::Color::Orange},
-    // };
 
     const std::map<DifficultyLevel::Type, std::vector<Level>> LEVELS_BY_DIFFICULTY = {
         {DifficultyLevel::Type::Easy, {LEVEL_FIRST_STEPS, LEVEL_STAIRS}},
