@@ -25,5 +25,7 @@ namespace ArkanoidGame
         unsigned _combo = 0;
 
         void HandleBallFall(Game& game, Ball& ball, Platform& platform);
+
+        static void ReleaseMouse();
     };
 }

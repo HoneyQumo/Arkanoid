@@ -1,4 +1,5 @@
 ﻿#include "Platform.h"
+#include <algorithm>
 #include "Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
@@ -20,47 +21,42 @@ namespace ArkanoidGame
 
     void Platform::Control(Ball& ball, const float dt)
     {
-        const bool& isRMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Right);
-        Application::Instance().GetWindow().setMouseCursorVisible(!isRMBPressed);
+        auto& window = Application::Instance().GetWindow();
+
+        const bool isRMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+
+        window.setMouseCursorVisible(!isRMBPressed);
+        window.setMouseCursorGrabbed(isRMBPressed);
+
+        const float halfWidth = _sprite.getGlobalBounds().width / 2.f;
+        const auto position = _sprite.getPosition();
+        float positionX = position.x;
 
         if (isRMBPressed)
         {
-            const auto position = _sprite.getPosition();
-            float mousePositionX = static_cast<float>(sf::Mouse::getPosition(Application::Instance().GetWindow()).x);
-            const auto platformHalfW = _sprite.getGlobalBounds().width / 2.f;
+            const float mouseX = static_cast<float>(sf::Mouse::getPosition(window).x);
 
-            if (mousePositionX - platformHalfW < 0.f)
-            {
-                mousePositionX = platformHalfW;
-            }
-            else if (mousePositionX + platformHalfW > static_cast<float>(SCREEN_WIDTH))
-            {
-                mousePositionX = static_cast<float>(SCREEN_WIDTH) - platformHalfW;
-            }
-
-            _sprite.setPosition(mousePositionX, position.y);
+            float ratio = mouseX / static_cast<float>(SCREEN_WIDTH);
+            ratio = std::max(0.f, std::min(ratio, 1.f));
+            positionX = halfWidth + ratio * (static_cast<float>(SCREEN_WIDTH) - 2.f * halfWidth);
         }
-        else
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            {
-                const auto position = _sprite.getPosition();
-                _sprite.setPosition(position.x + (dt * PLATFORM_SPEED), position.y);
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            {
-                const auto position = _sprite.getPosition();
-                _sprite.setPosition(position.x - (dt * PLATFORM_SPEED), position.y);
-            }
+            positionX += dt * PLATFORM_SPEED;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            positionX -= dt * PLATFORM_SPEED;
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        positionX = std::max(halfWidth, std::min(positionX, static_cast<float>(SCREEN_WIDTH) - halfWidth));
+
+        _sprite.setPosition(positionX, position.y);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && _sticky)
         {
-            if (_sticky)
-            {
-                _sticky = false;
-                ball.Launch();
-            }
+            _sticky = false;
+            ball.Launch();
         }
     }
 

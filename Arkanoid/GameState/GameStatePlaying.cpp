@@ -58,6 +58,7 @@ namespace ArkanoidGame
             case sf::Keyboard::Escape:
             case sf::Keyboard::P:
                 {
+                    ReleaseMouse();
                     Application::Instance().GetGame().PushState(GameState::Type::Pause);
                     break;
                 }
@@ -166,9 +167,18 @@ namespace ArkanoidGame
 
         if (!hasBricks)
         {
+            ReleaseMouse();
             game.SetWin(true);
             game.PushState(GameState::Type::GameOver);
         }
+    }
+
+    void GameStatePlaying::ReleaseMouse()
+    {
+        auto& window = Application::Instance().GetWindow();
+
+        window.setMouseCursorVisible(true);
+        window.setMouseCursorGrabbed(false);
     }
 
     void GameStatePlaying::HandleBallFall(Game& game, Ball& ball, Platform& platform)
@@ -181,6 +191,7 @@ namespace ArkanoidGame
 
         if (livesLeft == 0)
         {
+            ReleaseMouse();
             game.SetWin(false);
             game.PushState(GameState::Type::GameOver);
             return;
