@@ -1,5 +1,7 @@
 ﻿#include <fstream>
 #include <algorithm>
+#include <string>
+#include "SFML/System/String.hpp"
 #include "Leaderboard.h"
 #include "Game.h"
 #include "Shared/Shared.h"
@@ -43,59 +45,57 @@ namespace ArkanoidGame
 
     bool Leaderboard::SerializeAndSaveGame() const
     {
-        std::wofstream file(LEADERBOARD_FILE_PATH);
+        std::ofstream file(LEADERBOARD_FILE_PATH);
 
-        if (file.is_open())
+        if (!file.is_open())
         {
-            for (auto item : _array)
-            {
-                std::replace(item.playerName.begin(), item.playerName.end(), L' ', L'_');
-
-                file << item.playerName << L" " << item.score << "\n";
-            }
-
-            file.close();
-            return true;
+            return false;
         }
 
-        return false;
+        for (auto item : _array)
+        {
+            std::replace(item.playerName.begin(), item.playerName.end(), L' ', L'_');
+
+            const auto utf8Name = sf::String(item.playerName).toUtf8();
+
+            file << std::string(utf8Name.begin(), utf8Name.end()) << " " << item.score << "\n";
+        }
+
+        return file.good();
     }
 
     bool Leaderboard::DeserializeAndLoad()
     {
-        std::wifstream file(LEADERBOARD_FILE_PATH);
+        std::ifstream file(LEADERBOARD_FILE_PATH);
 
-        if (file.is_open())
+        if (!file.is_open())
         {
-            _array.clear();
-            Item tmpItem;
-
-            while (file >> tmpItem.playerName >> tmpItem.score)
-            {
-                std::replace(tmpItem.playerName.begin(), tmpItem.playerName.end(), L'_', L' ');
-                _array.push_back(tmpItem);
-            }
-
-            file.close();
-            return true;
+            return false;
         }
 
-        return false;
+        _array.clear();
+
+        std::string utf8Name;
+        unsigned score = 0;
+
+        while (file >> utf8Name >> score)
+        {
+            auto playerName = sf::String::fromUtf8(utf8Name.begin(), utf8Name.end()).toWideString();
+            std::replace(playerName.begin(), playerName.end(), L'_', L' ');
+
+            _array.push_back({playerName, score});
+        }
+
+        return true;
     }
 
     bool Leaderboard::Clear()
     {
         _array.clear();
 
-        std::wofstream file(LEADERBOARD_FILE_PATH, std::ios::out | std::ios::trunc);
+        const std::ofstream file(LEADERBOARD_FILE_PATH, std::ios::out | std::ios::trunc);
 
-        if (file.is_open())
-        {
-            file.close();
-            return true;
-        }
-
-        return false;
+        return file.is_open();
     }
 
     std::vector<sf::Text> Leaderboard::GetGUI(Game& game, const size_t size) const

@@ -31,9 +31,9 @@ namespace ArkanoidGame
 
     private:
         ConfigMap _config = {
-            {Type::Easy, {SCREEN_WIDTH * .2f, 2}},
-            {Type::EasyMedium, {SCREEN_WIDTH * .4f, 4}},
-            {Type::Medium, {SCREEN_WIDTH * .6f, 6}},
+            {Type::Easy, {SCREEN_WIDTH * .5f, 2}},
+            {Type::EasyMedium, {SCREEN_WIDTH * .6f, 4}},
+            {Type::Medium, {SCREEN_WIDTH * .7f, 6}},
             {Type::MediumHard, {SCREEN_WIDTH * .8f, 8}},
             {Type::Hard, {SCREEN_WIDTH * 1.f, 10}},
         };

@@ -56,8 +56,11 @@ namespace ArkanoidGame
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            _sticky = false;
-            ball.Launch();
+            if (_sticky)
+            {
+                _sticky = false;
+                ball.Launch();
+            }
         }
     }
 
