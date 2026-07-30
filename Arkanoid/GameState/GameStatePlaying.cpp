@@ -115,7 +115,8 @@ namespace ArkanoidGame
                 continue;
             }
 
-            ball->BounceOffWall(ballSpeed);
+            ball->SetSpeed(ballSpeed);
+            ball->BounceOffWall();
 
             if (ball->IsFallen()) continue;
 
@@ -125,8 +126,6 @@ namespace ArkanoidGame
                 _combo = 0;
 
                 if (ball->GetAttached()) continue;
-
-                ball->BounceOffPlatform(*_platform, ballSpeed);
             }
 
             HandleBrickCollisions(game, ball, difficultyValues);
@@ -228,8 +227,6 @@ namespace ArkanoidGame
             if (!brick) continue;
 
             if (!brick->CheckCollision(ball)) continue;
-
-            ball->BounceOffRect(brick->GetBounds());
 
             if (brick->IsBreaking())
             {

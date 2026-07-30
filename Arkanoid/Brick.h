@@ -43,7 +43,7 @@ namespace ArkanoidGame
         sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
 
     protected:
-        void OnHit() override;
+        void OnHit(Collidable& other) override;
 
     private:
         static sf::IntRect GetBrickFrameRect(Color color, int frame);

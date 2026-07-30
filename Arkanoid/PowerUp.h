@@ -38,7 +38,7 @@ namespace ArkanoidGame
         sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
 
     protected:
-        void OnHit() override;
+        void OnHit(Collidable& other) override;
 
     private:
         Type _type = Type::Expand;

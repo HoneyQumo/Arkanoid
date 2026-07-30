@@ -65,7 +65,7 @@ namespace ArkanoidGame
         return _velocity;
     }
 
-    void Ball::BounceOffPlatform(Platform& platform, const float speed)
+    void Ball::BounceOffPlatform(const Platform& platform)
     {
         const auto& platformSprite = platform.GetSprite();
         const sf::Vector2f pPosition = platformSprite.getPosition();
@@ -76,11 +76,11 @@ namespace ArkanoidGame
         float hit = (bPosition.x - pPosition.x) / halfW;
         hit = std::max(-1.f, std::min(hit, 1.f));
 
-        _velocity = {speed * hit, -speed};
-        NormalizeVelocity(speed);
+        _velocity = {_speed * hit, -_speed};
+        NormalizeVelocity(_speed);
     }
 
-    void Ball::BounceOffWall(const float speed)
+    void Ball::BounceOffWall()
     {
         const auto bounds = _sprite.getGlobalBounds();
         const float radiusX = bounds.width * 0.5f;
@@ -128,7 +128,7 @@ namespace ArkanoidGame
         if (bounced)
         {
             _sprite.setPosition(position);
-            NormalizeVelocity(speed);
+            NormalizeVelocity(_speed);
         }
     }
 
@@ -171,8 +171,9 @@ namespace ArkanoidGame
         return HasRectCircleCollision(collidable->GetBounds(), GetBounds());
     }
 
-    void Ball::OnHit()
+    void Ball::OnHit(Collidable& other)
     {
+        BounceOffRect(other.GetBounds());
     }
 
     void Ball::NormalizeVelocity(const float speed)

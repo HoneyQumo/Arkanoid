@@ -13,8 +13,8 @@ namespace ArkanoidGame
         {
             if (HasCollisionWith(collidable))
             {
-                OnHit();
-                collidable->OnHit();
+                OnHit(*collidable);
+                collidable->OnHit(*this);
                 return true;
             }
             return false;
@@ -25,6 +25,6 @@ namespace ArkanoidGame
         virtual sf::FloatRect GetBounds() const = 0;
 
     protected:
-        virtual void OnHit() = 0;
+        virtual void OnHit(Collidable& other) = 0;
     };
 }

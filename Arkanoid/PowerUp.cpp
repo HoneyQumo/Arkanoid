@@ -38,7 +38,7 @@ namespace ArkanoidGame
         return HasRectRectCollision(GetBounds(), collidable->GetBounds());
     }
 
-    void PowerUp::OnHit()
+    void PowerUp::OnHit(Collidable&)
     {
         Collect();
     }

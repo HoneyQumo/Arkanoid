@@ -49,7 +49,7 @@ namespace ArkanoidGame
         return HasRectCircleCollision(GetBounds(), collidable->GetBounds());
     }
 
-    void Brick::OnHit()
+    void Brick::OnHit(Collidable&)
     {
         if (_kind == Kind::Unbreakable || _isBreaking) return;
 

@@ -85,6 +85,10 @@ namespace ArkanoidGame
         {
             ball->SetAttached(true);
         }
+        else
+        {
+            ball->BounceOffPlatform(*this);
+        }
 
         return true;
     }
@@ -94,7 +98,7 @@ namespace ArkanoidGame
         return HasRectCircleCollision(GetBounds(), collidable->GetBounds());
     }
 
-    void Platform::OnHit()
+    void Platform::OnHit(Collidable&)
     {
     }
 }

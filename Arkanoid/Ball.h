@@ -24,9 +24,11 @@ namespace ArkanoidGame
         void SetVelocity(sf::Vector2f value);
         sf::Vector2f& GetVelocity();
 
-        void BounceOffPlatform(Platform& platform, float speed);
+        void SetSpeed(float value) { _speed = value; }
 
-        void BounceOffWall(float speed);
+        void BounceOffPlatform(const Platform& platform);
+
+        void BounceOffWall();
 
         void BounceOffRect(const sf::FloatRect& rectBounds);
 
@@ -35,12 +37,13 @@ namespace ArkanoidGame
         sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
 
     protected:
-        void OnHit() override;
+        void OnHit(Collidable& other) override;
 
     private:
         void NormalizeVelocity(float speed);
 
         sf::Vector2f _velocity{0.f, 0.f};
+        float _speed = 0.f;
         bool _attached = true;
         bool _isFallen = false;
     };
