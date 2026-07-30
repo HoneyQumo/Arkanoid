@@ -132,10 +132,9 @@ namespace ArkanoidGame
         }
     }
 
-    void Ball::BounceOffRect(const sf::Sprite& rect)
+    void Ball::BounceOffRect(const sf::FloatRect& rectBounds)
     {
         const auto ballBounds = _sprite.getGlobalBounds();
-        const auto rectBounds = rect.getGlobalBounds();
 
         const float dx = (ballBounds.left + ballBounds.width / 2.f) - (rectBounds.left + rectBounds.width / 2.f);
         const float dy = (ballBounds.top + ballBounds.height / 2.f) - (rectBounds.top + rectBounds.height / 2.f);
@@ -165,6 +164,15 @@ namespace ArkanoidGame
         }
 
         _sprite.setPosition(position);
+    }
+
+    bool Ball::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    {
+        return HasRectCircleCollision(collidable->GetBounds(), GetBounds());
+    }
+
+    void Ball::OnHit()
+    {
     }
 
     void Ball::NormalizeVelocity(const float speed)

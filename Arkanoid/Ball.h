@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include "SFML/Graphics.hpp"
+#include "Collidable.h"
 #include "Platform.h"
 
 namespace ArkanoidGame
 {
-    class Ball : public GameObject
+    class Ball : public GameObject, public Collidable
     {
     public:
         void Init(Game& game) override;
@@ -27,7 +28,14 @@ namespace ArkanoidGame
 
         void BounceOffWall(float speed);
 
-        void BounceOffRect(const sf::Sprite& rect);
+        void BounceOffRect(const sf::FloatRect& rectBounds);
+
+        bool HasCollisionWith(std::shared_ptr<Collidable> collidable) const override;
+
+        sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
+
+    protected:
+        void OnHit() override;
 
     private:
         void NormalizeVelocity(float speed);

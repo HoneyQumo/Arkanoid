@@ -44,16 +44,18 @@ namespace ArkanoidGame
         return dis(gen);
     }
 
-    bool HasRectCircleCollision(const sf::Sprite& rectangle, const sf::Sprite& circle)
+    bool HasRectCircleCollision(const sf::FloatRect& rectangle, const sf::FloatRect& circleBounds)
     {
-        const auto rBounds = rectangle.getGlobalBounds();
-        const auto cPosition = circle.getPosition();
-        const auto cRadius = circle.getGlobalBounds().width / 2.f;
+        const float cRadius = circleBounds.width / 2.f;
+        const sf::Vector2f cPosition{
+            circleBounds.left + circleBounds.width / 2.f,
+            circleBounds.top + circleBounds.height / 2.f,
+        };
 
-        const auto& plLeft = rBounds.left;
-        const auto& plTop = rBounds.top;
-        const auto& plRight = rBounds.left + rBounds.width;
-        const auto& plBottom = rBounds.top + rBounds.height;
+        const auto& plLeft = rectangle.left;
+        const auto& plTop = rectangle.top;
+        const auto plRight = rectangle.left + rectangle.width;
+        const auto plBottom = rectangle.top + rectangle.height;
 
         const float closestX = std::max(plLeft, std::min(cPosition.x, plRight));
         const float closestY = std::max(plTop, std::min(cPosition.y, plBottom));
@@ -64,9 +66,9 @@ namespace ArkanoidGame
         return (dx * dx + dy * dy) <= (cRadius * cRadius);
     }
 
-    bool HasRectRectCollision(const sf::Sprite& first, const sf::Sprite& second)
+    bool HasRectRectCollision(const sf::FloatRect& first, const sf::FloatRect& second)
     {
-        return first.getGlobalBounds().intersects(second.getGlobalBounds());
+        return first.intersects(second);
     }
 
     sf::Vector2f RotateVector(const sf::Vector2f& value, const float radians)

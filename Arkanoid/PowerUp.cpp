@@ -33,6 +33,16 @@ namespace ArkanoidGame
         return _isCollected || _sprite.getPosition().y - POWERUP_HEIGHT > static_cast<float>(SCREEN_HEIGHT);
     }
 
+    bool PowerUp::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    {
+        return HasRectRectCollision(GetBounds(), collidable->GetBounds());
+    }
+
+    void PowerUp::OnHit()
+    {
+        Collect();
+    }
+
     bool PowerUp::IsInstant(const Type type)
     {
         return type == Type::MultiBall || type == Type::Life;

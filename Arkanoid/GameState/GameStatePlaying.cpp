@@ -107,7 +107,7 @@ namespace ArkanoidGame
 
         LaunchAttachedBalls(balls);
 
-        for (auto* ball : balls)
+        for (const auto& ball : balls)
         {
             if (ball->GetAttached())
             {
@@ -119,21 +119,17 @@ namespace ArkanoidGame
 
             if (ball->IsFallen()) continue;
 
-            if (HasRectCircleCollision(_platform->GetSprite(), ball->GetSprite()) && (ball->GetVelocity().y > 0.f))
+            if (_platform->CheckCollision(ball))
             {
                 /* Касание платформы сбрасывает комбо */
                 _combo = 0;
 
-                if (_platform->GetSticky())
-                {
-                    ball->SetAttached(true);
-                    continue;
-                }
+                if (ball->GetAttached()) continue;
 
                 ball->BounceOffPlatform(*_platform, ballSpeed);
             }
 
-            HandleBrickCollisions(game, *ball, difficultyValues);
+            HandleBrickCollisions(game, ball, difficultyValues);
         }
 
         CollectPowerUps(game);
@@ -164,13 +160,13 @@ namespace ArkanoidGame
         }
     }
 
-    std::vector<Ball*> GameStatePlaying::CollectBalls() const
+    std::vector<std::shared_ptr<Ball>> GameStatePlaying::CollectBalls() const
     {
-        std::vector<Ball*> balls;
+        std::vector<std::shared_ptr<Ball>> balls;
 
         for (auto&& object : _gameObjects)
         {
-            if (const auto ball = dynamic_cast<Ball*>(object.get()))
+            if (const auto ball = std::dynamic_pointer_cast<Ball>(object))
             {
                 balls.push_back(ball);
             }
@@ -198,7 +194,7 @@ namespace ArkanoidGame
         return _activeEffects.find(type) != _activeEffects.end();
     }
 
-    void GameStatePlaying::LaunchAttachedBalls(const std::vector<Ball*>& balls)
+    void GameStatePlaying::LaunchAttachedBalls(const std::vector<std::shared_ptr<Ball>>& balls)
     {
         const bool isLaunchRequested = sf::Keyboard::isKeyPressed(sf::Keyboard::Space)
             || sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -207,7 +203,7 @@ namespace ArkanoidGame
 
         bool hasLaunched = false;
 
-        for (auto* ball : balls)
+        for (const auto& ball : balls)
         {
             if (!ball->GetAttached()) continue;
 
@@ -221,21 +217,21 @@ namespace ArkanoidGame
         }
     }
 
-    void GameStatePlaying::HandleBrickCollisions(Game& game, Ball& ball, const DifficultyLevel::Values& values)
+    void GameStatePlaying::HandleBrickCollisions(Game& game, const std::shared_ptr<Ball>& ball, const DifficultyLevel::Values& values)
     {
-        Brick* destroyed = nullptr;
+        std::shared_ptr<Brick> destroyed;
 
         for (auto&& object : _gameObjects)
         {
-            const auto brick = dynamic_cast<Brick*>(object.get());
+            const auto brick = std::dynamic_pointer_cast<Brick>(object);
 
-            if (!brick || brick->IsBreaking()) continue;
+            if (!brick) continue;
 
-            if (!HasRectCircleCollision(brick->GetSprite(), ball.GetSprite())) continue;
+            if (!brick->CheckCollision(ball)) continue;
 
-            ball.BounceOffRect(brick->GetSprite());
+            ball->BounceOffRect(brick->GetBounds());
 
-            if (brick->Hit())
+            if (brick->IsBreaking())
             {
                 destroyed = brick;
             }
@@ -253,7 +249,7 @@ namespace ArkanoidGame
 
         if (GetIntegerInRange(0, 999) < static_cast<int>(POWERUP_DROP_CHANCE * 1000.f))
         {
-            const auto bounds = destroyed->GetSprite().getGlobalBounds();
+            const auto bounds = destroyed->GetBounds();
 
             auto powerUp = std::make_shared<PowerUp>(
                 PowerUp::GetRandomType(),
@@ -270,13 +266,12 @@ namespace ArkanoidGame
 
         for (auto&& object : _gameObjects)
         {
-            const auto powerUp = dynamic_cast<PowerUp*>(object.get());
+            const auto powerUp = std::dynamic_pointer_cast<PowerUp>(object);
 
             if (!powerUp) continue;
 
-            if (!HasRectRectCollision(_platform->GetSprite(), powerUp->GetSprite())) continue;
+            if (!powerUp->CheckCollision(_platform)) continue;
 
-            powerUp->Collect();
             collected.push_back(powerUp->GetType());
         }
 
@@ -378,11 +373,11 @@ namespace ArkanoidGame
         }
     }
 
-    void GameStatePlaying::SpawnExtraBalls(Game& game, const std::vector<Ball*>& balls)
+    void GameStatePlaying::SpawnExtraBalls(Game& game, const std::vector<std::shared_ptr<Ball>>& balls)
     {
         if (balls.empty()) return;
 
-        Ball* source = balls.front();
+        const auto& source = balls.front();
         const auto position = source->GetSprite().getPosition();
         auto velocity = source->GetVelocity();
 

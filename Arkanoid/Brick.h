@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include <map>
+#include "Collidable.h"
 #include "GameObject.h"
 
 namespace ArkanoidGame
 {
-    class Brick : public GameObject
+    class Brick : public GameObject, public Collidable
     {
     public:
         enum class Color
@@ -29,14 +30,20 @@ namespace ArkanoidGame
         void Init(Game& game) override;
         void Update(Game& game, float dt) override;
 
-        bool Hit();
-
         bool IsBreaking() const { return _isBreaking; }
         bool IsUnbreakable() const { return _kind == Kind::Unbreakable; }
         bool IsDestroyed() const override;
 
         static Kind GetKindByLevelSymbol(char symbol);
         static Color GetColorByLevelSymbol(char symbol);
+
+        bool CheckCollision(std::shared_ptr<Collidable> collidable) override;
+        bool HasCollisionWith(std::shared_ptr<Collidable> collidable) const override;
+
+        sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
+
+    protected:
+        void OnHit() override;
 
     private:
         static sf::IntRect GetBrickFrameRect(Color color, int frame);

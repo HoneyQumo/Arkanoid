@@ -189,6 +189,7 @@
         <ClInclude Include="Application.h"/>
         <ClInclude Include="Ball.h"/>
         <ClInclude Include="Brick.h"/>
+        <ClInclude Include="Collidable.h"/>
         <ClInclude Include="DifficultyLevel.h"/>
         <ClInclude Include="Game.h"/>
         <ClInclude Include="GameObject.h"/>

@@ -1,6 +1,7 @@
 #include "Platform.h"
 #include <algorithm>
 #include "Application.h"
+#include "Ball.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 
@@ -68,5 +69,32 @@ namespace ArkanoidGame
     bool Platform::GetSticky() const
     {
         return _sticky;
+    }
+
+    bool Platform::CheckCollision(const std::shared_ptr<Collidable> collidable)
+    {
+        const auto ball = std::dynamic_pointer_cast<Ball>(collidable);
+
+        if (!ball) return false;
+
+        if (ball->GetVelocity().y <= 0.f) return false;
+
+        if (!Collidable::CheckCollision(collidable)) return false;
+
+        if (_sticky)
+        {
+            ball->SetAttached(true);
+        }
+
+        return true;
+    }
+
+    bool Platform::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    {
+        return HasRectCircleCollision(GetBounds(), collidable->GetBounds());
+    }
+
+    void Platform::OnHit()
+    {
     }
 }

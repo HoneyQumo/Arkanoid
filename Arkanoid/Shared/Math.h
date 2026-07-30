@@ -13,9 +13,9 @@ namespace ArkanoidGame
 
     int GetIntegerInRange(int a, int b);
 
-    bool HasRectCircleCollision(const sf::Sprite& rectangle, const sf::Sprite& circle);
+    bool HasRectCircleCollision(const sf::FloatRect& rectangle, const sf::FloatRect& circleBounds);
 
-    bool HasRectRectCollision(const sf::Sprite& first, const sf::Sprite& second);
+    bool HasRectRectCollision(const sf::FloatRect& first, const sf::FloatRect& second);
 
     sf::Vector2f RotateVector(const sf::Vector2f& value, float radians);
 }

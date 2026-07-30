@@ -37,23 +37,31 @@ namespace ArkanoidGame
         }
     }
 
-    bool Brick::Hit()
+    bool Brick::CheckCollision(const std::shared_ptr<Collidable> collidable)
     {
-        if (_kind == Kind::Unbreakable || _isBreaking)
-        {
-            return false;
-        }
+        if (_isBreaking) return false;
+
+        return Collidable::CheckCollision(collidable);
+    }
+
+    bool Brick::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    {
+        return HasRectCircleCollision(GetBounds(), collidable->GetBounds());
+    }
+
+    void Brick::OnHit()
+    {
+        if (_kind == Kind::Unbreakable || _isBreaking) return;
 
         if (_hitPoints > 1)
         {
             --_hitPoints;
             _sprite.setTextureRect(GetIdleRect());
-            return false;
+            return;
         }
 
         _hitPoints = 0;
         _isBreaking = true;
-        return true;
     }
 
     bool Brick::IsDestroyed() const

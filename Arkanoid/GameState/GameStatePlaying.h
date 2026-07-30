@@ -33,17 +33,17 @@ namespace ArkanoidGame
 
         unsigned _combo = 0;
 
-        std::vector<Ball*> CollectBalls() const;
+        std::vector<std::shared_ptr<Ball>> CollectBalls() const;
         bool HasBreakableBricks() const;
         bool IsEffectActive(PowerUp::Type type) const;
 
-        void LaunchAttachedBalls(const std::vector<Ball*>& balls);
-        void HandleBrickCollisions(Game& game, Ball& ball, const DifficultyLevel::Values& values);
+        void LaunchAttachedBalls(const std::vector<std::shared_ptr<Ball>>& balls);
+        void HandleBrickCollisions(Game& game, const std::shared_ptr<Ball>& ball, const DifficultyLevel::Values& values);
         void CollectPowerUps(Game& game);
         void ApplyPowerUp(Game& game, PowerUp::Type type);
         void UpdateEffects(Game& game, float deltaTime);
         void ApplyPlatformWidth();
-        void SpawnExtraBalls(Game& game, const std::vector<Ball*>& balls);
+        void SpawnExtraBalls(Game& game, const std::vector<std::shared_ptr<Ball>>& balls);
         void HandleAllBallsLost(Game& game);
 
         static void ReleaseMouse();
