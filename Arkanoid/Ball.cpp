@@ -166,9 +166,9 @@ namespace ArkanoidGame
         _sprite.setPosition(position);
     }
 
-    bool Ball::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    bool Ball::HasCollisionWith(const Collidable& other) const
     {
-        return HasRectCircleCollision(collidable->GetBounds(), GetBounds());
+        return HasRectCircleCollision(other.GetBounds(), GetBounds());
     }
 
     void Ball::OnHit(Collidable& other)

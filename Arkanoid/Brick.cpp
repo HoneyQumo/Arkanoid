@@ -37,16 +37,16 @@ namespace ArkanoidGame
         }
     }
 
-    bool Brick::CheckCollision(const std::shared_ptr<Collidable> collidable)
+    bool Brick::CheckCollision(Collidable& other)
     {
         if (_isBreaking) return false;
 
-        return Collidable::CheckCollision(collidable);
+        return Collidable::CheckCollision(other);
     }
 
-    bool Brick::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    bool Brick::HasCollisionWith(const Collidable& other) const
     {
-        return HasRectCircleCollision(GetBounds(), collidable->GetBounds());
+        return HasRectCircleCollision(GetBounds(), other.GetBounds());
     }
 
     void Brick::OnHit(Collidable&)

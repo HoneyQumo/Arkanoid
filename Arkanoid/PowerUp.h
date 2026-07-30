@@ -33,7 +33,7 @@ namespace ArkanoidGame
         static sf::IntRect GetIconRect(Type type);
         static Type GetRandomType();
 
-        bool HasCollisionWith(std::shared_ptr<Collidable> collidable) const override;
+        bool HasCollisionWith(const Collidable& other) const override;
 
         sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
 

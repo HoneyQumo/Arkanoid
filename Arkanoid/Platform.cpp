@@ -71,15 +71,15 @@ namespace ArkanoidGame
         return _sticky;
     }
 
-    bool Platform::CheckCollision(const std::shared_ptr<Collidable> collidable)
+    bool Platform::CheckCollision(Collidable& other)
     {
-        const auto ball = std::dynamic_pointer_cast<Ball>(collidable);
+        const auto ball = dynamic_cast<Ball*>(&other);
 
         if (!ball) return false;
 
         if (ball->GetVelocity().y <= 0.f) return false;
 
-        if (!Collidable::CheckCollision(collidable)) return false;
+        if (!Collidable::CheckCollision(other)) return false;
 
         if (_sticky)
         {
@@ -93,9 +93,9 @@ namespace ArkanoidGame
         return true;
     }
 
-    bool Platform::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    bool Platform::HasCollisionWith(const Collidable& other) const
     {
-        return HasRectCircleCollision(GetBounds(), collidable->GetBounds());
+        return HasRectCircleCollision(GetBounds(), other.GetBounds());
     }
 
     void Platform::OnHit(Collidable&)

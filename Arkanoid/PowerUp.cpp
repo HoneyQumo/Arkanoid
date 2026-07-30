@@ -33,9 +33,9 @@ namespace ArkanoidGame
         return _isCollected || _sprite.getPosition().y - POWERUP_HEIGHT > static_cast<float>(SCREEN_HEIGHT);
     }
 
-    bool PowerUp::HasCollisionWith(const std::shared_ptr<Collidable> collidable) const
+    bool PowerUp::HasCollisionWith(const Collidable& other) const
     {
-        return HasRectRectCollision(GetBounds(), collidable->GetBounds());
+        return HasRectRectCollision(GetBounds(), other.GetBounds());
     }
 
     void PowerUp::OnHit(Collidable&)

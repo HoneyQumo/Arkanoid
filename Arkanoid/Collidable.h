@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include "SFML/Graphics.hpp"
 
 namespace ArkanoidGame
@@ -9,18 +8,18 @@ namespace ArkanoidGame
     public:
         virtual ~Collidable() = default;
 
-        virtual bool CheckCollision(std::shared_ptr<Collidable> collidable)
+        virtual bool CheckCollision(Collidable& other)
         {
-            if (HasCollisionWith(collidable))
+            if (HasCollisionWith(other))
             {
-                OnHit(*collidable);
-                collidable->OnHit(*this);
+                OnHit(other);
+                other.OnHit(*this);
                 return true;
             }
             return false;
         }
 
-        virtual bool HasCollisionWith(std::shared_ptr<Collidable> collidable) const = 0;
+        virtual bool HasCollisionWith(const Collidable& other) const = 0;
 
         virtual sf::FloatRect GetBounds() const = 0;
 

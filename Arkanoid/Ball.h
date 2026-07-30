@@ -32,7 +32,7 @@ namespace ArkanoidGame
 
         void BounceOffRect(const sf::FloatRect& rectBounds);
 
-        bool HasCollisionWith(std::shared_ptr<Collidable> collidable) const override;
+        bool HasCollisionWith(const Collidable& other) const override;
 
         sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
 

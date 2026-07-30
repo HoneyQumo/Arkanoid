@@ -37,8 +37,8 @@ namespace ArkanoidGame
         static Kind GetKindByLevelSymbol(char symbol);
         static Color GetColorByLevelSymbol(char symbol);
 
-        bool CheckCollision(std::shared_ptr<Collidable> collidable) override;
-        bool HasCollisionWith(std::shared_ptr<Collidable> collidable) const override;
+        bool CheckCollision(Collidable& other) override;
+        bool HasCollisionWith(const Collidable& other) const override;
 
         sf::FloatRect GetBounds() const override { return _sprite.getGlobalBounds(); }
 
