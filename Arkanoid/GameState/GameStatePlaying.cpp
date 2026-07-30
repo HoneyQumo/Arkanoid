@@ -1,6 +1,7 @@
 ﻿#include "GameStatePlaying.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include "../Application.h"
 #include "../Brick.h"
@@ -45,6 +46,8 @@ namespace ArkanoidGame
 
         InitText(_comboText, "", game.assets.font, TEXT_MENU_ITEM, COMBO_COLOR, {1.f, 0.5f});
 
+        InitText(_debugBallSpeedText, "", game.assets.font, TEXT_HINT, HINT_COLOR, {0.5f, 0.f});
+
         _heartSprite = sf::Sprite(game.assets.heart);
         SetSpriteSize(_heartSprite, HEART_SIZE, HEART_SIZE);
         SetSpriteOrigin(_heartSprite, {0.f, 0.5f});
@@ -66,6 +69,11 @@ namespace ArkanoidGame
                 {
                     ReleaseMouse();
                     Application::Instance().GetGame().PushState(GameState::Type::Pause);
+                    break;
+                }
+            case sf::Keyboard::F1:
+                {
+                    _debugShowBallSpeed = !_debugShowBallSpeed;
                     break;
                 }
             }
@@ -426,6 +434,26 @@ namespace ArkanoidGame
         for (auto&& object : _gameObjects)
         {
             object->Draw(window);
+        }
+
+        if (_debugShowBallSpeed)
+        {
+            for (auto* ball : CollectBalls())
+            {
+                const auto& velocity = ball->GetVelocity();
+                const int actual = static_cast<int>(std::hypot(velocity.x, velocity.y));
+                const int target = static_cast<int>(ball->GetSpeed());
+
+                _debugBallSpeedText.setString(std::to_string(actual) + " / " + std::to_string(target));
+                _debugBallSpeedText.setOrigin(GetTextOrigin(_debugBallSpeedText, {0.5f, 0.f}));
+
+                const auto bounds = ball->GetBounds();
+                _debugBallSpeedText.setPosition(
+                    bounds.left + bounds.width / 2.f,
+                    bounds.top + bounds.height + 4.f);
+
+                window.draw(_debugBallSpeedText);
+            }
         }
 
         const unsigned lives = Application::Instance().GetGame().GetLives();

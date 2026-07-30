@@ -25,6 +25,7 @@ namespace ArkanoidGame
         sf::Vector2f& GetVelocity();
 
         void SetSpeed(float value) { _speed = value; }
+        float GetSpeed() const { return _speed; }
 
         void BounceOffPlatform(const Platform& platform);
 

@@ -4,6 +4,10 @@
 
 namespace ArkanoidGame
 {
+    /* Debug */
+    /* Переключается на F1 */
+    constexpr bool DEBUG_SHOW_BALL_SPEED = false;
+
     /* Paths */
     const std::string RESOURCES_PATH = "Resources/";
     const std::string RESOURCES_AUDIO = RESOURCES_PATH + "Audio";

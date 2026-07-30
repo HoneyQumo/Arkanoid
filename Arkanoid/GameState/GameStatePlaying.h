@@ -7,6 +7,7 @@
 #include "../Ball.h"
 #include "../PowerUp.h"
 #include "../GameObject.h"
+#include "../Shared/Constants.h"
 
 namespace ArkanoidGame
 {
@@ -30,6 +31,9 @@ namespace ArkanoidGame
         sf::Text _comboText;
         sf::Sprite _heartSprite;
         sf::Sprite _powerUpIcon;
+
+        sf::Text _debugBallSpeedText;
+        bool _debugShowBallSpeed = DEBUG_SHOW_BALL_SPEED;
 
         unsigned _combo = 0;
 
