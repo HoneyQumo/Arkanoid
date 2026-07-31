@@ -1,7 +1,7 @@
-#include "Assets.h"
+#include "Core/Assets.h"
 #include <cassert>
 #include <string>
-#include "Constants.h"
+#include "Shared/Constants.h"
 
 namespace ArkanoidGame
 {

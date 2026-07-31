@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "SFML/Graphics.hpp"
-#include "Collidable.h"
-#include "Platform.h"
+#include "Objects/Collidable.h"
+#include "Objects/Platform.h"
 
 namespace ArkanoidGame
 {

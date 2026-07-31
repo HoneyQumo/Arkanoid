@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "DifficultyLevel.h"
+#include "Data/DifficultyLevel.h"
 
 namespace ArkanoidGame
 {

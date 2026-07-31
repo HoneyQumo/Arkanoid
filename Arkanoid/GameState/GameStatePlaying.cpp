@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <cmath>
 
-#include "../Application.h"
-#include "../Brick.h"
-#include "../Shared/Math.h"
-#include "../Shared/Shared.h"
-#include "../Level.h"
+#include "Core/Application.h"
+#include "Objects/Brick.h"
+#include "Shared/Math.h"
+#include "Shared/Menu.h"
+#include "Data/Level.h"
 
 namespace ArkanoidGame
 {
@@ -27,9 +27,8 @@ namespace ArkanoidGame
 
                 if (symbol == '.') continue;
 
-                _gameObjects.emplace_back(std::make_shared<Brick>(
-                    Brick::GetKindByLevelSymbol(symbol),
-                    Brick::GetColorByLevelSymbol(symbol),
+                _gameObjects.emplace_back(CreateBrickBySymbol(
+                    symbol,
                     sf::Vector2f(static_cast<float>(col) * BRICK_WIDTH, static_cast<float>(row) * BRICK_HEIGHT)));
             }
         }

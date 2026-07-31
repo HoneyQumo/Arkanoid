@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "GameStateData.h"
-#include "../Application.h"
-#include "../Shared/Shared.h"
+#include "Core/Application.h"
+#include "Shared/Menu.h"
 
 namespace ArkanoidGame
 {

@@ -1,6 +1,6 @@
 ﻿#include "GameStateGameOver.h"
-#include "../Application.h"
-#include "../Level.h"
+#include "Core/Application.h"
+#include "Data/Level.h"
 
 namespace ArkanoidGame
 {

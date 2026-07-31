@@ -1,5 +1,5 @@
-﻿#include "Game.h"
-#include "Application.h"
+﻿#include "Core/Game.h"
+#include "Core/Application.h"
 
 namespace ArkanoidGame
 {

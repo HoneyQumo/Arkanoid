@@ -1,4 +1,4 @@
-﻿#include "Settings.h"
+﻿#include "Core/Settings.h"
 
 namespace ArkanoidGame
 {

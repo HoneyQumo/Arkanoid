@@ -1,8 +1,8 @@
 ﻿#include "GameStatePause.h"
 
-#include "../Application.h"
-#include "../Game.h"
-#include "../Shared/Shared.h"
+#include "Core/Application.h"
+#include "Core/Game.h"
+#include "Shared/Menu.h"
 
 namespace ArkanoidGame
 {

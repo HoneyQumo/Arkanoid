@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include "SFML/Graphics.hpp"
-#include "Game.h"
+#include "Core/Game.h"
 
 namespace ArkanoidGame
 {

@@ -1,6 +1,6 @@
 ﻿#include "GameStateLeaderboard.h"
-#include "../Application.h"
-#include "../Shared/Shared.h"
+#include "Core/Application.h"
+#include "Shared/Menu.h"
 
 
 namespace ArkanoidGame

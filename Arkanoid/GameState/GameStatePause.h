@@ -2,7 +2,7 @@
 #include <map>
 #include "GameStateData.h"
 #include "SFML/Graphics.hpp"
-#include "../Shared/Shared.h"
+#include "Shared/Menu.h"
 
 namespace ArkanoidGame
 {

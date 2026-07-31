@@ -1,7 +1,7 @@
-#include "Platform.h"
+#include "Objects/Platform.h"
 #include <algorithm>
-#include "Application.h"
-#include "Ball.h"
+#include "Core/Application.h"
+#include "Objects/Ball.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 

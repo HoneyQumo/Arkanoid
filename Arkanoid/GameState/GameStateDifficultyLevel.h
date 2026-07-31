@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "GameStateData.h"
 #include "SFML/Graphics.hpp"
-#include "../DifficultyLevel.h"
-#include "../Shared/Shared.h"
+#include "Data/DifficultyLevel.h"
+#include "Shared/Menu.h"
 
 namespace ArkanoidGame
 {

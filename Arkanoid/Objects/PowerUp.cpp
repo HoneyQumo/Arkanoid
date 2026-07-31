@@ -1,6 +1,6 @@
-﻿#include "PowerUp.h"
+﻿#include "Objects/PowerUp.h"
 
-#include "Application.h"
+#include "Core/Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 

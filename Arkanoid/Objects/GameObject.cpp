@@ -1,4 +1,4 @@
-﻿#include "GameObject.h"
+﻿#include "Objects/GameObject.h"
 
 namespace ArkanoidGame
 {

@@ -2,12 +2,12 @@
 #include <map>
 #include <vector>
 #include "GameStateData.h"
-#include "../DifficultyLevel.h"
-#include "../Platform.h"
-#include "../Ball.h"
-#include "../PowerUp.h"
-#include "../GameObject.h"
-#include "../Shared/Constants.h"
+#include "Data/DifficultyLevel.h"
+#include "Objects/Platform.h"
+#include "Objects/Ball.h"
+#include "Objects/PowerUp.h"
+#include "Objects/GameObject.h"
+#include "Shared/Constants.h"
 
 namespace ArkanoidGame
 {

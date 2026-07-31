@@ -1,5 +1,5 @@
-﻿#include "Ball.h"
-#include "Application.h"
+﻿#include "Objects/Ball.h"
+#include "Core/Application.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 #include <cmath>

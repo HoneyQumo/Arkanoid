@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Collidable.h"
-#include "GameObject.h"
+#include "Objects/Collidable.h"
+#include "Objects/GameObject.h"
 
 namespace ArkanoidGame
 {

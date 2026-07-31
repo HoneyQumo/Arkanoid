@@ -1,17 +1,18 @@
-﻿#include "Brick.h"
+#include "Objects/Brick.h"
 
 #include <cassert>
 
-#include "Application.h"
+#include "Core/Application.h"
+#include "Objects/ArmoredBrick.h"
+#include "Objects/UnbreakableBrick.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 
 namespace ArkanoidGame
 {
-    Brick::Brick(const Kind kind, const Color color, const sf::Vector2f position)
-        : _kind(kind), _color(color)
+    Brick::Brick(const Color color, const sf::Vector2f position)
+        : _color(color)
     {
-        _hitPoints = kind == Kind::Armored ? BRICK_ARMORED_HIT_POINTS : 1;
         _sprite.setPosition(position);
     }
 
@@ -32,8 +33,7 @@ namespace ArkanoidGame
 
         if (frame < BRICK_FRAME_COUNT)
         {
-            const Color debrisColor = _kind == Kind::Colored ? _color : Color::Orange;
-            _sprite.setTextureRect(GetBrickFrameRect(debrisColor, frame));
+            _sprite.setTextureRect(GetBrickFrameRect(_color, frame));
         }
     }
 
@@ -51,16 +51,8 @@ namespace ArkanoidGame
 
     void Brick::OnHit(Collidable&)
     {
-        if (_kind == Kind::Unbreakable || _isBreaking) return;
+        if (_isBreaking) return;
 
-        if (_hitPoints > 1)
-        {
-            --_hitPoints;
-            _sprite.setTextureRect(GetIdleRect());
-            return;
-        }
-
-        _hitPoints = 0;
         _isBreaking = true;
     }
 
@@ -71,22 +63,7 @@ namespace ArkanoidGame
 
     sf::IntRect Brick::GetIdleRect() const
     {
-        switch (_kind)
-        {
-        case Kind::Unbreakable:
-            return BRICK_TILE_DARK_STONE;
-
-        case Kind::Armored:
-            {
-                if (_hitPoints >= 3) return BRICK_TILE_STONE;
-                if (_hitPoints == 2) return BRICK_TILE_MASONRY;
-                return BRICK_TILE_WOOD;
-            }
-
-        case Kind::Colored:
-        default:
-            return GetBrickFrameRect(_color, 0);
-        }
+        return GetBrickFrameRect(_color, 0);
     }
 
     sf::IntRect Brick::GetBrickFrameRect(const Color color, const int frame)
@@ -99,16 +76,6 @@ namespace ArkanoidGame
         };
     }
 
-    Brick::Kind Brick::GetKindByLevelSymbol(const char symbol)
-    {
-        switch (symbol)
-        {
-        case 'A': return Kind::Armored;
-        case 'X': return Kind::Unbreakable;
-        default: return Kind::Colored;
-        }
-    }
-
     Brick::Color Brick::GetColorByLevelSymbol(const char symbol)
     {
         switch (symbol)
@@ -119,11 +86,6 @@ namespace ArkanoidGame
         case 'G': return Color::Green;
         case 'P': return Color::Purple;
         case 'O': return Color::Orange;
-
-        /* У особых кирпичей цвет не используется, но конструктор его требует */
-        case 'A':
-        case 'X':
-            return Color::Orange;
 
         default:
             {
@@ -141,4 +103,14 @@ namespace ArkanoidGame
         {Color::Yellow, 4},
         {Color::Orange, 5},
     };
+
+    std::shared_ptr<Brick> CreateBrickBySymbol(const char symbol, const sf::Vector2f position)
+    {
+        switch (symbol)
+        {
+        case 'A': return std::make_shared<ArmoredBrick>(position);
+        case 'X': return std::make_shared<UnbreakableBrick>(position);
+        default: return std::make_shared<Brick>(Brick::GetColorByLevelSymbol(symbol), position);
+        }
+    }
 }

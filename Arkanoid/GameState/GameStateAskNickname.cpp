@@ -1,5 +1,5 @@
 ﻿#include "GameStateAskNickname.h"
-#include "../Application.h"
+#include "Core/Application.h"
 
 
 namespace ArkanoidGame

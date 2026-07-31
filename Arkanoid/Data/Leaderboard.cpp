@@ -2,9 +2,9 @@
 #include <algorithm>
 #include <string>
 #include "SFML/System/String.hpp"
-#include "Leaderboard.h"
-#include "Game.h"
-#include "Shared/Shared.h"
+#include "Data/Leaderboard.h"
+#include "Core/Game.h"
+#include "Shared/Menu.h"
 
 namespace ArkanoidGame
 {

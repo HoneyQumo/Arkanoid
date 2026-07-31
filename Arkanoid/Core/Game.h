@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include <stack>
 
-#include "Ball.h"
-#include "DifficultyLevel.h"
-#include "Leaderboard.h"
-#include "Platform.h"
-#include "Settings.h"
-#include "Shared/Assets.h"
+#include "Objects/Ball.h"
+#include "Data/DifficultyLevel.h"
+#include "Data/Leaderboard.h"
+#include "Objects/Platform.h"
+#include "Core/Settings.h"
+#include "Core/Assets.h"
 #include "GameState/GameState.h"
 
 namespace ArkanoidGame
