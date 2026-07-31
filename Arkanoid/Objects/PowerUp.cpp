@@ -58,33 +58,4 @@ namespace ArkanoidGame
         };
     }
 
-    PowerUp::Type PowerUp::GetRandomType()
-    {
-        /* Полезные бонусы должны выпадать чаще вредного сужения платформы,
-           поэтому берём не равномерный выбор, а взвешенный */
-        static const std::pair<Type, int> weights[] = {
-            {Type::Expand, 22},
-            {Type::Reduce, 10},
-            {Type::MultiBall, 20},
-            {Type::Catch, 18},
-            {Type::Slow, 18},
-            {Type::Life, 12},
-        };
-
-        int total = 0;
-        for (const auto& item : weights)
-        {
-            total += item.second;
-        }
-
-        int roll = GetIntegerInRange(0, total - 1);
-
-        for (const auto& item : weights)
-        {
-            roll -= item.second;
-            if (roll < 0) return item.first;
-        }
-
-        return Type::Expand;
-    }
 }

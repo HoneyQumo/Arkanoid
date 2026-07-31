@@ -165,6 +165,7 @@
         <ClCompile Include="Data\DifficultyLevel.cpp"/>
         <ClCompile Include="Data\Leaderboard.cpp"/>
         <ClCompile Include="Data\Level.cpp"/>
+        <ClCompile Include="Data\LevelFactory.cpp"/>
         <ClCompile Include="GameMain.cpp"/>
         <ClCompile Include="GameState\GameState.cpp"/>
         <ClCompile Include="GameState\GameStateAskNickname.cpp"/>
@@ -179,9 +180,11 @@
         <ClCompile Include="Objects\ArmoredBrick.cpp"/>
         <ClCompile Include="Objects\Ball.cpp"/>
         <ClCompile Include="Objects\Brick.cpp"/>
+        <ClCompile Include="Objects\BrickFactory.cpp"/>
         <ClCompile Include="Objects\GameObject.cpp"/>
         <ClCompile Include="Objects\Platform.cpp"/>
         <ClCompile Include="Objects\PowerUp.cpp"/>
+        <ClCompile Include="Objects\PowerUpFactory.cpp"/>
         <ClCompile Include="Objects\UnbreakableBrick.cpp"/>
         <ClCompile Include="Shared\Constants.cpp"/>
         <ClCompile Include="Shared\Math.cpp"/>
@@ -195,6 +198,7 @@
         <ClInclude Include="Data\DifficultyLevel.h"/>
         <ClInclude Include="Data\Leaderboard.h"/>
         <ClInclude Include="Data\Level.h"/>
+        <ClInclude Include="Data\LevelFactory.h"/>
         <ClInclude Include="GameState\GameState.h"/>
         <ClInclude Include="GameState\GameStateAskNickname.h"/>
         <ClInclude Include="GameState\GameStateData.h"/>
@@ -208,10 +212,12 @@
         <ClInclude Include="Objects\ArmoredBrick.h"/>
         <ClInclude Include="Objects\Ball.h"/>
         <ClInclude Include="Objects\Brick.h"/>
+        <ClInclude Include="Objects\BrickFactory.h"/>
         <ClInclude Include="Objects\Collidable.h"/>
         <ClInclude Include="Objects\GameObject.h"/>
         <ClInclude Include="Objects\Platform.h"/>
         <ClInclude Include="Objects\PowerUp.h"/>
+        <ClInclude Include="Objects\PowerUpFactory.h"/>
         <ClInclude Include="Objects\UnbreakableBrick.h"/>
         <ClInclude Include="Shared\Constants.h"/>
         <ClInclude Include="Shared\Direction.h"/>

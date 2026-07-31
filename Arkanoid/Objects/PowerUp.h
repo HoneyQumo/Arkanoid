@@ -31,7 +31,6 @@ namespace ArkanoidGame
         /* Пока не используется */
         static bool IsInstant(Type type);
         static sf::IntRect GetIconRect(Type type);
-        static Type GetRandomType();
 
         bool HasCollisionWith(const Collidable& other) const override;
 

@@ -1,6 +1,5 @@
 #pragma once
 #include <map>
-#include <memory>
 #include "Objects/Collidable.h"
 #include "Objects/GameObject.h"
 
@@ -49,7 +48,4 @@ namespace ArkanoidGame
         bool _isBreaking = false;
         float _breakTimer = 0.f;
     };
-
-    /* Знание «символ уровня → тип кирпича» живёт только здесь */
-    std::shared_ptr<Brick> CreateBrickBySymbol(char symbol, sf::Vector2f position);
 }

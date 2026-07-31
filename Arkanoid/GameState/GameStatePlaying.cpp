@@ -4,10 +4,11 @@
 #include <cmath>
 
 #include "Core/Application.h"
+#include "Data/LevelFactory.h"
 #include "Objects/Brick.h"
+#include "Objects/PowerUpFactory.h"
 #include "Shared/Math.h"
 #include "Shared/Menu.h"
-#include "Data/Level.h"
 
 namespace ArkanoidGame
 {
@@ -17,21 +18,8 @@ namespace ArkanoidGame
         _gameObjects.emplace_back(_platform);
         _gameObjects.emplace_back(std::make_shared<Ball>());
 
-        const auto& level = GetLevel(game.difficulty.GetType(), game.GetLevelIndex());
-
-        for (size_t row = 0; row < level.grid.size(); ++row)
-        {
-            for (size_t col = 0; col < level.grid[row].size(); ++col)
-            {
-                const char symbol = level.grid[row][col];
-
-                if (symbol == '.') continue;
-
-                _gameObjects.emplace_back(CreateBrickBySymbol(
-                    symbol,
-                    sf::Vector2f(static_cast<float>(col) * BRICK_WIDTH, static_cast<float>(row) * BRICK_HEIGHT)));
-            }
-        }
+        auto levelObjects = LevelFactory::CreateLevelObjects(game.difficulty.GetType(), game.GetLevelIndex());
+        _gameObjects.insert(_gameObjects.end(), levelObjects.begin(), levelObjects.end());
 
         for (auto&& object : _gameObjects)
         {
@@ -251,16 +239,13 @@ namespace ArkanoidGame
         const unsigned comboBonus = (_combo - 1) * values.comboBonus;
         game.SetScore(game.GetScore() + values.pointsRate + comboBonus);
 
-        if (GetIntegerInRange(0, 999) < static_cast<int>(POWERUP_DROP_CHANCE * 1000.f))
+        const auto bounds = destroyed->GetBounds();
+
+        if (auto powerUp = PowerUpFactory::TrySpawnAt(
+            {bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f}))
         {
-            const auto bounds = destroyed->GetBounds();
-
-            auto powerUp = std::make_shared<PowerUp>(
-                PowerUp::GetRandomType(),
-                sf::Vector2f(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f));
-
             powerUp->Init(game);
-            _gameObjects.emplace_back(powerUp);
+            _gameObjects.emplace_back(std::move(powerUp));
         }
     }
 

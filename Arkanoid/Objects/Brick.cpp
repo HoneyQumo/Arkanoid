@@ -3,8 +3,6 @@
 #include <cassert>
 
 #include "Core/Application.h"
-#include "Objects/ArmoredBrick.h"
-#include "Objects/UnbreakableBrick.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 
@@ -103,14 +101,4 @@ namespace ArkanoidGame
         {Color::Yellow, 4},
         {Color::Orange, 5},
     };
-
-    std::shared_ptr<Brick> CreateBrickBySymbol(const char symbol, const sf::Vector2f position)
-    {
-        switch (symbol)
-        {
-        case 'A': return std::make_shared<ArmoredBrick>(position);
-        case 'X': return std::make_shared<UnbreakableBrick>(position);
-        default: return std::make_shared<Brick>(Brick::GetColorByLevelSymbol(symbol), position);
-        }
-    }
 }
