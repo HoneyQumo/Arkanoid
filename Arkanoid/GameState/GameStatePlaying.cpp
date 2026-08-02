@@ -16,9 +16,24 @@ namespace ArkanoidGame
     {
         _platform = std::make_shared<Platform>();
         _gameObjects.emplace_back(_platform);
-        _gameObjects.emplace_back(std::make_shared<Ball>());
+
+        _gameObjects.emplace_back(SpawnBall());
 
         auto levelObjects = LevelFactory::CreateLevelObjects(game.difficulty.GetType(), game.GetLevelIndex());
+
+        for (auto&& object : levelObjects)
+        {
+            if (const auto brick = std::dynamic_pointer_cast<Brick>(object))
+            {
+                brick->AddObserver(shared_from_this());
+
+                if (!brick->IsUnbreakable())
+                {
+                    ++_breakableBricksLeft;
+                }
+            }
+        }
+
         _gameObjects.insert(_gameObjects.end(), levelObjects.begin(), levelObjects.end());
 
         for (auto&& object : _gameObjects)
@@ -69,7 +84,7 @@ namespace ArkanoidGame
     void GameStatePlaying::Update(float deltaTime)
     {
         Game& game = Application::Instance().GetGame();
-        
+
         _scoreText.setString(std::to_string(game.GetScore()));
         _scoreText.setOrigin(GetTextOrigin(_scoreText, {1.f, 0.5f}));
 
@@ -138,16 +153,48 @@ namespace ArkanoidGame
             _gameObjects.end()
         );
 
-        if (CollectBalls().empty())
+        if (_ballsInPlay == 0)
         {
             HandleAllBallsLost(game);
             return;
         }
 
-        if (!HasBreakableBricks())
+        if (_breakableBricksLeft == 0)
         {
             game.WinGame();
         }
+    }
+
+    void GameStatePlaying::Notify(std::shared_ptr<IObservable> observable, const ObservableEvent event)
+    {
+        switch (event)
+        {
+        case ObservableEvent::BrickDestroyed:
+            {
+                if (_breakableBricksLeft > 0)
+                {
+                    --_breakableBricksLeft;
+                }
+                break;
+            }
+        case ObservableEvent::BallFallen:
+            {
+                if (_ballsInPlay > 0)
+                {
+                    --_ballsInPlay;
+                }
+                break;
+            }
+        }
+    }
+
+    std::shared_ptr<Ball> GameStatePlaying::SpawnBall()
+    {
+        auto ball = std::make_shared<Ball>();
+        ball->AddObserver(shared_from_this());
+        ++_ballsInPlay;
+
+        return ball;
     }
 
     std::vector<Ball*> GameStatePlaying::CollectBalls() const
@@ -163,20 +210,6 @@ namespace ArkanoidGame
         }
 
         return balls;
-    }
-
-    bool GameStatePlaying::HasBreakableBricks() const
-    {
-        return std::any_of(
-            _gameObjects.begin(),
-            _gameObjects.end(),
-            [](const std::shared_ptr<GameObject>& obj)
-            {
-                const auto brick = dynamic_cast<const Brick*>(obj.get());
-                /* Неразрушимые кирпичи остаются на поле навсегда,
-                   иначе уровень было бы невозможно пройти */
-                return brick != nullptr && !brick->IsUnbreakable();
-            });
     }
 
     bool GameStatePlaying::IsEffectActive(const PowerUp::Type type) const
@@ -376,7 +409,7 @@ namespace ArkanoidGame
             const float angle = MULTIBALL_SPREAD_RADIANS * static_cast<float>(i)
                 * (i % 2 == 0 ? -1.f : 1.f);
 
-            auto extra = std::make_shared<Ball>();
+            auto extra = SpawnBall();
             extra->Init(game);
             extra->GetSprite().setPosition(position);
             extra->SetAttached(false);
@@ -400,7 +433,7 @@ namespace ArkanoidGame
             return;
         }
 
-        auto ball = std::make_shared<Ball>();
+        auto ball = SpawnBall();
         ball->Init(game);
         _gameObjects.emplace_back(ball);
 
@@ -465,5 +498,4 @@ namespace ArkanoidGame
 
         window.draw(_hint);
     }
-
 }

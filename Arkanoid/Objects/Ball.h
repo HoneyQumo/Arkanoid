@@ -2,10 +2,11 @@
 #include "SFML/Graphics.hpp"
 #include "Objects/Collidable.h"
 #include "Objects/Platform.h"
+#include "Shared/Observer.h"
 
 namespace ArkanoidGame
 {
-    class Ball : public GameObject, public Collidable
+    class Ball : public GameObject, public Collidable, public IObservable
     {
     public:
         void Init(Game& game) override;

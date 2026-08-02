@@ -2,10 +2,11 @@
 #include <map>
 #include "Objects/Collidable.h"
 #include "Objects/GameObject.h"
+#include "Shared/Observer.h"
 
 namespace ArkanoidGame
 {
-    class Brick : public GameObject, public Collidable
+    class Brick : public GameObject, public Collidable, public IObservable
     {
     public:
         enum class Color

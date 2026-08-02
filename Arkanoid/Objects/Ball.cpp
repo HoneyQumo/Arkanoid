@@ -122,6 +122,7 @@ namespace ArkanoidGame
         if (bounds.top + bounds.height > static_cast<float>(SCREEN_HEIGHT))
         {
             _isFallen = true;
+            Emit(ObservableEvent::BallFallen);
             return;
         }
 

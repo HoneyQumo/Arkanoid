@@ -19,42 +19,42 @@ namespace ArkanoidGame
         {
         case Type::Playing:
             {
-                _data = std::make_unique<GameStatePlaying>();
+                _data = std::make_shared<GameStatePlaying>();
                 break;
             }
         case Type::GameOver:
             {
-                _data = std::make_unique<GameStateGameOver>();
+                _data = std::make_shared<GameStateGameOver>();
                 break;
             }
         case Type::Pause:
             {
-                _data = std::make_unique<GameStatePause>();
+                _data = std::make_shared<GameStatePause>();
                 break;
             }
         case Type::MainMenu:
             {
-                _data = std::make_unique<GameStateMainMenu>();
+                _data = std::make_shared<GameStateMainMenu>();
                 break;
             }
         case Type::DifficultyLevel:
             {
-                _data = std::make_unique<GameStateDifficultyLevel>();
+                _data = std::make_shared<GameStateDifficultyLevel>();
                 break;
             }
         case Type::Settings:
             {
-                _data = std::make_unique<GameStateSettings>();
+                _data = std::make_shared<GameStateSettings>();
                 break;
             }
         case Type::Leaderboard:
             {
-                _data = std::make_unique<GameStateLeaderboard>();
+                _data = std::make_shared<GameStateLeaderboard>();
                 break;
             }
         case Type::AskNickname:
             {
-                _data = std::make_unique<GameStateAskNickname>();
+                _data = std::make_shared<GameStateAskNickname>();
                 break;
             }
         default:

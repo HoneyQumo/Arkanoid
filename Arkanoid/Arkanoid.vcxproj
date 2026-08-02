@@ -223,6 +223,7 @@
         <ClInclude Include="Shared\Direction.h"/>
         <ClInclude Include="Shared\Math.h"/>
         <ClInclude Include="Shared\Menu.h"/>
+        <ClInclude Include="Shared\Observer.h"/>
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">

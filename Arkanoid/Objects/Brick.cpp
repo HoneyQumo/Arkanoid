@@ -52,6 +52,8 @@ namespace ArkanoidGame
         if (_isBreaking) return;
 
         _isBreaking = true;
+
+        Emit(ObservableEvent::BrickDestroyed);
     }
 
     bool Brick::IsDestroyed() const

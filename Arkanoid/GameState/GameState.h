@@ -47,6 +47,6 @@ namespace ArkanoidGame
 
     private:
         Type _type = Type::MainMenu;
-        std::unique_ptr<GameStateData> _data = nullptr;
+        std::shared_ptr<GameStateData> _data = nullptr;
     };
 }
