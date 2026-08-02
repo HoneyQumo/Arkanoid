@@ -6,9 +6,7 @@
 
 namespace ArkanoidGame
 {
-    std::vector<std::shared_ptr<GameObject>> LevelFactory::CreateLevelObjects(
-        const DifficultyLevel::Type difficulty,
-        const size_t index)
+    std::vector<std::shared_ptr<GameObject>> LevelFactory::CreateLevelObjects(const DifficultyLevel::Type difficulty, const size_t index)
     {
         const auto& level = GetLevel(difficulty, index);
 
