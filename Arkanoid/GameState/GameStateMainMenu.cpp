@@ -79,22 +79,22 @@ namespace ArkanoidGame
         {
         case OptionKey::StartGame:
             {
-                game.SwitchState(GameState::Type::Playing);
+                game.StartGame();
                 break;
             }
         case OptionKey::DifficultyLevel:
             {
-                game.PushState(GameState::Type::DifficultyLevel);
+                game.ShowDifficultySelect();
                 break;
             }
         case OptionKey::Leaderboard:
             {
-                game.PushState(GameState::Type::Leaderboard);
+                game.ShowLeaderboard();
                 break;
             }
         case OptionKey::Settings:
             {
-                game.PushState(GameState::Type::Settings);
+                game.ShowSettings();
                 break;
             }
         case OptionKey::Exit:

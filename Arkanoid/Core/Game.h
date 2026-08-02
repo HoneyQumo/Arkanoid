@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <stack>
 
 #include "Objects/Ball.h"
@@ -20,19 +20,22 @@ namespace ArkanoidGame
         Settings settings;
         Leaderboard leaderboard;
 
-        void ResetState();
-        void PushState(const GameState::Type& state);
-        void PopStateOrCloseWindow();
-        void PopState();
-        void SwitchState(const GameState::Type& state);
-        GameState::Type GetState();
+        void StartGame();
+        void StartNextLevel();
+        void RestartGame();
+        void PauseGame();
+        void ResumeGame();
+        void WinGame();
+        void LoseGame();
+        void ExitToMenu();
+        void GoBack();
+        void ShowDifficultySelect();
+        void ShowLeaderboard();
+        void ShowSettings();
+        void AskForNickname();
 
-        void Reset(Game& game);
-        void Init(Game& game);
-        void Update(float deltaTime);
-        void Draw(sf::RenderWindow& window);
-
-        void WindowEventHandler(sf::Event& event);
+        void Init();
+        void UpdateGame(float deltaTime, sf::RenderWindow& window);
 
         void SetScore(unsigned value) { _score = value; }
         unsigned GetScore() const { return _score; }
@@ -47,6 +50,20 @@ namespace ArkanoidGame
         unsigned GetLives() const { return _lives; }
 
     private:
+        void Reset();
+
+        void PushState(const GameState::Type& state);
+        void PopState();
+        void SwitchState(const GameState::Type& state);
+        GameState::Type GetState() const;
+
+        void HandleWindowEvents(sf::RenderWindow& window);
+        void Update(float deltaTime);
+        void Draw(sf::RenderWindow& window);
+        void WindowEventHandler(sf::Event& event);
+
+        static void ReleaseMouse();
+
         std::stack<GameState> _gameStateStack;
         size_t _levelIndex = 0;
         unsigned _score = 0;

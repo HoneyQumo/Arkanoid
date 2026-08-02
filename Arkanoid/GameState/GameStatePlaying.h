@@ -49,7 +49,5 @@ namespace ArkanoidGame
         void ApplyPlatformWidth();
         void SpawnExtraBalls(Game& game, const std::vector<Ball*>& balls);
         void HandleAllBallsLost(Game& game);
-
-        static void ReleaseMouse();
     };
 }

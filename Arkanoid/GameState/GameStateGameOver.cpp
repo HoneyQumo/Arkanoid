@@ -75,7 +75,7 @@ namespace ArkanoidGame
             case sf::Keyboard::Escape:
             case sf::Keyboard::Backspace:
                 {
-                    game.PopStateOrCloseWindow();
+                    game.GoBack();
                     break;
                 }
             }
@@ -100,7 +100,7 @@ namespace ArkanoidGame
         if (game.GetScore() > 0 && game.GetScore() > game.leaderboard.GetBestScore())
         {
             _needsLeaderboardRefresh = true;
-            game.PushState(GameState::Type::AskNickname);
+            game.AskForNickname();
         }
     }
 
@@ -129,20 +129,17 @@ namespace ArkanoidGame
         {
         case OptionKey::NextLevel:
             {
-                game.SetWin(false);
-                game.SetLevelIndex(game.GetLevelIndex() + 1);
-                game.SwitchState(GameState::Type::Playing);
+                game.StartNextLevel();
                 break;
             }
         case OptionKey::StartGame:
             {
-                game.Reset(game);
-                game.SwitchState(GameState::Type::Playing);
+                game.RestartGame();
                 break;
             }
         case OptionKey::ExitToMainMenu:
             {
-                game.Reset(game);
+                game.ExitToMenu();
                 break;
             }
         }

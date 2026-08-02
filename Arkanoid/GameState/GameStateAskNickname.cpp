@@ -65,7 +65,7 @@ namespace ArkanoidGame
                     game.assets.menuSelect.play();
                     game.leaderboard.Add(game.GetScore(), _nicknameInput);
                     game.leaderboard.SerializeAndSaveGame();
-                    game.PopState();
+                    game.GoBack();
                     break;
                 }
             case sf::Keyboard::Up:
@@ -82,7 +82,7 @@ namespace ArkanoidGame
                 }
             case sf::Keyboard::Escape:
                 {
-                    game.PopStateOrCloseWindow();
+                    game.GoBack();
                     break;
                 }
             }

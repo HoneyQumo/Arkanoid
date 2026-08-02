@@ -31,7 +31,7 @@ namespace ArkanoidGame
             case sf::Keyboard::Escape:
             case sf::Keyboard::Backspace:
                 {
-                    game.PopStateOrCloseWindow();
+                    game.GoBack();
                     break;
                 }
             }

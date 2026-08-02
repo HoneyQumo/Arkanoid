@@ -54,8 +54,7 @@ namespace ArkanoidGame
             case sf::Keyboard::Escape:
             case sf::Keyboard::P:
                 {
-                    ReleaseMouse();
-                    Application::Instance().GetGame().PushState(GameState::Type::Pause);
+                    Application::Instance().GetGame().PauseGame();
                     break;
                 }
             case sf::Keyboard::F1:
@@ -70,8 +69,7 @@ namespace ArkanoidGame
     void GameStatePlaying::Update(float deltaTime)
     {
         Game& game = Application::Instance().GetGame();
-
-        /* Origin пересчитывается каждый раз: он зависит от ширины строки */
+        
         _scoreText.setString(std::to_string(game.GetScore()));
         _scoreText.setOrigin(GetTextOrigin(_scoreText, {1.f, 0.5f}));
 
@@ -148,9 +146,7 @@ namespace ArkanoidGame
 
         if (!HasBreakableBricks())
         {
-            ReleaseMouse();
-            game.SetWin(true);
-            game.PushState(GameState::Type::GameOver);
+            game.WinGame();
         }
     }
 
@@ -400,9 +396,7 @@ namespace ArkanoidGame
 
         if (livesLeft == 0)
         {
-            ReleaseMouse();
-            game.SetWin(false);
-            game.PushState(GameState::Type::GameOver);
+            game.LoseGame();
             return;
         }
 
@@ -472,11 +466,4 @@ namespace ArkanoidGame
         window.draw(_hint);
     }
 
-    void GameStatePlaying::ReleaseMouse()
-    {
-        auto& window = Application::Instance().GetWindow();
-
-        window.setMouseCursorVisible(true);
-        window.setMouseCursorGrabbed(false);
-    }
 }

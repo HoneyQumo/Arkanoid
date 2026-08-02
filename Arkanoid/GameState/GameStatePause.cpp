@@ -54,7 +54,7 @@ namespace ArkanoidGame
             case sf::Keyboard::Escape:
             case sf::Keyboard::P:
                 {
-                    game.PopStateOrCloseWindow();
+                    game.ResumeGame();
                     break;
                 }
             }
@@ -83,13 +83,12 @@ namespace ArkanoidGame
         {
         case OptionKey::Continue:
             {
-                game.PopState();
+                game.ResumeGame();
                 break;
             }
         case OptionKey::Exit:
             {
-                game.Reset(game);
-                game.SwitchState(GameState::Type::MainMenu);
+                game.ExitToMenu();
                 break;
             }
         }
