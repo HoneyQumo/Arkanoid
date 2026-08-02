@@ -1,9 +1,12 @@
 ﻿#pragma once
+#include <memory>
 #include "Objects/Collidable.h"
 #include "Objects/GameObject.h"
 
 namespace ArkanoidGame
 {
+    class IPowerUpCommand;
+
     class PowerUp : public GameObject, public Collidable
     {
     public:
@@ -19,7 +22,7 @@ namespace ArkanoidGame
             // TODO: сделать стреляющие турели. Лежат в спрайтазх
         };
 
-        PowerUp(Type type, sf::Vector2f position);
+        PowerUp(Type type, std::shared_ptr<IPowerUpCommand> command, sf::Vector2f position);
 
         void Init(Game& game) override;
         void Update(Game& game, float dt) override;
@@ -28,8 +31,8 @@ namespace ArkanoidGame
         Type GetType() const { return _type; }
         void Collect() { _isCollected = true; }
 
-        /* Пока не используется */
-        static bool IsInstant(Type type);
+        std::shared_ptr<IPowerUpCommand> GetCommand() const { return _command; }
+
         static sf::IntRect GetIconRect(Type type);
 
         bool HasCollisionWith(const Collidable& other) const override;
@@ -41,6 +44,7 @@ namespace ArkanoidGame
 
     private:
         Type _type = Type::Expand;
+        std::shared_ptr<IPowerUpCommand> _command;
         bool _isCollected = false;
     };
 }

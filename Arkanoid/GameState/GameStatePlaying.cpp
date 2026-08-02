@@ -214,7 +214,27 @@ namespace ArkanoidGame
 
     bool GameStatePlaying::IsEffectActive(const PowerUp::Type type) const
     {
-        return _activeEffects.find(type) != _activeEffects.end();
+        return std::any_of(
+            _activePowerUps.begin(),
+            _activePowerUps.end(),
+            [type](const ActivePowerUp& active)
+            {
+                return active.command->GetType() == type;
+            });
+    }
+
+    void GameStatePlaying::CancelEffect(const PowerUp::Type type)
+    {
+        Game& game = Application::Instance().GetGame();
+
+        for (auto it = _activePowerUps.begin(); it != _activePowerUps.end(); ++it)
+        {
+            if (it->command->GetType() != type) continue;
+
+            it->command->Undo(game, *this);
+            _activePowerUps.erase(it);
+            return;
+        }
     }
 
     void GameStatePlaying::LaunchAttachedBalls(const std::vector<Ball*>& balls)
@@ -280,7 +300,7 @@ namespace ArkanoidGame
 
     void GameStatePlaying::CollectPowerUps(Game& game)
     {
-        std::vector<PowerUp::Type> collected;
+        std::vector<std::shared_ptr<IPowerUpCommand>> collected;
 
         for (auto&& object : _gameObjects)
         {
@@ -290,109 +310,58 @@ namespace ArkanoidGame
 
             if (!powerUp->CheckCollision(*_platform)) continue;
 
-            collected.push_back(powerUp->GetType());
+            collected.push_back(powerUp->GetCommand());
         }
 
-        for (const auto type : collected)
+        for (const auto& command : collected)
         {
             game.assets.menuSelect.play();
-            ApplyPowerUp(game, type);
+            ActivatePowerUp(game, command);
         }
     }
 
-    void GameStatePlaying::ApplyPowerUp(Game& game, const PowerUp::Type type)
+    void GameStatePlaying::ActivatePowerUp(Game& game, const std::shared_ptr<IPowerUpCommand>& command)
     {
-        switch (type)
+        if (command->GetDuration() <= 0.f)
         {
-        case PowerUp::Type::Expand:
+            command->Execute(game, *this);
+            return;
+        }
+
+        for (auto& active : _activePowerUps)
+        {
+            if (active.command->GetType() == command->GetType())
             {
-                _activeEffects.erase(PowerUp::Type::Reduce);
-                _activeEffects[PowerUp::Type::Expand] = POWERUP_DURATION;
-                ApplyPlatformWidth();
-                break;
-            }
-        case PowerUp::Type::Reduce:
-            {
-                _activeEffects.erase(PowerUp::Type::Expand);
-                _activeEffects[PowerUp::Type::Reduce] = POWERUP_DURATION;
-                ApplyPlatformWidth();
-                break;
-            }
-        case PowerUp::Type::Catch:
-            {
-                _activeEffects[PowerUp::Type::Catch] = POWERUP_DURATION;
-                _platform->SetSticky(true);
-                break;
-            }
-        case PowerUp::Type::Slow:
-            {
-                _activeEffects[PowerUp::Type::Slow] = POWERUP_DURATION;
-                break;
-            }
-        case PowerUp::Type::MultiBall:
-            {
-                SpawnExtraBalls(game, CollectBalls());
-                break;
-            }
-        case PowerUp::Type::Life:
-            {
-                game.SetLives(game.GetLives() + 1);
-                break;
+                active.timeLeft = command->GetDuration();
+                return;
             }
         }
+
+        command->Execute(game, *this);
+        _activePowerUps.push_back({command, command->GetDuration()});
     }
 
     void GameStatePlaying::UpdateEffects(Game& game, const float deltaTime)
     {
-        bool isPlatformWidthChanged = false;
-
-        for (auto it = _activeEffects.begin(); it != _activeEffects.end();)
+        for (auto it = _activePowerUps.begin(); it != _activePowerUps.end();)
         {
-            it->second -= deltaTime;
+            it->timeLeft -= deltaTime;
 
-            if (it->second > 0.f)
+            if (it->timeLeft > 0.f)
             {
                 ++it;
                 continue;
             }
 
-            const PowerUp::Type expired = it->first;
-            it = _activeEffects.erase(it);
-
-            if (expired == PowerUp::Type::Expand || expired == PowerUp::Type::Reduce)
-            {
-                isPlatformWidthChanged = true;
-            }
-            else if (expired == PowerUp::Type::Catch)
-            {
-                _platform->SetSticky(false);
-            }
-        }
-
-        if (isPlatformWidthChanged)
-        {
-            ApplyPlatformWidth();
+            it->command->Undo(game, *this);
+            it = _activePowerUps.erase(it);
         }
     }
 
-    void GameStatePlaying::ApplyPlatformWidth()
+    void GameStatePlaying::SpawnExtraBalls(Game& game)
     {
-        if (IsEffectActive(PowerUp::Type::Expand))
-        {
-            _platform->SetWidth(PLATFORM_WIDTH_EXPANDED);
-        }
-        else if (IsEffectActive(PowerUp::Type::Reduce))
-        {
-            _platform->SetWidth(PLATFORM_WIDTH_REDUCED);
-        }
-        else
-        {
-            _platform->SetWidth(PLATFORM_WIDTH);
-        }
-    }
+        const auto balls = CollectBalls();
 
-    void GameStatePlaying::SpawnExtraBalls(Game& game, const std::vector<Ball*>& balls)
-    {
         if (balls.empty()) return;
 
         const auto& source = balls.front();
@@ -480,9 +449,9 @@ namespace ArkanoidGame
 
         float iconX = HUD_POWERUP_LEFT;
 
-        for (const auto& effect : _activeEffects)
+        for (const auto& active : _activePowerUps)
         {
-            _powerUpIcon.setTextureRect(PowerUp::GetIconRect(effect.first));
+            _powerUpIcon.setTextureRect(PowerUp::GetIconRect(active.command->GetType()));
             _powerUpIcon.setPosition(iconX, HUD_Y_POSITION);
             window.draw(_powerUpIcon);
 

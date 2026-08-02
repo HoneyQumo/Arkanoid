@@ -1,7 +1,9 @@
 #include "Objects/PowerUpFactory.h"
 
+#include <cassert>
 #include <utility>
 
+#include "Objects/PowerUpCommands.h"
 #include "Shared/Constants.h"
 #include "Shared/Math.h"
 
@@ -45,6 +47,27 @@ namespace ArkanoidGame
             return nullptr;
         }
 
-        return std::make_shared<PowerUp>(GetRandomType(), position);
+        const auto type = GetRandomType();
+
+        return std::make_shared<PowerUp>(type, CreateCommand(type), position);
+    }
+
+    std::shared_ptr<IPowerUpCommand> PowerUpFactory::CreateCommand(const PowerUp::Type type)
+    {
+        switch (type)
+        {
+        case PowerUp::Type::Expand: return std::make_shared<ExpandPlatformCommand>();
+        case PowerUp::Type::Reduce: return std::make_shared<ReducePlatformCommand>();
+        case PowerUp::Type::Catch: return std::make_shared<StickyPlatformCommand>();
+        case PowerUp::Type::Slow: return std::make_shared<SlowBallCommand>();
+        case PowerUp::Type::MultiBall: return std::make_shared<MultiBallCommand>();
+        case PowerUp::Type::Life: return std::make_shared<ExtraLifeCommand>();
+
+        default:
+            {
+                assert(false);
+                return std::make_shared<ExpandPlatformCommand>();
+            }
+        }
     }
 }

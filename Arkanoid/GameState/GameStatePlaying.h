@@ -1,11 +1,11 @@
 #pragma once
-#include <map>
 #include <vector>
 #include "GameStateData.h"
 #include "Data/DifficultyLevel.h"
 #include "Objects/Platform.h"
 #include "Objects/Ball.h"
 #include "Objects/PowerUp.h"
+#include "Objects/PowerUpCommands.h"
 #include "Objects/GameObject.h"
 #include "Shared/Constants.h"
 #include "Shared/Observer.h"
@@ -24,12 +24,22 @@ namespace ArkanoidGame
 
         void Notify(std::shared_ptr<IObservable> observable, ObservableEvent event) override;
 
+        Platform& GetPlatform() { return *_platform; }
+        void SpawnExtraBalls(Game& game);
+        void CancelEffect(PowerUp::Type type);
+
     private:
+        struct ActivePowerUp
+        {
+            std::shared_ptr<IPowerUpCommand> command;
+            float timeLeft = 0.f;
+        };
+
         std::vector<std::shared_ptr<GameObject>> _gameObjects;
 
         std::shared_ptr<Platform> _platform;
 
-        std::map<PowerUp::Type, float> _activeEffects;
+        std::vector<ActivePowerUp> _activePowerUps;
 
         sf::Text _hint;
         sf::Text _scoreText;
@@ -52,10 +62,8 @@ namespace ArkanoidGame
         void LaunchAttachedBalls(const std::vector<Ball*>& balls);
         void HandleBrickCollisions(Game& game, Ball& ball, const DifficultyLevel::Values& values);
         void CollectPowerUps(Game& game);
-        void ApplyPowerUp(Game& game, PowerUp::Type type);
+        void ActivatePowerUp(Game& game, const std::shared_ptr<IPowerUpCommand>& command);
         void UpdateEffects(Game& game, float deltaTime);
-        void ApplyPlatformWidth();
-        void SpawnExtraBalls(Game& game, const std::vector<Ball*>& balls);
         void HandleAllBallsLost(Game& game);
     };
 }

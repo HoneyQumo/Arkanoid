@@ -6,7 +6,8 @@
 
 namespace ArkanoidGame
 {
-    PowerUp::PowerUp(const Type type, const sf::Vector2f position) : _type(type)
+    PowerUp::PowerUp(const Type type, std::shared_ptr<IPowerUpCommand> command, const sf::Vector2f position)
+        : _type(type), _command(std::move(command))
     {
         _sprite.setPosition(position);
     }
@@ -41,11 +42,6 @@ namespace ArkanoidGame
     void PowerUp::OnHit(Collidable&)
     {
         Collect();
-    }
-
-    bool PowerUp::IsInstant(const Type type)
-    {
-        return type == Type::MultiBall || type == Type::Life;
     }
 
     sf::IntRect PowerUp::GetIconRect(const Type type)

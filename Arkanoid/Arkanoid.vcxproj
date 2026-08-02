@@ -184,6 +184,7 @@
         <ClCompile Include="Objects\GameObject.cpp"/>
         <ClCompile Include="Objects\Platform.cpp"/>
         <ClCompile Include="Objects\PowerUp.cpp"/>
+        <ClCompile Include="Objects\PowerUpCommands.cpp"/>
         <ClCompile Include="Objects\PowerUpFactory.cpp"/>
         <ClCompile Include="Objects\UnbreakableBrick.cpp"/>
         <ClCompile Include="Shared\Constants.cpp"/>
@@ -217,6 +218,7 @@
         <ClInclude Include="Objects\GameObject.h"/>
         <ClInclude Include="Objects\Platform.h"/>
         <ClInclude Include="Objects\PowerUp.h"/>
+        <ClInclude Include="Objects\PowerUpCommands.h"/>
         <ClInclude Include="Objects\PowerUpFactory.h"/>
         <ClInclude Include="Objects\UnbreakableBrick.h"/>
         <ClInclude Include="Shared\Constants.h"/>
